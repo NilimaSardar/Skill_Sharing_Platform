@@ -7,7 +7,7 @@ const Welcome = () => {
     <div className="h-screen bg-white px-[31px] flex items-center justify-center relative overflow-hidden">
 
       <BackgroundDesgin/>
-        <div className="z-10 bg-white flex flex-col justify-center gap-[40px] w-full sm:w-[500px] sm:shadow-2xl sm:gap-[0px] sm:p-10 sm:rounded-3xl">
+        <div className="z-10 flex flex-col justify-center gap-[40px] w-full sm:bg-white sm:w-[500px] sm:shadow-2xl sm:gap-[0px] sm:p-10 sm:rounded-3xl">
             <div>
                 <img src="images/Work from home.svg" alt="" className='w-full h-full'/>
             </div>

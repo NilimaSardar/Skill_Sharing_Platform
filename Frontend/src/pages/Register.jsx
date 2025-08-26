@@ -29,7 +29,7 @@ export default function Register() {
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center font-inter relative overflow-hidden">
 
     <BackgroundDesgin/>
-      <div className="z-10 bg-white flex flex-col justify-center gap-[30px] w-full sm:w-[500px] sm:shadow-2xl sm:p-10 sm:rounded-3xl">
+      <div className="z-10 flex flex-col justify-center gap-[30px] w-full sm:bg-white sm:w-[500px] sm:shadow-2xl sm:p-10 sm:rounded-3xl">
         <div>
           <h2 className="text-[28px] text-center font-semibold text-primary mb-3">
             Create Account
