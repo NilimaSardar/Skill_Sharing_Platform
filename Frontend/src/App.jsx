@@ -3,6 +3,7 @@ import './App.css'
 
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import Welcome from "./pages/Welcome"
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
       <BrowserRouter>
         {/* <Navbar/> */}
         <Routes>
-    
+          <Route path="/welcome" element={<Welcome/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
   

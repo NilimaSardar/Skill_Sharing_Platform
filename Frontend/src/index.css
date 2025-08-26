@@ -3,9 +3,9 @@
 
 @theme {
   /* background design theme */
-  --color-background_design: #F8F9FF;
+  --color-background_design: #F0F7FF;
 
-  --color-primary: #1F41BB;
+  --color-primary: #0065D9;
   --color-secondary: #1F41CD; /*change*/
   --color-white: #ffffff;
   --color-black: #000000;

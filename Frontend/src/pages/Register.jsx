@@ -25,16 +25,16 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-white px-[31px] flex items-center justify-center font-inter relative overflow-hidden">
+    <div className="min-h-screen bg-white px-[40px] flex items-center justify-center font-inter relative overflow-hidden">
 
     <BackgroundDesgin/>
       <div className="z-10 flex flex-col justify-center gap-[30px] w-full sm:w-[500px] sm:shadow-2xl sm:p-10 sm:rounded-3xl">
         <div>
-          <h2 className="text-[28px] text-center font-bold text-primary mb-3">
+          <h2 className="text-[28px] text-center font-semibold text-primary mb-3">
             Create Account
           </h2>
           <p className="text-black  text-[16px] font-medium text-center">
-          Create an account so you can explore <br /> all the existing jobs
+          Create an account so you can <br />explore all the existing jobs
           </p>
         </div>
 
