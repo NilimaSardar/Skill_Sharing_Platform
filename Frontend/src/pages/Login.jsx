@@ -53,7 +53,7 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-3 rounded-xl hover:bg-secondary transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF]"
+                className="w-full bg-primary text-[16px] text-white py-3 rounded-xl hover:bg-secondary transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF]"
               >
                 Sign in
               </button>
