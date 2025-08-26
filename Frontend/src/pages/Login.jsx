@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BackgroundDesgin from '../components/BackgroundDesgin';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ export default function Login() {
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center relative overflow-hidden">
 
       <BackgroundDesgin/>
-        <div className="z-10 flex flex-col justify-center gap-[40px] w-full sm:w-[500px] sm:shadow-2xl sm:p-10 sm:rounded-3xl">
+        <div className="z-10 bg-white flex flex-col justify-center gap-[40px] w-full sm:w-[500px] sm:shadow-2xl sm:p-10 sm:rounded-3xl">
           <div>
             <h2 className="text-[28px] text-center font-semibold text-primary mb-3">
               Login here
@@ -60,7 +61,7 @@ export default function Login() {
             </form>
 
             <p className="text-center text-text text-[16px] font-medium mt-8">
-              Create new account
+              <Link to='/register'>Create new account</Link>
             </p>
           </div>
 

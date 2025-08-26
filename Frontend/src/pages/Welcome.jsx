@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import BackgroundDesgin from '../components/BackgroundDesgin'
 
 const Welcome = () => {
@@ -6,7 +7,7 @@ const Welcome = () => {
     <div className="h-screen bg-white px-[31px] flex items-center justify-center relative overflow-hidden">
 
       <BackgroundDesgin/>
-        <div className="z-10 flex flex-col justify-center gap-[40px] w-full sm:w-[500px] sm:shadow-2xl sm:gap-[0px] sm:p-10 sm:rounded-3xl">
+        <div className="z-10 bg-white flex flex-col justify-center gap-[40px] w-full sm:w-[500px] sm:shadow-2xl sm:gap-[0px] sm:p-10 sm:rounded-3xl">
             <div>
                 <img src="images/Work from home.svg" alt="" className='w-full h-full'/>
             </div>
@@ -20,17 +21,13 @@ const Welcome = () => {
             </div>
 
             <div className='flex gap-5 mt-10 w-full sm:w-[400px]'>
-                <button
-                    className="w-full bg-primary text-[16px] text-white py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF] hover:bg-opacity-80"
-                >
+                <Link to='/login' className='w-full bg-primary text-[16px] text-white text-center py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF] hover:bg-opacity-80'>
                     Login
-                </button>
-
-                <button
-                    className="w-full bg-transparent text-[16px] text-[#0A0A0A] py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF] hover:bg-primary hover:text-white"
-                >
+                </Link>
+                <Link to='/register' className='w-full bg-transparent text-[16px] text-[#0A0A0A] text-center py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF] hover:bg-primary hover:text-white'>
                     Register
-                </button>
+                </Link>
+
             </div>
         </div>
     </div>
