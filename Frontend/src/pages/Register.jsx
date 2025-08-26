@@ -48,6 +48,7 @@ export default function Register() {
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Email"
                 value={email}
+                autoComplete='off'
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
@@ -60,6 +61,7 @@ export default function Register() {
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Password"
                 value={password}
+                autoComplete='off'
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -72,6 +74,7 @@ export default function Register() {
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Confirm Password"
                 value={confirmPassword}
+                autoComplete='off'
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
