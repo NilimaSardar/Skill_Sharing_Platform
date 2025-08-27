@@ -5,7 +5,7 @@
   /* background design theme */
   --color-background_design: #F0F7FF;
 
-  --color-primary: #0065D9;
+  --color-primary: #1F41BB;
   --color-secondary: #1F41CD; /*change*/
   --color-white: #ffffff;
   --color-black: #000000;
@@ -13,5 +13,7 @@
   --color-input: #626262;
   --color-text: #494949;
   --color-icon-bg: #ECECEC;
-  --color-icon-bg-hover: #ECECDC; /* change*/
+  --color-icon-bg-hover: #F1F4FF; /* change*/
+  --color-text: #262626;
+  --color-linearblue: #E5E9FF;
 }
