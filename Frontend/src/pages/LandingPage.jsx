@@ -16,8 +16,8 @@ const LandingPage = () => {
                 Lorem ipsum dolor amet, consectetur adipiscing elit. Nulla ornare, site consecter enim gravida auctor vulputate, site antamet. tempor arcu, consectetur bibedum neque.
             </p>
             <div className='flex gap-5 mt-5 w-full'>
-                <Link to='/login' className='w-full flex justify-center items-center gap-2 bg-primary text-[16px] text-white text-center py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg border border-gray-300 hover:bg-white hover:text-text'>
-                    Login
+                <Link to='/welcome' className='w-full flex justify-center items-center gap-2 bg-primary text-[16px] text-white text-center py-3 rounded-xl transition duration-300 ease-in-out font-semibold text-lg border border-gray-300 hover:bg-white hover:text-text'>
+                    Get Started
                 </Link>
                 <a 
                     href="video.mp4" // replace with your actual video file path
