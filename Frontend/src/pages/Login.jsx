@@ -19,8 +19,36 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(user);
-    
+    try {
+      console.log(user);
+      
+      const response = await fetch(`http://localhost:8000/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password_hash,
+        }),
+      });
+      // console.log(response);
+      
+
+      const res_data = await response.json();
+
+      if (response.ok) {
+        // storetokenInLS(res_data.token);
+        setUser({ email: "", password_hash: ""});
+        // toast.success("Registration Successful..");
+        alert("Login Successful..");
+      
+        navigate("/dashboard");
+      } else {
+        // toast.error(res_data.extraDetails || res_data.message);
+        alert(res_data.extraDetails || res_data.message);
+      }
+    } catch (error) {
+      console.log("login", error);
+    }
   }
 
   return (
