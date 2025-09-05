@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 import BackgroundDesgin from '../components/BackgroundDesgin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({
+    email: '',
+    password_hash: '',
+  });
 
-  const handleSignIn = (e) => {
+  const navigate = useNavigate();
+  // const { storetokenInLS, API } = useAuth();
 
+  const handleInput = (e) => { 
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(user);
+    
+  }
 
   return (
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center relative overflow-hidden">
@@ -25,16 +38,17 @@ export default function Login() {
           </div>
 
           <div>
-            <form onSubmit={handleSignIn} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                   placeholder="Email"
-                  value={email}
+                  value={user.email}
                   autoComplete='off'
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -43,11 +57,12 @@ export default function Login() {
                 <input
                   type="password"
                   id="password"
+                  name="password_hash"
                   className="w-full px-5 py-3  rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                   placeholder="Password"
-                  value={password}
+                  value={user.password}
                   autoComplete='off'
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleInput}
                   required
                 />
               </div>
