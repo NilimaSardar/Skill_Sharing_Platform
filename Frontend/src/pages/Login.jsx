@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BackgroundDesgin from '../components/BackgroundDesgin';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../store/auth';
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -9,6 +10,8 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
+  const {storeTokenInLS} = useAuth();
+
   // const { storetokenInLS, API } = useAuth();
 
   const handleInput = (e) => { 
@@ -33,10 +36,13 @@ export default function Login() {
       // console.log(response);
       
 
-      const res_data = await response.json();
-
       if (response.ok) {
-        // storetokenInLS(res_data.token);
+        const res_data = await response.json();
+        // console.log("response from server",res_data);
+        
+        storeTokenInLS(res_data.token);
+        // localStorage.setItem("token", res_data.token);
+
         setUser({ email: "", password_hash: ""});
         // toast.success("Registration Successful..");
         alert("Login Successful..");
