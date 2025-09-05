@@ -30,11 +30,8 @@ const register = async (req, res) => {
   
       return res.status(201).json({
         message: "User registered successfully",
-        user: {
-          id: newUser._id,
-          email: newUser.email,
-          password: newUser.password_hash,
-        }
+        token: await newUser.generateToken(),
+        userId: newUser._id.toString(),
       });
   
     } catch (error) {
