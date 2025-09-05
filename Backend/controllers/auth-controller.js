@@ -1,45 +1,48 @@
-const User = require("../models/user-model");
+const User = require("../models/users-model");
 const bcrypt = require("bcryptjs");
 
 const home = async (req, res)=>{
     try{
-        res.status(200).send("welcome from controllers");
+        res.status(200).send({message: "welcome from controllers"});
     }catch(error){
         console.log(error);
     }
 }
 //user register logic
-const register = async (req, res)=>{
-    try{
-        // console.log(req.body);
-
-        const {username, email, phone, password} = req.body;
-
-        const userExist = await User.findOne({email: email});
-
-        if(userExist){
-            return res.status(400).json({message: "email already exists"});
+const register = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+  
+      const userExist = await User.findOne({ email });
+      if (userExist) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+  
+      // hash password
+      const saltRounds = 10;
+      const password_hash = await bcrypt.hash(password, saltRounds);
+  
+      const newUser = await User.create({ email, password_hash });
+  
+      return res.status(201).json({
+        message: "User registered successfully",
+        user: {
+          id: newUser._id,
+          email: newUser.email,
+          password: newUser.password_hash,
         }
-
-        // //hash password
-        // const saltRound = 10;
-        // const hash_password = await bcrypt.hash(password, saltRound);
-        
-        // const userCreated = await User.create({username, email, phone, password: hash_password});
-
-        const userCreated = await User.create({username, email, phone, password});
-
-        res
-            .status(201)
-            .json({
-                message: "registration successfull", 
-                token: await userCreated.generateToken(), 
-                userId: userCreated._id.toString(), 
-            });
-    }catch(error){
-        res.ststus(500).json("internal server error");
+      });
+  
+    } catch (error) {
+      console.error("Register error:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-};
+  };
+  
 
 //user login logic
 const login = async (req, res) => {
@@ -72,7 +75,7 @@ const login = async (req, res) => {
         }
         
     } catch (error) {
-        res.ststus(500).json("internal server error");
+        res.status(500).json("internal server error");
     }
 }
 

@@ -3,11 +3,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const authRoute = require("./router/auth-router");
-const contactRoute = require("./router/contact-router");
-const serviceRoute = require("./router/service-router");
-const adminRoute = require("./router/admin-router");
+// const contactRoute = require("./router/contact-router");
+// const serviceRoute = require("./router/service-router");
+// const adminRoute = require("./router/admin-router");
 const connectDb = require("./utils/db");
-const errorMiddleware = require("./middlewares/error-middleware");
+// const errorMiddleware = require("./middlewares/error-middleware");
 
 // let's tackle cors
 const corsOption = {
@@ -24,13 +24,13 @@ app.use(express.json());
 // you can "mount" it at a specific URL prefix.
 
 app.use("/api/auth", authRoute);
-app.use("/api/form", contactRoute);
-app.use("/api/data", serviceRoute);
+// app.use("/api/form", contactRoute);
+// app.use("/api/data", serviceRoute);
 
 //Let's define Admin route
-app.use("/api/admin", adminRoute);
+// app.use("/api/admin", adminRoute);
 
-app.use(errorMiddleware);
+// app.use(errorMiddleware);
 
 // app.get("/",(rea,res)=>{
 //     res.status(200).send("welcome home")
