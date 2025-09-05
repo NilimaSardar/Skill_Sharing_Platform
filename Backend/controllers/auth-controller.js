@@ -23,10 +23,10 @@ const register = async (req, res) => {
       }
   
       // hash password
-      const saltRounds = 10;
-      const password_hash = await bcrypt.hash(password, saltRounds);
+      // const saltRounds = 10;
+      // const password_hash = await bcrypt.hash(password, saltRounds);
   
-      const newUser = await User.create({ email, password_hash });
+      const newUser = await User.create({ email, password_hash: password });
   
       return res.status(201).json({
         message: "User registered successfully",
@@ -47,7 +47,7 @@ const login = async (req, res) => {
         const { email, password } = req.body;
 
         const userExist = await User.findOne({ email });
-        console.log(userExist);
+        // console.log(userExist);
         
 
         if(!userExist){
