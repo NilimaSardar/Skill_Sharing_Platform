@@ -37,7 +37,7 @@ export default function Register() {
           password: user.password_hash,
         }),
       });
-      console.log(response);
+      // console.log(response);
       
 
       const res_data = await response.json();
@@ -48,10 +48,10 @@ export default function Register() {
         // toast.success("Registration Successful..");
         alert("Registration Successful..");
       
-        navigate("/");
+        navigate("/dashboard");
       } else {
         // toast.error(res_data.extraDetails || res_data.message);
-        alert(res_data.extraDetails);
+        alert(res_data.extraDetails || res_data.message);
       }
     } catch (error) {
       console.log("register", error);

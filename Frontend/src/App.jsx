@@ -6,6 +6,7 @@ import Register from "./pages/Register"
 import Welcome from "./pages/Welcome"
 import LandingPage from "./pages/LandingPage"
 import PageNotFound from "./pages/PageNotFound"
+import Dashboard from "./pages/Dashboard"
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/welcome" element={<Welcome/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
         {/* <Footer/> */}
