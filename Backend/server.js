@@ -36,7 +36,7 @@ app.use(errorMiddleware);
 //     res.status(200).send("welcome home")
 // });
 
-const PORT = 3000;
+const PORT = 8000;
 
 connectDb().then(()=>{
     app.listen(PORT, ()=>{

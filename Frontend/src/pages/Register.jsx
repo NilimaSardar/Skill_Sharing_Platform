@@ -25,8 +25,37 @@ export default function Register() {
       alert("Passwords do not match");
       return;
     }
-    console.log(user);
-    
+
+    try {
+      console.log(user);
+      
+      const response = await fetch(`http://localhost:8000/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password_hash,
+        }),
+      });
+      console.log(response);
+      
+
+      const res_data = await response.json();
+
+      if (response.ok) {
+        // storetokenInLS(res_data.token);
+        setUser({ email: "", password_hash: "", confirm_Password: "" });
+        // toast.success("Registration Successful..");
+        alert("Registration Successful..");
+      
+        navigate("/");
+      } else {
+        // toast.error(res_data.extraDetails || res_data.message);
+        alert(res_data.extraDetails);
+      }
+    } catch (error) {
+      console.log("register", error);
+    }
   }
   return (
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center font-inter relative overflow-hidden">
