@@ -7,7 +7,7 @@ const authRoute = require("./router/auth-router");
 // const serviceRoute = require("./router/service-router");
 // const adminRoute = require("./router/admin-router");
 const connectDb = require("./utils/db");
-// const errorMiddleware = require("./middlewares/error-middleware");
+const errorMiddleware = require("./middlewares/error-middleware");
 
 // let's tackle cors
 const corsOption = {
@@ -30,7 +30,7 @@ app.use("/api/auth", authRoute);
 //Let's define Admin route
 // app.use("/api/admin", adminRoute);
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 // app.get("/",(rea,res)=>{
 //     res.status(200).send("welcome home")
