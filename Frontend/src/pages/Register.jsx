@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BackgroundDesgin from '../components/BackgroundDesgin';
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [user, setUser] = useState({
+    email: '',
+    password_hash: '',
+    confirm_Password: '',
+  });
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    // In a real application, you would handle the signup logic here,
-    // such as sending data to an API and performing client-side validation.
-    console.log('Sign up attempt:', { email, password, confirmPassword });
-    if (password !== confirmPassword) {
-      // For a production app, use a more user-friendly modal or error message display
-      console.error("Passwords do not match!");
-      return;
-    }
-    // Simulate an API call or success message
-    alert("Sign up successful! (This is a mock message)");
-    // Clear form fields after successful submission
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+  const navigate = useNavigate();
+  // const { storetokenInLS, API } = useAuth();
+
+  const handleInput = (e) => { 
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (user.password_hash !== user.confirm_Password) {
+      // toast.error("Passwords do not match");
+      alert("Passwords do not match");
+      return;
+    }
+    console.log(user);
+    
+  }
   return (
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center font-inter relative overflow-hidden">
 
@@ -40,16 +43,17 @@ export default function Register() {
         </div>
 
         <div>
-          <form onSubmit={handleSignUp} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <input
                 type="email"
                 id="email"
+                name='email'
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Email"
-                value={email}
+                value={user.email}
                 autoComplete='off'
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleInput}
                 required
               />
             </div>
@@ -58,11 +62,12 @@ export default function Register() {
               <input
                 type="password"
                 id="password"
+                name='password_hash'
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Password"
-                value={password}
+                value={user.password_hash}
                 autoComplete='off'
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleInput}
                 required
               />
             </div>
@@ -71,11 +76,12 @@ export default function Register() {
               <input
                 type="password"
                 id="confirm-password"
+                name='confirm_Password'
                 className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
                 placeholder="Confirm Password"
-                value={confirmPassword}
+                value={user.confirm_Password}
                 autoComplete='off'
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleInput}
                 required
               />
             </div>
