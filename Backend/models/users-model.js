@@ -89,7 +89,7 @@ userSchema.methods.generateToken = async function (){
       return jwt.sign({
           userId: this._id.toString(),
           email: this.email,
-          isAdmin: this.isAdmin,
+          is_admin: this.is_admin,
       },
       process.env.JWT_SECRET_KEY,
       {

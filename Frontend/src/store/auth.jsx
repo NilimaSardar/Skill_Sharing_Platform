@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     }
     
     let isLoggedIn = !!token;
+    // console.log('isLoggedIn',isLoggedIn);
 
     //tackling logout functionality
     const LogoutUser = () =>{
