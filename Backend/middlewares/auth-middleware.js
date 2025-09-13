@@ -23,7 +23,7 @@ const authMiddleware = async (req, res, next) =>{
         
         const userData = await User.findOne({ email: isVerified.email }).
         select({
-            password: 0,
+            password_hash: 0,
         });
         // console.log(userData);
 

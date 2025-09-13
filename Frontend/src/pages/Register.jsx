@@ -28,7 +28,7 @@ export default function Register() {
     }
 
     try {
-      console.log(user);
+      // console.log(user);
       
       const response = await fetch(`http://localhost:8000/api/auth/register`, {
         method: "POST",
@@ -41,9 +41,9 @@ export default function Register() {
       // console.log(response);
       
 
+      const res_data = await response.json();
 
       if (response.ok) {
-        const res_data = await response.json();
         // console.log("response from server",res_data);
         storeTokenInLS(res_data.token);
 
