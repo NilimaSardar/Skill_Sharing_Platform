@@ -10,7 +10,7 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const {storeTokenInLS} = useAuth();
+  const {storeTokenInLS, API} = useAuth();
 
   // const { storetokenInLS, API } = useAuth();
 
@@ -25,7 +25,7 @@ export default function Login() {
     try {
       // console.log(user);
       
-      const response = await fetch(`http://localhost:8000/api/auth/login`, {
+      const response = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

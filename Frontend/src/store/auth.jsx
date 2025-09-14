@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
         if (!token) return; 
         try {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:8000/api/auth/user`,{
+            const response = await fetch(`${API}/api/auth/user`,{
                 method: "GET",
                 headers: {
                     Authorization: authorizationToken,
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     },[]);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, user }}>
+        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, user, API }}>
         {children}
         </AuthContext.Provider>
     );
