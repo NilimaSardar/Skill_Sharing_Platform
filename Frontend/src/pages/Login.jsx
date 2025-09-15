@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BackgroundDesgin from '../components/BackgroundDesgin';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -50,7 +51,7 @@ export default function Login() {
         navigate("/dashboard");
       } else {
         // toast.error(res_data.extraDetails || res_data.message);
-        alert(res_data.extraDetails || res_data.message);
+        toast(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
     } catch (error) {
       console.log("login", error);
