@@ -16,13 +16,19 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center min-h-screen text-6xl font-medium">
-      <h3>Dashboard</h3>
-      {user ? (
-        <p className="text-2xl">Welcome, {user.name || user.email} 🎉</p>
-      ) : (
-        <p className="text-2xl">No user logged in</p>
-      )}
+    <div className="bg-white mx-[28px]">
+      <div className="py-[24px] flex justify-between items-center w-full max-w-md">
+        <div className="flex items-center gap-3 mb-5">
+          <img src="profile/Nilima.jpeg" alt="profile image" className="h-[60px] w-[60px] rounded-full"/>
+          <div className="leading-7">
+            <p className="text-[18px] tracking-wide">Hello,</p>
+            <h3 className="text-primary font-semibold text-[20px]">Nilima Sardar</h3>
+          </div>
+        </div>
+        <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full mb-5 cursor-pointer">
+          <img src="images/notification.svg" alt="notification bell" />
+        </div>
+      </div>
       <Link
         to="/logout"
         className="bg-blue-600 rounded-4xl text-white text-2xl px-5 py-2"
