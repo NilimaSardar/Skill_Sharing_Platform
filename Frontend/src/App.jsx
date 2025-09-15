@@ -8,6 +8,7 @@ import LandingPage from "./pages/LandingPage"
 import PageNotFound from "./pages/PageNotFound"
 import Dashboard from "./pages/Dashboard"
 import Logout from "./pages/Logout"
+import Request from "./pages/Request"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/request" element={<Request/>}/>
           <Route path="/logout" element={<Logout/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>

@@ -16,4 +16,8 @@
   --color-icon-bg-hover: #F1F4FF; /* change*/
   --color-text: #262626;
   --color-linearblue: #E5E9FF;
+
+  --color-search-bg: #F5F5F5;
+  --color-search-placeholder: #999999;
+  --color-border: #BEBEBE;
 }
