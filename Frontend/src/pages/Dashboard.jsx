@@ -42,7 +42,7 @@ const Dashboard = () => {
       </div>
 
       {/* Matching Partner */}
-      <div className="flex justify-between items-center bg-primary w-full h-[110px] rounded-[20px]">
+      <div className="flex justify-between items-center bg-primary w-full h-[115px] my-5 rounded-[20px]">
         <div className="leading-9 pl-3">
           <h3 className="text-white text-[16px]">Find Your Perfect Skill Sharing Partner</h3>
           <Link
@@ -52,7 +52,90 @@ const Dashboard = () => {
             View Matches
           </Link>
         </div>
-        <img src="" alt="" />
+        {/* <img src="" alt="" /> */}
+      </div>
+
+      {/* Skill Categories */}
+      <div>
+        <h2 className="font-bold text-text">Skills Categories</h2>
+
+        <div className="grid grid-cols-4 gap-4 py-5">
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/fitness.svg" alt="fitness" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Fitness</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/technology.svg" alt="Technology & IT" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Technol...</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/arts.svg" alt="Arts" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Arts</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/marketing.svg" alt="Marketing" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Marketing</p>
+          </li>
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/music.svg" alt="Music" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Music</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/communication.svg" alt="Communication" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Communi...</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/cooking.svg" alt="Cooking" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">Cooking</p>
+          </li>
+
+          <li className="flex flex-col items-center">
+            <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="SkillCategories/more.svg" alt="more" className="w-[32px] h-[32px]" />
+            </div>
+            <p className="text-[14px] text-center font-medium">More...</p>
+          </li>
+
+        </div>
+
+
+      </div>
+
+      {/* Upcoming Schedule */}
+      <div>
+        <h2 className="font-bold text-text">Upcoming Schedule</h2>
+        <div className="my-5 p-2.5 border-2 border-primary flex flex-col justify-between items-cente w-full h-[120px] rounded-[5px]">
+          <h3 className="font-[500]">Your Upcoming Schedule is at 5 PM</h3>
+          <p className="text-[#737373] font-normal text-[14px]">Today, 5:00 PM - 6:00 PM</p>
+            <div className='flex gap-5 w-full sm:w-[400px] pt-2'>
+                <Link to='/login' className='w-full bg-primary text-[16px] text-white flex justify-center items-center rounded-[5px] font-medium text-lg'>
+                    Remind Me
+                </Link>
+                <Link to='/register' className='w-full bg-transparent text-[16px] py-1.5 flex justify-center items-center  border border-primary text-primary rounded-[5px] font-[500] text-lg'>
+                    Cancel
+                </Link>
+
+            </div>
+        </div>
       </div>
       <Link
         to="/logout"
