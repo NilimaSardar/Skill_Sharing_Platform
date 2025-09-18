@@ -15,9 +15,9 @@ import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
 import ChatList from "./pages/Dashboard/Chat/ChatList"
 import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
-import AllChat from "./pages/Dashboard/Chat/AllChat"
-import IndividualChat from "./pages/Dashboard/Chat/IndividualChat"
-import CommunityChat from "./pages/Dashboard/Chat/CommunityChat"
+import AllChat from "./components/chat/AllChat"
+import IndividualChat from "./components/chat/IndividualChat"
+import CommunityChat from "./components/chat/CommunityChat"
 
 
 function App() {
