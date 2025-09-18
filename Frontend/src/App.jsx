@@ -13,6 +13,8 @@ import Home from "./pages/Dashboard/Home"
 import Profile from "./pages/Dashboard/Profile"
 import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
+import ChatList from "./pages/Dashboard/Chat/ChatList"
+import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
 
 
 function App() {
@@ -33,7 +35,13 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="request" element={<Request/>} />
           <Route path="create" element={<Create />} />
-          <Route path="chat" element={<Chat />} />
+
+          <Route path="chat" element={<Chat />}>
+            <Route index element={<ChatList />} />
+            <Route path=":chatId" element={<ChatRoom />} />
+            {/* <Route path="settings" element={<ChatSettings />} /> */}
+          </Route>
+
           <Route path="profile" element={<Profile/>} />
           <Route path="logout" element={<Logout />} />
         </Route>
