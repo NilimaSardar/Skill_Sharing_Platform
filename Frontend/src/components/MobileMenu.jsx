@@ -15,7 +15,7 @@ export default function MobileMenu() {
   ];
 
   return (
-    <ul className="flex justify-between px-[28px] py-[16px] sticky bottom-0 bg-white w-full max-w-md  items-center border-t-1 border-border">
+    <ul className="flex justify-between px-[28px] py-[16px] fixed bottom-0 bg-white w-full max-w-md  items-center border-t-1 border-border">
       {links.map((link) => (
         <li key={link.to}>
           <NavLink

@@ -82,7 +82,7 @@ const ChatList = () => {
       </div>
 
       {/* Content area */}
-      <div className="py-4">
+      <div className="py-4 pb-20">
         <Outlet />
       </div>
     </div>

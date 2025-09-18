@@ -4,7 +4,7 @@ import { useAuth } from "../../store/auth";
 
 const Home = () => {
   return (
-    <div className="bg-white mx-[28px]">
+    <div className="bg-white mx-[28px] pb-20">
     <div className="pt-[24px] flex justify-between items-center w-full max-w-md">
       <div className="flex items-center gap-3 mb-5">
         <img src="../profile/Nilima.jpeg" alt="profile image" className="h-[60px] w-[60px] rounded-full"/>
