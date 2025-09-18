@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import './App.css'
 
 import Login from "./pages/Login"
@@ -15,6 +15,9 @@ import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
 import ChatList from "./pages/Dashboard/Chat/ChatList"
 import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
+import AllChat from "./pages/Dashboard/Chat/AllChat"
+import IndividualChat from "./pages/Dashboard/Chat/IndividualChat"
+import CommunityChat from "./pages/Dashboard/Chat/CommunityChat"
 
 
 function App() {
@@ -37,7 +40,12 @@ function App() {
           <Route path="create" element={<Create />} />
 
           <Route path="chat" element={<Chat />}>
-            <Route index element={<ChatList />} />
+            <Route element={<ChatList />}>
+              <Route index element={<Navigate to="all" replace />} />     
+              <Route path="all" element={<AllChat />} />
+              <Route path="individual" element={<IndividualChat />} />
+              <Route path="community" element={<CommunityChat />} />
+            </Route>
             <Route path=":chatId" element={<ChatRoom />} />
             {/* <Route path="settings" element={<ChatSettings />} /> */}
           </Route>
