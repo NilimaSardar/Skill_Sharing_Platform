@@ -46,22 +46,11 @@ const ChatList = () => {
         </div>
 
         {/* Search catogoy */}
-        <div className="flex justify-between gap-4 text-center text-[16px] font-medium text-text">
-        <NavLink
-          to="all"
-          className={({ isActive }) =>
-            `py-[10px] px-[18px] rounded-lg ${
-              isActive ? "bg-primary text-white" : "text-text hover:text-primary border border-border "
-            }`
-          }
-        >
-          All
-        </NavLink>
-
+        <div className="flex w-full gap-4 text-center text-[16px] font-medium text-text">
         <NavLink
           to="individual"
           className={({ isActive }) =>
-            `py-[10px] px-[18px] rounded-lg ${
+            `py-[10px] px-[18px] w-1/2 rounded-lg ${
               isActive ? "bg-primary text-white" : "text-text hover:text-primary border border-border "
             }`
           }
@@ -72,14 +61,14 @@ const ChatList = () => {
         <NavLink
           to="community"
           className={({ isActive }) =>
-            `py-[10px] px-[18px] rounded-lg ${
+            `py-[10px] px-[18px] w-1/2 rounded-lg ${
               isActive ? "bg-primary text-white" : "text-text hover:text-primary border border-border "
             }`
           }
         >
           Community
         </NavLink>
-      </div>
+        </div>
 
       {/* Content area */}
       <div className="py-4 pb-20">

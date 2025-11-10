@@ -41,8 +41,7 @@ function App() {
 
           <Route path="chat" element={<Chat />}>
             <Route element={<ChatList />}>
-              <Route index element={<Navigate to="all" replace />} />     
-              <Route path="all" element={<AllChat />} />
+              <Route index element={<Navigate to="individual" replace />} />     
               <Route path="individual" element={<IndividualChat />} />
               <Route path="community" element={<CommunityChat />} />
             </Route>
