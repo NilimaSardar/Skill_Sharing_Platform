@@ -51,7 +51,7 @@ const ChatList = () => {
           to="individual"
           className={({ isActive }) =>
             `py-[10px] px-[18px] w-1/2 rounded-lg ${
-              isActive ? "bg-primary text-white" : "text-text hover:text-primary border border-border "
+              isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
             }`
           }
         >
@@ -62,7 +62,7 @@ const ChatList = () => {
           to="community"
           className={({ isActive }) =>
             `py-[10px] px-[18px] w-1/2 rounded-lg ${
-              isActive ? "bg-primary text-white" : "text-text hover:text-primary border border-border "
+              isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
             }`
           }
         >
