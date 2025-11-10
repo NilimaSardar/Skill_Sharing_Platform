@@ -1,11 +1,13 @@
 import React from 'react'
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet,useNavigate } from "react-router-dom";
 
 const ChatList = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className='mx-[28px]'>
         <div className='flex items-center justify-start my-4'>
-            <div className="w-[35px] h-[35px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+            <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
                 <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
             </div>
             <h3 className='font-serif w-full text-center text-xl'>Message</h3>
