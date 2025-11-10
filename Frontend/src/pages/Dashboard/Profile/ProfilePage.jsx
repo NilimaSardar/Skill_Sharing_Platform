@@ -57,12 +57,12 @@ const ProfilePage = () => {
     </div>
 
     {/* Search catogoy */}
-    <div className="flex w-full gap-4 text-center text-[16px] font-medium text-text">
+    <div className="flex w-full mt-4 text-center text-[16px] font-medium text-text border border-border rounded-lg">
       <NavLink
-        to="individual"
+        to="mySkills"
         className={({ isActive }) =>
-          `py-[10px] px-[18px] w-1/2 rounded-lg ${
-            isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
+          `py-[5px] my-[5px] mx-[8px] w-1/2 flex items-center justify-center ${
+            isActive ? "bg-primary-light text-primary" : "text-[#737373]"
           }`
         }
       >
@@ -70,10 +70,10 @@ const ProfilePage = () => {
       </NavLink>
 
       <NavLink
-        to="community"
+        to="trade-history"
         className={({ isActive }) =>
-          `py-[10px] px-[18px] w-1/2 rounded-lg ${
-            isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
+          `my-[5px] mx-[8px] w-1/2 flex items-center justify-center ${
+            isActive ? "bg-primary-light text-primary" : "text-[#737373]"
           }`
         }
       >

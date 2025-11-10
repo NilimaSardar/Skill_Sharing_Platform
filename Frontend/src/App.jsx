@@ -20,6 +20,7 @@ import IndividualChat from "./components/chat/IndividualChat"
 import CommunityChat from "./components/chat/CommunityChat"
 import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
 import MySkills from "./components/Profile/MySkills"
+import TradeHistory from "./components/Profile/TradeHistory"
 
 
 function App() {
@@ -55,7 +56,7 @@ function App() {
           <Route element={<ProfilePage />}>
               <Route index element={<Navigate to="mySkills" replace />} />     
               <Route path="mySkills" element={<MySkills/>} />
-              {/* <Route path="community" element={<CommunityChat />} /> */}
+              <Route path="trade-history" element={<TradeHistory />} />
             </Route>
           </Route>
 
