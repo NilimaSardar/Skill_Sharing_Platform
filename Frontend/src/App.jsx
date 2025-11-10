@@ -18,6 +18,8 @@ import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
 import AllChat from "./components/chat/AllChat"
 import IndividualChat from "./components/chat/IndividualChat"
 import CommunityChat from "./components/chat/CommunityChat"
+import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
+import MySkills from "./components/Profile/MySkills"
 
 
 function App() {
@@ -49,7 +51,14 @@ function App() {
             {/* <Route path="settings" element={<ChatSettings />} /> */}
           </Route>
 
-          <Route path="profile" element={<Profile/>} />
+          <Route path="profile" element={<Profile/>}>
+          <Route element={<ProfilePage />}>
+              <Route index element={<Navigate to="mySkills" replace />} />     
+              <Route path="mySkills" element={<MySkills/>} />
+              {/* <Route path="community" element={<CommunityChat />} /> */}
+            </Route>
+          </Route>
+
           <Route path="logout" element={<Logout />} />
         </Route>
 
