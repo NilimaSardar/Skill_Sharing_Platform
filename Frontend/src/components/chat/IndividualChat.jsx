@@ -1,9 +1,16 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 
 const IndividualChat = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    const id = "12345"; // Example chat ID
+    navigate(`/dashboard/chat/${id}`);
+  };
   return (
     <>
-    <div className="flex justify-between items-start mb-2">
+    <div onClick={handleClick} className="flex justify-between items-start mb-2">
       <div className='flex items-center gap-2'>
         <div className="relative w-[55px] h-[55px] flex items-center justify-center cursor-pointer">
           <img
