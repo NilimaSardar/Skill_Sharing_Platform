@@ -73,7 +73,12 @@ const ProfileSetting = () => {
                             <img src="../../profileSettings/notification.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Push Notification</p>
                         </div>
-                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+
+                        {/* Toggle Switch */}
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                            <input type='checkbox' className='sr-only peer' />
+                            <div className='w-10 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-blue-500 after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5'></div>
+                        </label>
                     </div>
                     
                     <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
@@ -81,7 +86,12 @@ const ProfileSetting = () => {
                             <img src="../../profileSettings/darkmode.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Dark Mode</p>
                         </div>
-                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                        
+                        {/* Toggle Switch */}
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                            <input type='checkbox' className='sr-only peer' />
+                            <div className='w-10 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-blue-500 after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5'></div>
+                        </label>
                     </div>
 
                     <div className='flex justify-between items-center w-full py-2'>
