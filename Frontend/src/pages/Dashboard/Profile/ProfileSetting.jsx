@@ -95,8 +95,33 @@ const ProfileSetting = () => {
             </div>
 
             {/* Safety & Security */}
-            <div>
-                <h2>Safety & Security</h2>
+            <div className='mt-3'>
+                <h2 className='text-text text-lg'>Safety & Security</h2>
+                <div className='flex flex-col gap-1 py-2'>
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/verification.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Verification Settings</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                    
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/block.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Block/Report Users</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+
+                    <div className='flex justify-between items-center w-full'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/safety.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Safety Guidelines</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                </div>
             </div>
 
             {/* Support & Legal */}
