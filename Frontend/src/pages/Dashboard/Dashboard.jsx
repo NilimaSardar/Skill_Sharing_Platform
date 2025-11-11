@@ -1,12 +1,19 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import MobileMenu from "../../components/MobileMenu";
 
 const Dashboard = () => {
   const { user, isLoading } = useAuth();
+  const location = useLocation();
+  const path = location.pathname;
 
-  console.log("user from dashboard:", user.email ?? "no user yet");
+  // Show MobileMenu only for "/dashboard" and its one-level child routes
+  const showMobileMenu =
+    path === "/dashboard" ||
+    (path.startsWith("/dashboard/") && path.split("/").length === 3);
+
+  console.log("user from dashboard:", user?.email ?? "no user yet");
 
   if (isLoading) {
     return (
@@ -18,8 +25,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <Outlet/>
-      {/* <MobileMenu/> */}
+      <Outlet />
+      {showMobileMenu && <MobileMenu />}
     </>
   );
 };
