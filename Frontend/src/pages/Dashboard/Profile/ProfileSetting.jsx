@@ -33,12 +33,12 @@ const ProfileSetting = () => {
         </div>
 
         {/* All Settings */}
-        <div>
+        <div className='mt-4 mb-8'>
             {/* Personal & Account */}
-            <div className='mt-10'>
+            <div className='mt-3'>
                 <h2 className='text-text text-lg'>Personal & Account</h2>
                 <div className='flex flex-col gap-1 py-2'>
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/editInformation.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Edit Information</p>
@@ -46,7 +46,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
                     
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/ChangePassword.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Change Password</p>
@@ -54,7 +54,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
 
-                    <div className='flex justify-between items-center w-full'>
+                    <div className='flex justify-between items-center w-full py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/email.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Email & Phone Number</p>
@@ -68,7 +68,7 @@ const ProfileSetting = () => {
             <div className='mt-3'>
                 <h2 className='text-text text-lg'>App Preference</h2>
                 <div className='flex flex-col gap-1 py-2'>
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/notification.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Push Notification</p>
@@ -76,7 +76,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
                     
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/darkmode.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Dark Mode</p>
@@ -84,7 +84,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
 
-                    <div className='flex justify-between items-center w-full'>
+                    <div className='flex justify-between items-center w-full py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/location.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Location</p>
@@ -98,7 +98,7 @@ const ProfileSetting = () => {
             <div className='mt-3'>
                 <h2 className='text-text text-lg'>Safety & Security</h2>
                 <div className='flex flex-col gap-1 py-2'>
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/verification.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Verification Settings</p>
@@ -106,7 +106,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
                     
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/block.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Block/Report Users</p>
@@ -114,7 +114,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
 
-                    <div className='flex justify-between items-center w-full'>
+                    <div className='flex justify-between items-center w-full py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/safety.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Safety Guidelines</p>
@@ -128,7 +128,7 @@ const ProfileSetting = () => {
             <div className='mt-3'>
                 <h2 className='text-text text-lg'>Support & Legal</h2>
                 <div className='flex flex-col gap-1 py-2'>
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/privacy.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Privacy Policy</p>
@@ -136,7 +136,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
                     
-                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                    <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/help.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Help & Support</p>
@@ -144,7 +144,7 @@ const ProfileSetting = () => {
                         <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                     </div>
 
-                    <div className='flex justify-between items-center w-full'>
+                    <div className='flex justify-between items-center w-full py-2'>
                         <div className='flex gap-3'>
                             <img src="../../profileSettings/terms.svg" alt="" className='w-[23px] h-[23px]'/>
                             <p className='text-[#737373] text-[15px]'>Terms of Service</p>
