@@ -125,13 +125,39 @@ const ProfileSetting = () => {
             </div>
 
             {/* Support & Legal */}
-            <div>
-                <h2>Support & Legal</h2>
+            <div className='mt-3'>
+                <h2 className='text-text text-lg'>Support & Legal</h2>
+                <div className='flex flex-col gap-1 py-2'>
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/privacy.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Privacy Policy</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                    
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/help.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Help & Support</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+
+                    <div className='flex justify-between items-center w-full'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/terms.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Terms of Service</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <p>Logout</p>
-            </div>
+            {/* logout button */}
+            <NavLink to="../../logout" className='border border-border rounded-lg p-1 mt-5 flex justify-center cursor-pointer'>
+                <p className='text-red-500'>Logout</p>
+            </NavLink>
         </div>
     </div>
   )

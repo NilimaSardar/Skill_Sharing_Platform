@@ -19,7 +19,7 @@ const Dashboard = () => {
   return (
     <>
       <Outlet/>
-      <MobileMenu/>
+      {/* <MobileMenu/> */}
     </>
   );
 };
