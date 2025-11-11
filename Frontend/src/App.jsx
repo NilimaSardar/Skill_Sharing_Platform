@@ -21,6 +21,7 @@ import CommunityChat from "./components/chat/CommunityChat"
 import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
 import MySkills from "./components/Profile/MySkills"
 import TradeHistory from "./components/Profile/TradeHistory"
+import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
               <Route path="mySkills" element={<MySkills/>} />
               <Route path="trade-history" element={<TradeHistory />} />
             </Route>
+            <Route path="profileSettings" element={<ProfileSetting />} />
           </Route>
 
           <Route path="logout" element={<Logout />} />

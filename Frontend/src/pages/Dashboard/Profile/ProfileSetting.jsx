@@ -1,0 +1,115 @@
+import React from 'react'
+import { NavLink, Outlet,useNavigate } from "react-router-dom";
+
+
+const ProfileSetting = () => {
+    const navigate = useNavigate();
+    
+  return (
+    <div className='mx-[28px]'>
+        <div className='flex items-center justify-start my-4'>
+          <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
+              <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
+          </div>
+          <h3 className='font-serif w-full text-center text-xl'>Settings</h3>
+        </div>
+
+        {/* profile */}
+        <div className="flex flex-col justify-center">
+            <div className="flex flex-col items-center">
+                <div className="relative w-[85px] h-[85px] flex items-center justify-center cursor-pointer">
+                  <img
+                  src="../../profile/Nilima.jpeg"
+                  alt=""
+                  className="w-[80px] h-[80px] rounded-full object-cover border-2 border-primary-light shadow"
+                  />
+                  {/* Edit button */}
+                  <img src="../../images/Edit.svg" alt="" className="absolute bottom-1 right-1 border-1 border-white rounded-full"/>
+                </div>
+                <p className="text-[18px] text-center font-medium mt-2">Nilima Sardar</p>
+                <p className='text-[#737373]'>nilima@gmail.com</p>
+            </div>
+
+        </div>
+
+        {/* All Settings */}
+        <div>
+            {/* Personal & Account */}
+            <div className='mt-10'>
+                <h2 className='text-text text-lg'>Personal & Account</h2>
+                <div className='flex flex-col gap-1 py-2'>
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/editInformation.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Edit Information</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                    
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/ChangePassword.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Change Password</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+
+                    <div className='flex justify-between items-center w-full'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/email.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Email & Phone Number</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                </div>
+            </div>
+
+            {/* App Peference */}
+            <div className='mt-3'>
+                <h2 className='text-text text-lg'>App Preference</h2>
+                <div className='flex flex-col gap-1 py-2'>
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/notification.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Push Notification</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                    
+                    <div className='flex justify-between items-center w-full border-b-1 border-[#D9D9D9] py-1'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/darkmode.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Dark Mode</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+
+                    <div className='flex justify-between items-center w-full'>
+                        <div className='flex gap-3'>
+                            <img src="../../profileSettings/location.svg" alt="" className='w-[23px] h-[23px]'/>
+                            <p className='text-[#737373] text-[15px]'>Location</p>
+                        </div>
+                        <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
+                    </div>
+                </div>
+            </div>
+
+            {/* Safety & Security */}
+            <div>
+                <h2>Safety & Security</h2>
+            </div>
+
+            {/* Support & Legal */}
+            <div>
+                <h2>Support & Legal</h2>
+            </div>
+
+            <div>
+                <p>Logout</p>
+            </div>
+        </div>
+    </div>
+  )
+}
+
+export default ProfileSetting
