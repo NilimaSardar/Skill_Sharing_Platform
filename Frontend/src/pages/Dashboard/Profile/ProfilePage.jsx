@@ -48,7 +48,7 @@ const ProfilePage = () => {
 
         {/* About */}
         <div>
-          <h4>About Me</h4>
+          <h4 className='font-[550]'>About Me</h4>
           <p className="text-[#737373] text-[14px] text-justify">I'm a seasoned creative expert dedicated to sharing the proven blueprint for achieving 
             top-tier Web Development and UI/UX results. My focus is entirely on practical, real-world
             knowledge and actionable skills, not abstract theory. Join me, and let's work side-by-side
