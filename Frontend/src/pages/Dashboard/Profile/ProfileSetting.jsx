@@ -33,7 +33,7 @@ const ProfileSetting = () => {
         </div>
 
         {/* All Settings */}
-        <div className='mt-4 mb-8'>
+        <div className='mt-4 mb-28'>
             {/* Personal & Account */}
             <div className='mt-3'>
                 <h2 className='text-text text-lg'>Personal & Account</h2>
