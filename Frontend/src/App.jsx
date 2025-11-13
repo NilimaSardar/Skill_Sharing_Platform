@@ -22,6 +22,9 @@ import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
 import MySkills from "./components/Profile/MySkills"
 import TradeHistory from "./components/Profile/TradeHistory"
 import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
+import RequestList from "./pages/Dashboard/Request/RequestList"
+import SendRequest from "./components/Request/sendRequest"
+import ReceivedRequest from "./components/Request/receivedRequest"
 
 
 function App() {
@@ -40,7 +43,15 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Home/>} />
           <Route path="home" element={<Home />} />
-          <Route path="request" element={<Request/>} />
+
+          <Route path="request" element={<Request/>} >
+            <Route element={<RequestList />}>
+              <Route index element={<Navigate to="sendRequest" replace />} />     
+              <Route path="sendRequest" element={<SendRequest />} />
+              <Route path="receivedRequest" element={<ReceivedRequest />} />
+            </Route>
+          </Route>
+
           <Route path="create" element={<Create />} />
 
           <Route path="chat" element={<Chat />}>
