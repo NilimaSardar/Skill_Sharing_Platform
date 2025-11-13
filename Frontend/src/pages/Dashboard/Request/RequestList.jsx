@@ -14,14 +14,13 @@ const RequestList = () => {
     setShowMenu(false);
   };
 
-  // Hide menu when clicking outside
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMenu(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -30,15 +29,12 @@ const RequestList = () => {
     <div className='mx-[28px] relative'>
       <div className='flex items-center justify-between my-4'>
         <h3 className='font-serif w-full text-xl'>Exchange Request</h3>
-
-        <div ref={menuRef} className="relative">
-          <div
-            onClick={handleOptionClick}
-            className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer"
-          >
-            <img src="../../images/options.svg" alt="setting" className='w-[25px] h-[25px]'/>
-          </div>
-
+        <div
+          className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer relative"
+          onClick={handleOptionClick}
+          ref={menuRef}
+        >
+          <img src="../../images/options.svg" alt="setting" className='w-[25px] h-[25px]' />
           {showMenu && (
             <div className="absolute top-7 right-0 bg-white shadow-md rounded-lg border border-gray-200 z-10 w-[130px]">
               <p
@@ -69,7 +65,7 @@ const RequestList = () => {
                 : "text-text hover:text-primary border border-border"
             }`
           }
-          onClick={() => setFilter("all")}
+          onClick={() => setFilter("suggestions")}
         >
           Suggestions
         </NavLink>
@@ -96,4 +92,4 @@ const RequestList = () => {
   )
 }
 
-export default RequestList
+export default RequestList;
