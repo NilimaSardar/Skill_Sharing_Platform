@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 
 const Home = () => {
+  const { user } = useAuth(); // get logged-in user
+  console.log('user in home:', user);
+  
+
+  // Dynamically get full name, fallback to "User" if not available
+  const fullName = user?.profile?.first_name
+    ? `${user.profile.first_name} ${user.profile.last_name || ""}`.trim()
+    : "User";
   return (
     <div className="bg-white mx-[28px] pb-20">
     <div className="pt-[24px] flex justify-between items-center w-full max-w-md">
@@ -10,7 +18,7 @@ const Home = () => {
         <img src="../profile/Nilima.jpeg" alt="profile image" className="h-[60px] w-[60px] rounded-full"/>
         <div className="leading-7">
           <p className="text-[18px] tracking-wide">Hello,</p>
-          <h3 className="text-primary font-semibold text-[20px]">Nilima Sardar</h3>
+          <h3 className="text-primary font-semibold text-[20px]">{user.fullName}</h3>
         </div>
       </div>
       <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full mb-5 cursor-pointer">
