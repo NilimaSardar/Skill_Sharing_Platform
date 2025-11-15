@@ -5,13 +5,12 @@ export const createPost = async (req, res) => {
   try {
     const { skill, type, title, description, duration, fees, media, skillsOffered, skillsInterested } = req.body;
 
-    if (!skill || !type || !title || !description || !duration) {
+    if (!type || !title || !description || !duration) {
       return res.status(400).json({ message: "All required fields must be filled" });
     }
 
     const newPost = await Post.create({
       userId: req.user._id, // from auth middleware
-      skill,
       type,
       title,
       description,
