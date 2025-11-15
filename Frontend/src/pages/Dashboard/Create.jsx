@@ -105,6 +105,7 @@ const Create = () => {
           </div>
         </div>
 
+        {/* button */}
         <div className='flex flex-col gap-2 mt-4'>
           <button className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Post</button>
           <button className='border border-border text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Cancel</button>
