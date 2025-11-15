@@ -1,14 +1,84 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useAuth } from "../../store/auth";
+import { toast } from "react-toastify";
 
 const Create = () => {
-  const [postType, setPostType] = useState("exchange");
-  
+  const { API } = useAuth();
+
+  // form state
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    postType: "exchange",
+    skillOffered: "",
+    skillWanted: "",
+    duration: "",
+    fees: "",
+  });
+
+  const handleInput = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Submit Post
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        type: formData.postType,
+        skillsOffered: formData.skillOffered ? [formData.skillOffered] : [],
+        skillsInterested: formData.skillWanted ? [formData.skillWanted] : [],
+        duration: formData.postType === "share" ? formData.duration : "",
+        fees: formData.postType === "share" ? formData.fees : 0,
+      };
+
+      const response = await fetch(`${API}/api/posts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Post created successfully");
+
+        // reset
+        setFormData({
+          title: "",
+          description: "",
+          postType: "exchange",
+          skillOffered: "",
+          skillWanted: "",
+          duration: "",
+          fees: "",
+        });
+      } else {
+        toast.error(data.message || "Failed to create post");
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Internal Server Error");
+    }
+  };
+
   return (
     <div className='mb-20'>
       <div className='flex items-center justify-start py-5 bg-primary text-white'>
         <h3 className='font-serif w-full text-center text-[18px]'>Create Post</h3>
       </div>
-      <div className='flex flex-col py-3 mx-[28px]'>
+
+      {/* ADDED onSubmit */}
+      <form className='flex flex-col py-3 mx-[28px]' onSubmit={handleSubmit}>
+        
+        {/* User */}
         <div className='flex items-center gap-2'>
           <div className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer">
             <img
@@ -22,37 +92,55 @@ const Create = () => {
             <p className='font-serif text-[13px] text-[#7B7676]'>28, Biratnagar</p>
           </div>
         </div>
+
+        {/* Title */}
         <div className='flex flex-col gap-2 mt-2'>
-          <input type="text" className='border border-border px-4 py-2 w-full rounded-lg placeholder:text-[14px]' placeholder='Type a descriptive title...'/>
-          <textarea type="text" className='border border-border px-4 py-2 h-25 w-full rounded-lg placeholder:text-[14px]' placeholder='Enter the body text here...'/>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleInput}
+            className='border border-border px-4 py-2 w-full rounded-lg placeholder:text-[14px]'
+            placeholder='Type a descriptive title...'
+            required
+          />
+
+          {/* Description */}
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInput}
+            className='border border-border px-4 py-2 h-25 w-full rounded-lg placeholder:text-[14px]'
+            placeholder='Enter the body text here...'
+            required
+          />
           <span className='text-[#737373] text-[12px]'>0/100 characters</span>
         </div>
 
-        {/* post type */}
+        {/* Post Type */}
         <div className='flex flex-col mt-2'>
-          <p className='text-text text-[14px]'>Choose Post Type (Requried)</p>
-          {/* Exchange */}
+          <p className='text-text text-[14px]'>Choose Post Type (Required)</p>
+
           <div className='flex items-center gap-2'>
             <input
               type="radio"
               name="postType"
-              className='h-3'
               value="exchange"
-              checked={postType === "exchange"}
-              onChange={(e) => setPostType(e.target.value)}
+              checked={formData.postType === "exchange"}
+              onChange={handleInput}
+              className='h-3'
             />
             <span className='text-[13px] text-[#737373]'>Exchange</span>
           </div>
 
-          {/* Share */}
           <div className='flex items-center gap-2'>
             <input
               type="radio"
               name="postType"
-              className='h-3'
               value="share"
-              checked={postType === "share"}
-              onChange={(e) => setPostType(e.target.value)}
+              checked={formData.postType === "share"}
+              onChange={handleInput}
+              className='h-3'
             />
             <span className='text-[13px] text-[#737373]'>Share</span>
           </div>
@@ -61,11 +149,16 @@ const Create = () => {
         {/* Dropdowns */}
         <div className="flex items-start gap-2 mt-3 w-full">
 
-          {/* Skill You Offer  */}
+          {/* Skill You Offer */}
           <div className="relative w-1/2">
             <p className="text-text text-[14px] font-serif">Skill You Offer</p>
 
-            <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+            <select
+              name="skillOffered"
+              value={formData.skillOffered}
+              onChange={handleInput}
+              className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+            >
               <option value="">Eg: Web Development</option>
               <option value="dance">Dancing</option>
               <option value="coding">Programming</option>
@@ -73,11 +166,10 @@ const Create = () => {
               <option value="cooking">Cooking</option>
             </select>
 
-            {/* Dropdown icon */}
             <img
               src="../../create/dropdown.svg"
               alt=""
-              className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
+              className="w-3 h-3 absolute right-1 top-10 opacity-70"
             />
           </div>
 
@@ -85,7 +177,12 @@ const Create = () => {
           <div className="relative w-1/2">
             <p className="text-text text-[14px] font-serif">Skill You Want</p>
 
-            <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+            <select
+              name="skillWanted"
+              value={formData.skillWanted}
+              onChange={handleInput}
+              className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+            >
               <option value="">Eg: Music, Cooking</option>
               <option value="dance">Dancing</option>
               <option value="coding">Programming</option>
@@ -93,26 +190,28 @@ const Create = () => {
               <option value="cooking">Cooking</option>
             </select>
 
-            {/* Dropdown icon */}
             <img
               src="../../create/dropdown.svg"
               alt=""
-              className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
+              className="w-3 h-3 absolute right-1 top-10 opacity-70"
             />
           </div>
         </div>
 
-
-
-        {/* Duration & Fees → Hide when postType = "share" */}
-        {postType === "share" && (
+        {/* Duration & Fees → only for "share" */}
+        {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
 
             {/* Duration */}
             <div className="relative w-1/2">
               <p className="text-text text-[14px] font-serif">Duration</p>
 
-              <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+              <select
+                name="duration"
+                value={formData.duration}
+                onChange={handleInput}
+                className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+              >
                 <option value="">Eg: 15 days</option>
                 <option value="20days">20 Days</option>
                 <option value="30days">30 Days</option>
@@ -123,7 +222,7 @@ const Create = () => {
               <img
                 src="../../create/dropdown.svg"
                 alt=""
-                className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
+                className="w-3 h-3 absolute right-1 top-10 opacity-70"
               />
             </div>
 
@@ -131,20 +230,30 @@ const Create = () => {
             <div className="w-1/2">
               <p className="text-text text-[14px] font-serif">Fees</p>
 
-              <input type="text" className='w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary' />
+              <input
+                type="text"
+                name="fees"
+                value={formData.fees}
+                onChange={handleInput}
+                className='w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px]'
+              />
             </div>
           </div>
         )}
 
-        {/* button */}
+        {/* Buttons */}
         <div className='flex flex-col gap-2 mt-4'>
-          <button className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Post</button>
-          <button className='border border-border text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Cancel</button>
+          <button type="submit" className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
+            Post
+          </button>
+          <button type="button" className='border border-border text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
+            Cancel
+          </button>
         </div>
 
-      </div>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;
