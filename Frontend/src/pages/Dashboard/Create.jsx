@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Create = () => {
+  const [postType, setPostType] = useState("exchange");
+  
   return (
     <div className='mb-20'>
       <div className='flex items-center justify-start py-5 bg-primary text-white'>
@@ -29,81 +31,110 @@ const Create = () => {
         {/* post type */}
         <div className='flex flex-col mt-2'>
           <p className='text-text text-[14px]'>Choose Post Type (Requried)</p>
-          <div className='flex flex-col items-start gap-2 mt-2'>
-            <div className='flex items-center gap-2'>
-              <input type="radio" name="postType" className='h-3'/>
-              <span className='text-[13px] text-[#737373]'>Exchange</span>
-            </div>
-            
-            <div className='flex items-center gap-2'>
-              <input type="radio" name="postType" className='h-3'/>
-              <span className='text-[13px] text-[#737373]'>Share</span>
-            </div>
+          {/* Exchange */}
+          <div className='flex items-center gap-2'>
+            <input
+              type="radio"
+              name="postType"
+              className='h-3'
+              value="exchange"
+              checked={postType === "exchange"}
+              onChange={(e) => setPostType(e.target.value)}
+            />
+            <span className='text-[13px] text-[#737373]'>Exchange</span>
+          </div>
+
+          {/* Share */}
+          <div className='flex items-center gap-2'>
+            <input
+              type="radio"
+              name="postType"
+              className='h-3'
+              value="share"
+              checked={postType === "share"}
+              onChange={(e) => setPostType(e.target.value)}
+            />
+            <span className='text-[13px] text-[#737373]'>Share</span>
           </div>
         </div>
 
-        {/* Skills to share */}
-        <div className="flex flex-col mt-3">
-          <p className="text-text text-[14px] font-serif">Skills To Share</p>
+        {/* Dropdowns */}
+        <div className="flex items-start gap-2 mt-3 w-full">
 
-          {/* Dropdowns */}
-          <div className="flex items-start gap-3 mt-3">
+          {/* Skill You Offer  */}
+          <div className="relative w-1/2">
+            <p className="text-text text-[14px] font-serif">Skill You Offer</p>
 
-            {/* Skill Dropdown */}
-            <div className="relative w-full">
-              <select className="w-full appearance-none border border-border bg-white px-3 py-2 rounded-lg text-[13px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
-                <option value="">Choose Skill You Need</option>
-                <option value="dance">Dancing</option>
-                <option value="coding">Programming</option>
-                <option value="music">Music</option>
-                <option value="cooking">Cooking</option>
+            <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+              <option value="">Eg: Web Development</option>
+              <option value="dance">Dancing</option>
+              <option value="coding">Programming</option>
+              <option value="music">Music</option>
+              <option value="cooking">Cooking</option>
+            </select>
+
+            {/* Dropdown icon */}
+            <img
+              src="../../create/dropdown.svg"
+              alt=""
+              className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
+            />
+          </div>
+
+          {/* Skill You Want */}
+          <div className="relative w-1/2">
+            <p className="text-text text-[14px] font-serif">Skill You Want</p>
+
+            <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+              <option value="">Eg: Music, Cooking</option>
+              <option value="dance">Dancing</option>
+              <option value="coding">Programming</option>
+              <option value="music">Music</option>
+              <option value="cooking">Cooking</option>
+            </select>
+
+            {/* Dropdown icon */}
+            <img
+              src="../../create/dropdown.svg"
+              alt=""
+              className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
+            />
+          </div>
+        </div>
+
+
+
+        {/* Duration & Fees → Hide when postType = "share" */}
+        {postType === "share" && (
+          <div className="flex items-start gap-2 mt-3 w-full">
+
+            {/* Duration */}
+            <div className="relative w-1/2">
+              <p className="text-text text-[14px] font-serif">Duration</p>
+
+              <select className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="">Eg: 15 days</option>
+                <option value="20days">20 Days</option>
+                <option value="30days">30 Days</option>
+                <option value="2month">2 Month</option>
+                <option value="3month">3 Month</option>
               </select>
 
-              {/* Dropdown icon */}
               <img
                 src="../../create/dropdown.svg"
                 alt=""
-                className="w-3 h-3 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
+                className="w-3 h-3 absolute right-1 top-12 -translate-y-1/2 pointer-events-none opacity-70"
               />
             </div>
 
-            {/* Duration Dropdown */}
-            <div className="relative w-[55%]">
+            {/* Fees */}
+            <div className="w-1/2">
+              <p className="text-text text-[14px] font-serif">Fees</p>
 
-              {/* Left time icon */}
-              <img
-                src="../../create/time.svg"
-                alt=""
-                className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 opacity-70"
-              />
-
-              <select className="w-full appearance-none border border-border bg-white pl-7 pr-6 py-2 rounded-lg text-[13px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
-                <option value="">Duration</option>
-                <option value="1hr">1hr</option>
-                <option value="2hr">2hr</option>
-                <option value="3hr">3hr</option>
-              </select>
-
-              {/* Right arrow icon */}
-              <img
-                src="../../create/dropdown.svg"
-                alt=""
-                className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
-              />
+              <input type="text" className='w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary' />
             </div>
-
           </div>
-        </div>
-
-        {/* Fees*/}
-        <div className="flex flex-col mt-3">
-          <p className="text-text text-[14px] font-serif">Fees</p>
-
-          {/* Dropdowns */}
-          <div className="flex items-start gap-3 mt-1">
-            <input type="text" className='border border-border px-4 py-2 w-25 h-[36px] rounded-lg' />
-          </div>
-        </div>
+        )}
 
         {/* button */}
         <div className='flex flex-col gap-2 mt-4'>
