@@ -5,58 +5,48 @@ import { useAuth } from '../store/auth';
 import { toast } from 'react-toastify';
 
 export default function Login() {
-  const [user, setUser] = useState({
+  const [userInput, setUserInput] = useState({
     email: '',
     password_hash: '',
   });
 
   const navigate = useNavigate();
-  const {storeTokenInLS, API} = useAuth();
-
-  // const { storetokenInLS, API } = useAuth();
+  const { storeTokenInLS, API } = useAuth(); // no need for isLoggedIn
 
   const handleInput = (e) => { 
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUserInput({ ...userInput, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // console.log(user);
-      
       const response = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: user.email,
-          password: user.password_hash,
+          email: userInput.email,
+          password: userInput.password_hash,
         }),
       });
-      // console.log(response);
-      
-        const res_data = await response.json();
+
+      const res_data = await response.json();
 
       if (response.ok) {
-        // console.log("response from server",res_data);
-        
-        storeTokenInLS(res_data.token);
-        // localStorage.setItem("token", res_data.token);
-
-        setUser({ email: "", password_hash: ""});
-        // toast.success("Registration Successful..");
+        await storeTokenInLS(res_data.token); // fetches user immediately
+        setUserInput({ email: "", password_hash: "" });
         alert("Login Successful..");
-      
-        navigate("/dashboard");
+        navigate("/dashboard"); // navigate immediately after login
       } else {
-        // toast.error(res_data.extraDetails || res_data.message);
-        toast(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+        toast(res_data.extraDetails || res_data.message);
       }
+
     } catch (error) {
       console.log("login", error);
+      toast("Internal server error");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white px-[40px] flex items-center justify-center relative overflow-hidden">
@@ -73,44 +63,36 @@ export default function Login() {
           </div>
 
           <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
-                  placeholder="Email"
-                  value={user.email}
-                  autoComplete='off'
-                  onChange={handleInput}
-                  required
-                />
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={userInput.email}
+              onChange={handleInput}
+              className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
+              required
+            />
 
-              <div>
-                <input
-                  type="password"
-                  id="password"
-                  name="password_hash"
-                  className="w-full px-5 py-3  rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
-                  placeholder="Password"
-                  value={user.password}
-                  autoComplete='off'
-                  onChange={handleInput}
-                  required
-                />
-              </div>
+            <input
+              type="password"
+              name="password_hash"
+              placeholder="Password"
+              value={userInput.password_hash}
+              onChange={handleInput}
+              className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
+              required
+            />
 
-              <p className='text-primary text-right text-[14px] font-medium'>Forgot your password?</p>
+            <p className='text-primary text-right text-[14px] font-medium'>Forgot your password?</p>
 
-              <button
-                type="submit"
-                className="w-full bg-primary text-[16px] text-white py-3 rounded-xl hover:bg-secondary transition duration-300 ease-in-out font-semibold text-lg drop-shadow-[0px_10px_20px_#CBD6FF]"
-              >
-                Sign in
-              </button>
-            </form>
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-3 rounded-xl hover:bg-secondary transition duration-300 font-semibold"
+            >
+              Sign in
+            </button>
+          </form>
 
             <p className="text-center text-text text-[16px] font-medium mt-8">
               <Link to='/register'>Create new account</Link>

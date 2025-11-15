@@ -25,23 +25,29 @@ import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 import RequestList from "./pages/Dashboard/Request/RequestList"
 import SendRequest from "./components/Request/sendRequest"
 import ReceivedRequest from "./components/Request/receivedRequest"
+import PrivateRoute from "./components/PrivateRoute"
 
 
 function App() {
-
   return (
-    <>
     <BrowserRouter>
-      {/* <Navbar/> */}
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Dashboard routes */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<Home/>} />
+        {/* Protected Dashboard routes */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
 
           <Route path="request" element={<Request/>} >
@@ -61,11 +67,10 @@ function App() {
               <Route path="community" element={<CommunityChat />} />
             </Route>
             <Route path=":chatId" element={<ChatRoom />} />
-            {/* <Route path="settings" element={<ChatSettings />} /> */}
           </Route>
 
           <Route path="profile" element={<Profile/>}>
-          <Route element={<ProfilePage />}>
+            <Route element={<ProfilePage />}>
               <Route index element={<Navigate to="mySkills" replace />} />     
               <Route path="mySkills" element={<MySkills/>} />
               <Route path="trade-history" element={<TradeHistory />} />
@@ -76,12 +81,11 @@ function App() {
           <Route path="logout" element={<Logout />} />
         </Route>
 
+        {/* Fallback route */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      {/* <Footer/> */}
     </BrowserRouter>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

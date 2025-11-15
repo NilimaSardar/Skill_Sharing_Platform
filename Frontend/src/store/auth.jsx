@@ -10,9 +10,14 @@ export const AuthProvider = ({ children }) => {
     
     const API = import.meta.env.VITE_APP_URI_API;
 
-    const storeTokenInLS = (serverToken) =>{
-       return localStorage.setItem("token", serverToken);
-    }
+    const storeTokenInLS = async (serverToken) => {
+        localStorage.setItem("token", serverToken);
+        setToken(serverToken);
+      
+        // fetch user immediately
+        await userAuthentication();
+    };
+      
     
     let isLoggedIn = !!token;
     // console.log('isLoggedIn',isLoggedIn);
@@ -25,32 +30,30 @@ export const AuthProvider = ({ children }) => {
 
     //JWT AUTHENTICATION to get the currently
     //loggedIN user data
-    const userAuthentication = async()=>{
-        if (!token) return; 
+    const userAuthentication = async () => {
+        if (!token) return;
         try {
-            setIsLoading(true);
-            const response = await fetch(`${API}/api/auth/user`,{
-                method: "GET",
-                headers: {
-                    Authorization: authorizationToken,
-                },
-            });
-
-            if(response.ok){
-                const data = await response.json();
-                console.log('user data:', data.userData);
-                
-                setUser(data.userData);
-                // setIsLoading(false);
-            }else{
-                // console.log("Error fetching user data");
-                alert(res_data.extraDetails || res_data.message);
-                // setIsLoading(false);
-            }
+          setIsLoading(true);
+          const response = await fetch(`${API}/api/auth/user`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
+            setUser(data.userData); // set user immediately
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+            setUser(null);
+          }
         } catch (error) {
-            console.log("User", error);
+          console.log("User auth error", error);
+          setIsLoading(false);
+          setUser(null);
         }
-    }
+    };
+      
     useEffect(() =>{
         userAuthentication();
     },[]);
