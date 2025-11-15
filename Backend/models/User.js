@@ -13,10 +13,6 @@ const userSchema = new mongoose.Schema({
 
   profilePhoto: { type: String },
 
-  // Skills
-  skillsOffered:    [String],
-  skillsInterested: [String],
-
   // Ratings
   averageRating: { type: Number, default: 0 },
   totalRatings:  { type: Number, default: 0 },
