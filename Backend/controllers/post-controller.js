@@ -3,28 +3,70 @@ import Post from "../models/Post.js";
 // Create a new post
 export const createPost = async (req, res) => {
   try {
-    const { skill, type, title, description, duration, fees, media, skillsOffered, skillsInterested } = req.body;
-
-    if (!type || !title || !description || !duration) {
-      return res.status(400).json({ message: "All required fields must be filled" });
-    }
-
-    const newPost = await Post.create({
-      userId: req.user._id, // from auth middleware
+    const {
       type,
       title,
       description,
       duration,
-      fees: fees || 0,
-      media: media || [],
-      skillsOffered: skillsOffered || [],
-      skillsInterested: skillsInterested || [],
+      fees,
+      media,
+      skillsOffered,
+      skillsInterested,
+    } = req.body;
+
+    // 🔥 Basic required fields
+    if (!type || !title || !description) {
+      return res.status(400).json({
+        message: "Type, title, and description are required",
+      });
+    }
+
+    // 🔥 skillsOffered and skillsInterested are required for BOTH share & exchange
+    if (!skillsOffered || !skillsInterested) {
+      return res.status(400).json({
+        message: "skillsOffered and skillsInterested are required",
+      });
+    }
+
+    // 🔥 SHARE validation
+    if (type === "share") {
+      if (!duration || !fees) {
+        return res.status(400).json({
+          message:
+            "For share type, duration, fees, skillsOffered, and skillsInterested are required",
+        });
+      }
+    }
+
+    // 🔥 EXCHANGE validation
+    let cleanDuration = duration;
+    let cleanFees = fees;
+
+    if (type === "exchange") {
+      cleanDuration = ""; // No duration needed
+      cleanFees = 0; // No fees needed
+    }
+
+    const newPost = await Post.create({
+      userId: req.user._id,
+      type,
+      title,
+      description,
+      duration: cleanDuration,
+      fees: cleanFees,
+      skillsOffered,
+      skillsInterested,
     });
 
-    res.status(201).json({ message: "Post created successfully", post: newPost });
+    res.status(201).json({
+      message: "Post created successfully",
+      post: newPost,
+    });
   } catch (error) {
     console.error("Create Post Error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };
 
@@ -45,7 +87,10 @@ export const getAllPosts = async (req, res) => {
 // Get single post
 export const getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate("userId", "fullName email profilePhoto");
+    const post = await Post.findById(req.params.id).populate(
+      "userId",
+      "fullName email profilePhoto"
+    );
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     res.status(200).json({ post });

@@ -10,8 +10,23 @@ const postSchema = new mongoose.Schema({
   skillsOffered:    [String],
   skillsInterested: [String],
 
-  duration: { type: String, required: true },
-  fees: { type: Number, default: 0 },
+// Duration is required ONLY for 'share'
+duration: {
+  type: String,
+  required: function () {
+    return this.type === "share";
+  },
+},
+
+// Fees required ONLY for 'share'
+fees: {
+  type: Number,
+  required: function () {
+    return this.type === "share";
+  },
+  default: 0,
+},
+
   status: { type: String, default: "active" } // active/completed
 }, { timestamps: true });
 
