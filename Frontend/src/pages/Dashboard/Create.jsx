@@ -2,8 +2,8 @@ import React from 'react'
 
 const Create = () => {
   return (
-    <div className=''>
-      <div className='flex items-center justify-start py-6 bg-primary text-white'>
+    <div className='mb-20'>
+      <div className='flex items-center justify-start py-5 bg-primary text-white'>
         <h3 className='font-serif w-full text-center text-[18px]'>Create Post</h3>
       </div>
       <div className='flex flex-col py-3 mx-[28px]'>
@@ -43,25 +43,15 @@ const Create = () => {
         </div>
 
         {/* Skills to share */}
-        <div className="flex flex-col mt-4">
+        <div className="flex flex-col mt-3">
           <p className="text-text text-[14px] font-serif">Skills To Share</p>
-
-          {/* Selected Pills */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px]">
-              Dancing
-            </span>
-            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px]">
-              1hr
-            </span>
-          </div>
 
           {/* Dropdowns */}
           <div className="flex items-start gap-3 mt-3">
 
             {/* Skill Dropdown */}
             <div className="relative w-full">
-              <select className="w-full appearance-none border border-border bg-white px-3 py-2 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary">
+              <select className="w-full appearance-none border border-border bg-white px-3 py-2 rounded-lg text-[13px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
                 <option value="">Choose Skill You Need</option>
                 <option value="dance">Dancing</option>
                 <option value="coding">Programming</option>
@@ -87,7 +77,7 @@ const Create = () => {
                 className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 opacity-70"
               />
 
-              <select className="w-full appearance-none border border-border bg-white pl-7 pr-6 py-2 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary">
+              <select className="w-full appearance-none border border-border bg-white pl-7 pr-6 py-2 rounded-lg text-[13px] text-[#737373] focus:outline-none focus:ring-1 focus:ring-primary">
                 <option value="">Duration</option>
                 <option value="1hr">1hr</option>
                 <option value="2hr">2hr</option>
@@ -106,13 +96,18 @@ const Create = () => {
         </div>
 
         {/* Fees*/}
-        <div className="flex flex-col mt-4">
+        <div className="flex flex-col mt-3">
           <p className="text-text text-[14px] font-serif">Fees</p>
 
           {/* Dropdowns */}
           <div className="flex items-start gap-3 mt-1">
-            <input type="text" className='border border-border px-4 py-2 w-25 rounded-lg' />
+            <input type="text" className='border border-border px-4 py-2 w-25 h-[36px] rounded-lg' />
           </div>
+        </div>
+
+        <div className='flex flex-col gap-2 mt-4'>
+          <button className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Post</button>
+          <button className='border border-border text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>Cancel</button>
         </div>
 
       </div>
