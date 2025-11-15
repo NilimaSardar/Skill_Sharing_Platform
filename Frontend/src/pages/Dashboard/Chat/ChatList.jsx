@@ -13,7 +13,7 @@ const ChatList = () => {
             <h3 className='font-serif w-full text-center text-xl'>Message</h3>
         </div>
 
-        <div className='mx-[28px]'>
+        <div className='mx-[28px] py-1'>
           {/* active profiles */}
           <div className="flex gap-4 overflow-x-auto py-2 hide-scrollbar">
           {["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"].map((user, idx) => (
