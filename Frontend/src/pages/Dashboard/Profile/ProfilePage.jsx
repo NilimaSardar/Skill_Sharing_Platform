@@ -7,10 +7,7 @@ const ProfilePage = () => {
   return (
     <div>
       <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
-          <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
-              <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
-          </div>
-          <h3 className='font-serif w-full text-center text-xl'>Profile</h3>
+          <h3 className='font-serif w-full text-center text-xl ml-7'>Profile</h3>
           <NavLink to="profileSettings" className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer">
               <img src="../../images/Settings.svg" alt="setting" className='w-[25px] h-[25px]'/>
           </NavLink>
