@@ -42,6 +42,78 @@ const Create = () => {
           </div>
         </div>
 
+        {/* Skills to share */}
+        <div className="flex flex-col mt-4">
+          <p className="text-text text-[14px] font-serif">Skills To Share</p>
+
+          {/* Selected Pills */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px]">
+              Dancing
+            </span>
+            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px]">
+              1hr
+            </span>
+          </div>
+
+          {/* Dropdowns */}
+          <div className="flex items-start gap-3 mt-3">
+
+            {/* Skill Dropdown */}
+            <div className="relative w-full">
+              <select className="w-full appearance-none border border-border bg-white px-3 py-2 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="">Choose Skill You Need</option>
+                <option value="dance">Dancing</option>
+                <option value="coding">Programming</option>
+                <option value="music">Music</option>
+                <option value="cooking">Cooking</option>
+              </select>
+
+              {/* Dropdown icon */}
+              <img
+                src="../../create/dropdown.svg"
+                alt=""
+                className="w-3 h-3 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
+              />
+            </div>
+
+            {/* Duration Dropdown */}
+            <div className="relative w-[55%]">
+
+              {/* Left time icon */}
+              <img
+                src="../../create/time.svg"
+                alt=""
+                className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 opacity-70"
+              />
+
+              <select className="w-full appearance-none border border-border bg-white pl-7 pr-6 py-2 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="">Duration</option>
+                <option value="1hr">1hr</option>
+                <option value="2hr">2hr</option>
+                <option value="3hr">3hr</option>
+              </select>
+
+              {/* Right arrow icon */}
+              <img
+                src="../../create/dropdown.svg"
+                alt=""
+                className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
+              />
+            </div>
+
+          </div>
+        </div>
+
+        {/* Fees*/}
+        <div className="flex flex-col mt-4">
+          <p className="text-text text-[14px] font-serif">Fees</p>
+
+          {/* Dropdowns */}
+          <div className="flex items-start gap-3 mt-1">
+            <input type="text" className='border border-border px-4 py-2 w-25 rounded-lg' />
+          </div>
+        </div>
 
       </div>
     </div>
