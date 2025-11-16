@@ -13,10 +13,7 @@ import Home from "./pages/Dashboard/Home"
 import Profile from "./pages/Dashboard/Profile"
 import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
-import ChatList from "./pages/Dashboard/Chat/ChatList"
 import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
-import IndividualChat from "./components/chat/IndividualChat"
-import CommunityChat from "./components/chat/CommunityChat"
 import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
 import MySkills from "./components/Profile/MySkills"
 import TradeHistory from "./components/Profile/TradeHistory"
@@ -50,14 +47,9 @@ function App() {
 
           <Route path="create" element={<Create />} />
 
-          <Route path="chat" element={<Chat />}>
-            <Route element={<ChatList />}>
-              <Route index element={<Navigate to="individual" replace />} />     
-              <Route path="individual" element={<IndividualChat />} />
-              <Route path="community" element={<CommunityChat />} />
-            </Route>
-            <Route path=":chatId" element={<ChatRoom />} />
-          </Route>
+          <Route path="chat" element={<Chat />} />
+          <Route path="chat/:chatId" element={<ChatRoom />} />
+
 
           <Route path="profile" element={<Profile/>}>
             <Route element={<ProfilePage />}>
