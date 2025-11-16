@@ -1,9 +1,14 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 import { useAuth } from "../../store/auth";
+
+import Exchange from "../../components/Home/Exchange";
+import Share from "../../components/Home/Share";
+
 
 const Home = () => {
   const { user } = useAuth(); // get logged-in user
+  const [activeTab, setActiveTab] = React.useState("exchange"); // default tab
   console.log('user in home:', user);
   
 
@@ -53,88 +58,38 @@ const Home = () => {
           <img src="../../images/Group-3.svg" alt="" className='pt-6 h-[145px] w[145px]'/>
         </div>
 
-        {/* Skill Categories */}
-        <div>
-          <h2 className="font-bold text-text">Skills Categories</h2>
+        {/* Search category */}
+      <div className="flex w-full gap-4 text-center text-[16px] font-medium text-text">
+        
+        <button
+          onClick={() => setActiveTab("exchange")}
+          className={`py-[7px] w-1/2 rounded-lg ${
+            activeTab === "exchange"
+              ? "bg-primary-light text-text border border-border"
+              : "text-text hover:text-primary border border-border"
+          }`}
+        >
+          Exchange
+        </button>
 
-          <div className="grid grid-cols-4 gap-4 py-5">
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/fitness.svg" alt="fitness" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Fitness</p>
-            </li>
+        <button
+          onClick={() => setActiveTab("share")}
+          className={`py-[7px] w-1/2 rounded-lg ${
+            activeTab === "share"
+              ? "bg-primary-light text-text border border-border"
+              : "text-text hover:text-primary border border-border"
+          }`}
+        >
+          Share
+        </button>
+      </div>
 
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/technology.svg" alt="Technology & IT" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Technol...</p>
-            </li>
+      {/* Show Components */}
+      <div className="mt-4">
+        {activeTab === "exchange" && <Exchange />}
+        {activeTab === "share" && <Share />}
+      </div>
 
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/arts.svg" alt="Arts" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Arts</p>
-            </li>
-
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/marketing.svg" alt="Marketing" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Marketing</p>
-            </li>
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/music.svg" alt="Music" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Music</p>
-            </li>
-
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/communication.svg" alt="Communication" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Communi...</p>
-            </li>
-
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/cooking.svg" alt="Cooking" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">Cooking</p>
-            </li>
-
-            <li className="flex flex-col items-center">
-              <div className="w-[55px] h-[55px] bg-icon-bg-hover flex items-center justify-center rounded-full cursor-pointer">
-                <img src="../SkillCategories/more.svg" alt="more" className="w-[32px] h-[32px]" />
-              </div>
-              <p className="text-[14px] text-center font-medium">More...</p>
-            </li>
-
-          </div>
-
-
-        </div>
-
-        {/* Upcoming Schedule */}
-        <div>
-          <h2 className="font-bold text-text">Upcoming Schedule</h2>
-          <div className="my-5 p-2.5 border-2 border-primary flex flex-col justify-between items-cente w-full h-[120px] rounded-[5px]">
-            <h3 className="font-[500]">Your Upcoming Schedule is at 5 PM</h3>
-            <p className="text-[#737373] font-normal text-[14px]">Today, 5:00 PM - 6:00 PM</p>
-              <div className='flex gap-5 w-full sm:w-[400px] pt-2'>
-                  <Link to='/login' className='w-full bg-primary text-[16px] text-white flex justify-center items-center rounded-[5px] font-medium text-lg'>
-                      Remind Me
-                  </Link>
-                  <Link to='/register' className='w-full bg-transparent text-[16px] py-1.5 flex justify-center items-center  border border-primary text-primary rounded-[5px] font-[500] text-lg'>
-                      Cancel
-                  </Link>
-
-              </div>
-          </div>
-        </div>
       </div>
   </div>
   )

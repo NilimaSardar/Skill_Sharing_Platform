@@ -53,7 +53,7 @@ const ChatList = () => {
           <NavLink
             to="individual"
             className={({ isActive }) =>
-              `py-[10px] px-[18px] w-1/2 rounded-lg ${
+              `py-[7px] w-1/2 rounded-lg ${
                 isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
               }`
             }
@@ -64,7 +64,7 @@ const ChatList = () => {
           <NavLink
             to="community"
             className={({ isActive }) =>
-              `py-[10px] px-[18px] w-1/2 rounded-lg ${
+              `py-[7px] w-1/2 rounded-lg ${
                 isActive ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"
               }`
             }
