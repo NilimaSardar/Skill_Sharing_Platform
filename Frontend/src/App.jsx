@@ -15,16 +15,12 @@ import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
 import ChatList from "./pages/Dashboard/Chat/ChatList"
 import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
-import AllChat from "./components/chat/AllChat"
 import IndividualChat from "./components/chat/IndividualChat"
 import CommunityChat from "./components/chat/CommunityChat"
 import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
 import MySkills from "./components/Profile/MySkills"
 import TradeHistory from "./components/Profile/TradeHistory"
 import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
-import RequestList from "./pages/Dashboard/Request/RequestList"
-import SendRequest from "./components/Request/sendRequest"
-import ReceivedRequest from "./components/Request/receivedRequest"
 import PrivateRoute from "./components/PrivateRoute"
 
 
@@ -50,13 +46,6 @@ function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
 
-          {/* <Route path="request" element={<Request/>} >
-            <Route element={<RequestList />}>
-              <Route index element={<Navigate to="sendRequest" replace />} />     
-              <Route path="sendRequest" element={<SendRequest />} />
-              <Route path="receivedRequest" element={<ReceivedRequest />} />
-            </Route>
-          </Route> */}
           <Route path="request" element={<Request/>} />
 
           <Route path="create" element={<Create />} />

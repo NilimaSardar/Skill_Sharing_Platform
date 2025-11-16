@@ -99,7 +99,7 @@ const Request = () => {
         {/* Tab Content */}
         <div className="mt-4">
         {activeTab === "suggestions" && <SendRequest filter={filter} />}
-{activeTab === "received" && <ReceivedRequest filter={filter} />}
+        {activeTab === "received" && <ReceivedRequest filter={filter} />}
 
         </div>
       </div>
