@@ -50,13 +50,14 @@ function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
 
-          <Route path="request" element={<Request/>} >
+          {/* <Route path="request" element={<Request/>} >
             <Route element={<RequestList />}>
               <Route index element={<Navigate to="sendRequest" replace />} />     
               <Route path="sendRequest" element={<SendRequest />} />
               <Route path="receivedRequest" element={<ReceivedRequest />} />
             </Route>
-          </Route>
+          </Route> */}
+          <Route path="request" element={<Request/>} />
 
           <Route path="create" element={<Create />} />
 
