@@ -54,6 +54,13 @@ const ProfilePage = () => {
             </div>
         </div>
 
+        {/* Buttons */}
+        <div className='flex flex-col gap-2 mt-4'>
+          <button type="submit" className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
+            Add Skills +
+          </button>
+        </div>
+
         {/* Search catogoy */}
         <div className="flex w-full mt-4 text-center text-[16px] font-medium text-text border border-border rounded-lg">
           <NavLink
