@@ -9,42 +9,34 @@ export const createPost = async (req, res) => {
       description,
       duration,
       fees,
-      media,
       skillsOffered,
       skillsInterested,
     } = req.body;
 
-    // 🔥 Basic required fields
+    // Common required fields
     if (!type || !title || !description) {
       return res.status(400).json({
         message: "Type, title, and description are required",
       });
     }
 
-    // 🔥 skillsOffered and skillsInterested are required for BOTH share & exchange
-    if (!skillsOffered || !skillsInterested) {
-      return res.status(400).json({
-        message: "skillsOffered and skillsInterested are required",
-      });
-    }
-
-    // 🔥 SHARE validation
+    // VALIDATION FOR SHARE
     if (type === "share") {
-      if (!duration || !fees) {
+      if (!skillsOffered || !duration || !fees) {
         return res.status(400).json({
-          message:
-            "For share type, duration, fees, skillsOffered, and skillsInterested are required",
+          message: "For share type, skillsOffered, duration, and fees are required",
         });
       }
     }
 
-    // 🔥 EXCHANGE validation
-    let cleanDuration = duration;
-    let cleanFees = fees;
-
+    // VALIDATION FOR EXCHANGE
     if (type === "exchange") {
-      cleanDuration = ""; // No duration needed
-      cleanFees = 0; // No fees needed
+      if (!skillsOffered || !skillsInterested) {
+        return res.status(400).json({
+          message:
+            "For exchange type, skillsOffered and skillsInterested are required",
+        });
+      }
     }
 
     const newPost = await Post.create({
@@ -52,8 +44,8 @@ export const createPost = async (req, res) => {
       type,
       title,
       description,
-      duration: cleanDuration,
-      fees: cleanFees,
+      duration,
+      fees,
       skillsOffered,
       skillsInterested,
     });
