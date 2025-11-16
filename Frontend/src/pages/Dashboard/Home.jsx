@@ -49,7 +49,7 @@ const Home = () => {
           <div className="leading-6 pl-3">
             <h3 className="text-white text-[15px]">Find Your Perfect Skill Sharing Partner</h3>
             <Link
-              to="/Request"
+              to="/dashboard/Request"
               className="bg-white rounded-[5px] text-primary text-[12px] font-[600] px-3 py-1 mt-2 inline-block"
             >
               View Matches

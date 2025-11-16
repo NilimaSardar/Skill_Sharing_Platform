@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { Link,NavLink } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import { toast } from "react-toastify";
 
 const Create = () => {
   const { API } = useAuth();
 
-  // form state
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -20,36 +20,52 @@ const Create = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit Post
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const payload = {
-        title: formData.title,
-        description: formData.description,
-        type: formData.postType,
-        skillsOffered: formData.skillOffered ? [formData.skillOffered] : [],
-        skillsInterested: formData.skillWanted ? [formData.skillWanted] : [],
-        duration: formData.postType === "share" ? formData.duration : "",
-        fees: formData.postType === "share" ? formData.fees : 0,
-      };
+    if (!formData.title || !formData.description) {
+      return toast.error("Title & description are required");
+    }
 
+    if (formData.postType === "share") {
+      if (!formData.skillOffered || !formData.duration || !formData.fees) {
+        return toast.error("For share: skill offered, duration & fees are required");
+      }
+    }
+
+    if (formData.postType === "exchange") {
+      if (!formData.skillOffered || !formData.skillWanted) {
+        return toast.error("For exchange: skill offered & skill wanted are required");
+      }
+    }
+
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      type: formData.postType,
+      skillsOffered: formData.skillOffered ? [formData.skillOffered] : [],
+      skillsInterested:
+        formData.postType === "exchange" && formData.skillWanted
+          ? [formData.skillWanted]
+          : [],
+      duration: formData.duration,
+      fees: formData.fees,
+    };
+
+    try {
       const response = await fetch(`${API}/api/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Post created successfully");
-
-        // reset
         setFormData({
           title: "",
           description: "",
@@ -62,7 +78,6 @@ const Create = () => {
       } else {
         toast.error(data.message || "Failed to create post");
       }
-
     } catch (error) {
       console.log(error);
       toast.error("Internal Server Error");
@@ -75,10 +90,9 @@ const Create = () => {
         <h3 className='font-serif w-full text-center text-[18px]'>Create Post</h3>
       </div>
 
-      {/* ADDED onSubmit */}
       <form className='flex flex-col py-3 mx-[28px]' onSubmit={handleSubmit}>
-        
-        {/* User */}
+
+        {/* Profile */}
         <div className='flex items-center gap-2'>
           <div className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer">
             <img
@@ -93,7 +107,7 @@ const Create = () => {
           </div>
         </div>
 
-        {/* Title */}
+        {/* Title + Description */}
         <div className='flex flex-col gap-2 mt-2'>
           <input
             type="text"
@@ -105,7 +119,6 @@ const Create = () => {
             required
           />
 
-          {/* Description */}
           <textarea
             name="description"
             value={formData.description}
@@ -114,14 +127,13 @@ const Create = () => {
             placeholder='Enter the body text here...'
             required
           />
-          <span className='text-[#737373] text-[12px]'>0/100 characters</span>
         </div>
 
         {/* Post Type */}
         <div className='flex flex-col mt-2'>
           <p className='text-text text-[14px]'>Choose Post Type (Required)</p>
 
-          <div className='flex items-center gap-2'>
+          <label className='flex items-center gap-2'>
             <input
               type="radio"
               name="postType"
@@ -131,9 +143,9 @@ const Create = () => {
               className='h-3'
             />
             <span className='text-[13px] text-[#737373]'>Exchange</span>
-          </div>
+          </label>
 
-          <div className='flex items-center gap-2'>
+          <label className='flex items-center gap-2'>
             <input
               type="radio"
               name="postType"
@@ -143,14 +155,14 @@ const Create = () => {
               className='h-3'
             />
             <span className='text-[13px] text-[#737373]'>Share</span>
-          </div>
+          </label>
         </div>
 
-        {/* Dropdowns */}
+        {/* Skills Section */}
         <div className="flex items-start gap-2 mt-3 w-full">
 
-          {/* Skill You Offer */}
-          <div className="relative w-1/2">
+          {/* Skill Offered — FULL WIDTH IN SHARE */}
+          <div className={`relative transition-all duration-300 ${formData.postType === "share" ? "w-full" : "w-1/2"}`}>
             <p className="text-text text-[14px] font-serif">Skill You Offer</p>
 
             <select
@@ -173,36 +185,37 @@ const Create = () => {
             />
           </div>
 
-          {/* Skill You Want */}
-          <div className="relative w-1/2">
-            <p className="text-text text-[14px] font-serif">Skill You Want</p>
+          {/* Skill Wanted — HIDE IN SHARE */}
+          {formData.postType === "exchange" && (
+            <div className="relative w-1/2">
+              <p className="text-text text-[14px] font-serif">Skill You Want</p>
 
-            <select
-              name="skillWanted"
-              value={formData.skillWanted}
-              onChange={handleInput}
-              className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
-            >
-              <option value="">Eg: Music, Cooking</option>
-              <option value="dance">Dancing</option>
-              <option value="coding">Programming</option>
-              <option value="music">Music</option>
-              <option value="cooking">Cooking</option>
-            </select>
+              <select
+                name="skillWanted"
+                value={formData.skillWanted}
+                onChange={handleInput}
+                className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+              >
+                <option value="">Eg: Music, Cooking</option>
+                <option value="dance">Dancing</option>
+                <option value="coding">Programming</option>
+                <option value="music">Music</option>
+                <option value="cooking">Cooking</option>
+              </select>
 
-            <img
-              src="../../create/dropdown.svg"
-              alt=""
-              className="w-3 h-3 absolute right-1 top-10 opacity-70"
-            />
-          </div>
+              <img
+                src="../../create/dropdown.svg"
+                alt=""
+                className="w-3 h-3 absolute right-1 top-10 opacity-70"
+              />
+            </div>
+          )}
         </div>
 
-        {/* Duration & Fees → only for "share" */}
+        {/* Duration + Fees — ONLY FOR SHARE */}
         {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
 
-            {/* Duration */}
             <div className="relative w-1/2">
               <p className="text-text text-[14px] font-serif">Duration</p>
 
@@ -226,12 +239,11 @@ const Create = () => {
               />
             </div>
 
-            {/* Fees */}
             <div className="w-1/2">
               <p className="text-text text-[14px] font-serif">Fees</p>
 
               <input
-                type="text"
+                type="number"
                 name="fees"
                 value={formData.fees}
                 onChange={handleInput}
@@ -246,9 +258,9 @@ const Create = () => {
           <button type="submit" className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
             Post
           </button>
-          <button type="button" className='border border-border text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
+          <Link to="/dashboard/home" type="button" className='border border-border text-center text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
             Cancel
-          </button>
+          </Link>
         </div>
 
       </form>
