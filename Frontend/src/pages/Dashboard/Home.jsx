@@ -77,6 +77,7 @@ const Home = () => {
             {skillCategories.slice(0, 7).map((item, index) => (
               <div
                 key={index}
+                onClick={() => navigate("/dashboard/home/categories", { state: item })}
                 className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
               >
                 <img src={item.icon} alt={item.name} className="w-[24px] h-[24px]" />

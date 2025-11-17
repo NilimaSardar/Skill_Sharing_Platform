@@ -15,22 +15,31 @@ const allCategories = [
 ];
 
 const AllCategories = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <div className="">
-        <div className='flex items-center justify-between px-[20px] py-5 bg-primary text-white'>
-            <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
-              <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
-            </div>
-          <h3 className='font-serif w-full text-center text-xl mr-5'>All Categories</h3>
+    <div>
+      {/* Header */}
+      <div className='flex items-center justify-between px-[20px] py-5 bg-primary text-white'>
+        <div 
+          onClick={() => navigate(-1)} 
+          className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer"
+        >
+          <img src="../../images/BackArrow.svg" alt="back" className='w-[25px] h-[25px]'/>
         </div>
-      
+        <h3 className='font-serif w-full text-center text-xl mr-5'>All Categories</h3>
+      </div>
+
+      {/* Category List */}
       <div className="grid grid-cols-4 gap-4 mx-[28px] py-5">
         {allCategories.map((item, index) => (
           <div
             key={index}
-            className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
+            onClick={() =>
+              navigate("/dashboard/home/categories", { state: item })
+            }
+            className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col 
+                       items-center justify-center gap-1 rounded-lg cursor-pointer"
           >
             <img src={item.icon} alt={item.name} className="w-[24px] h-[24px]" />
             <p className="text-[14px] text-center font-medium">{item.name}</p>

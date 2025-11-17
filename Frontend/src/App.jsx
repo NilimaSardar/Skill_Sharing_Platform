@@ -20,6 +20,7 @@ import TradeHistory from "./components/Profile/TradeHistory"
 import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 import PrivateRoute from "./components/PrivateRoute"
 import AllCategories from "./pages/Dashboard/Home/AllCategories"
+import Categories from "./pages/Dashboard/Home/Categories"
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route path="home" element={<Home />}/>
           {/* /dashboard/home/allcategories */}
           <Route path="home/allcategories" element={<AllCategories />} />
+          <Route path="home/categories" element={<Categories />} />
 
           <Route path="request" element={<Request/>} />
 
