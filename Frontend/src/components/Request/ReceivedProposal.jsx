@@ -1,11 +1,14 @@
 import React from 'react'
 
-const ReceivedRequest = () => {
+const ReceivedProposal = () => {
   return (
     <div className='flex flex-col gap-3'>
 
         {/* Send Request */}
-        <div className='flex gap-3 items-center w-full h-35 px-2 rounded-lg border border-border'>
+        <div className='flex relative gap-3 items-center w-full h-35 px-2 rounded-lg border border-border'>
+            <div className='absolute right-1 top-1'>
+                <img src="../../images/Cancel.svg" alt="" />
+            </div>
             <div className='h-30 w-22 rounded-lg'>
                 <img src="../../profile/Nilima.jpeg" alt="" className='w-full h-full object-cover rounded-lg'/>
             </div>
@@ -20,10 +23,13 @@ const ReceivedRequest = () => {
                     <img src="../../rating/rating.svg" alt="" />
                     <p className='text-[#737373] text-[12px]'>(52)</p>
                 </div>
-                <div className='flex gap-2 mt-1'>
+                {/* <div className='flex gap-2 mt-1'>
                     <button className='bg-primary text-white text-[13px] font-medium px-2 py-1 rounded-lg w-1/2'>Accept</button>
                     <button className='bg-orange-500 text-white text-[13px] font-medium px-2 py-1 rounded-lg w-1/2'>Decline</button>
-                </div>
+                </div> */}
+                <button className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1">
+                    View Proposal
+                </button>
             </div>
         </div>
 
@@ -31,4 +37,4 @@ const ReceivedRequest = () => {
   )
 }
 
-export default ReceivedRequest
+export default ReceivedProposal
