@@ -58,37 +58,52 @@ const Home = () => {
           <img src="../../images/Group-3.svg" alt="" className='pt-6 h-[145px] w[145px]'/>
         </div>
 
-        {/* Search category */}
-      <div className="flex w-full gap-4 text-center text-[16px] font-medium text-text">
-        
-        <button
-          onClick={() => setActiveTab("exchange")}
-          className={`py-[7px] w-1/2 rounded-lg ${
-            activeTab === "exchange"
-              ? "bg-primary-light text-text border border-border"
-              : "text-text hover:text-primary border border-border"
-          }`}
-        >
-          Exchange
-        </button>
+        {/* Skill Categories */}
 
-        <button
-          onClick={() => setActiveTab("share")}
-          className={`py-[7px] w-1/2 rounded-lg ${
-            activeTab === "share"
-              ? "bg-primary-light text-text border border-border"
-              : "text-text hover:text-primary border border-border"
-          }`}
-        >
-          Share
-        </button>
-      </div>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/arts.svg" alt="Arts" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">Arts</p>
+            </div>
 
-      {/* Show Components */}
-      <div className="mt-4">
-        {activeTab === "exchange" && <Exchange />}
-        {activeTab === "share" && <Share />}
-      </div>
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/music.svg" alt="Music" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">Music</p>
+            </div>
+
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/fitness.svg" alt="fitness" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium tracking-wide">Fitness</p>
+            </div>
+            
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/technology.svg" alt="Technology & IT" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">Tech</p>
+            </div>
+          
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/crafty.svg" alt="crafty" className="w-[20px] h-[20px]" />
+              <p className="text-[14px] text-center font-medium">Crafty</p>
+            </div>
+            
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/link.svg" alt="link" className="w-[20px] h-[20px]" />
+              <p className="text-[14px] text-center font-medium">Link</p>
+            </div>
+
+            
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/bakery.svg" alt="bakery" className="w-[20px] h-[20px]" />
+              <p className="text-[14px] text-center font-medium">Bakery</p>
+            </div>
+
+            
+            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+              <img src="../SkillCategories/more.svg" alt="more" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">More</p>
+            </div>
+
+          </div>
 
       </div>
   </div>
