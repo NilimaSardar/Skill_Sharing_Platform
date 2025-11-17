@@ -1,15 +1,27 @@
 import React from 'react'
 import { Link,NavLink } from "react-router-dom";
 import { useAuth } from "../../store/auth";
+import { useNavigate } from "react-router-dom";
 
-import Exchange from "../../components/Home/Exchange";
-import Share from "../../components/Home/Share";
-
+const skillCategories = [
+  { name: "Arts", icon: "../SkillCategories/arts.svg" },
+  { name: "Music", icon: "../SkillCategories/music.svg" },
+  { name: "Fitness", icon: "../SkillCategories/fitness.svg" },
+  { name: "Tech", icon: "../SkillCategories/technology.svg" },
+  { name: "Crafty", icon: "../SkillCategories/crafty.svg" },
+  { name: "Link", icon: "../SkillCategories/link.svg" },
+  { name: "Bakery", icon: "../SkillCategories/bakery.svg" },
+  { name: "Sports", icon: "../SkillCategories/sports.svg" },
+  { name: "Cooking", icon: "../SkillCategories/cooking.svg" },
+  { name: "Photography", icon: "../SkillCategories/photo.svg" },
+];
 
 const Home = () => {
   const { user } = useAuth(); // get logged-in user
-  const [activeTab, setActiveTab] = React.useState("exchange"); // default tab
-  console.log('user in home:', user);
+  const [showMore, setShowMore] = React.useState(false);
+  // console.log('user in home:', user);
+
+  const navigate = useNavigate();
   
 
   // Dynamically get full name, fallback to "User" if not available
@@ -59,47 +71,28 @@ const Home = () => {
         </div>
 
         {/* Skill Categories */}
-        <div className="grid grid-cols-4 gap-4">
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/arts.svg" alt="Arts" className="w-[24px] h-[24px]" />
-            <p className="text-[14px] text-center font-medium">Arts</p>
-          </div>
+        <div>
+          <div className="grid grid-cols-4 gap-4">
 
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/music.svg" alt="Music" className="w-[24px] h-[24px]" />
-            <p className="text-[14px] text-center font-medium">Music</p>
-          </div>
+            {skillCategories.slice(0, 7).map((item, index) => (
+              <div
+                key={index}
+                className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
+              >
+                <img src={item.icon} alt={item.name} className="w-[24px] h-[24px]" />
+                <p className="text-[14px] text-center font-medium">{item.name}</p>
+              </div>
+            ))}
 
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/fitness.svg" alt="fitness" className="w-[24px] h-[24px]" />
-            <p className="text-[14px] text-center font-medium tracking-wide">Fitness</p>
-          </div>
-            
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/technology.svg" alt="Technology & IT" className="w-[24px] h-[24px]" />
-            <p className="text-[14px] text-center font-medium">Tech</p>
-          </div>
-          
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/crafty.svg" alt="crafty" className="w-[20px] h-[20px]" />
-            <p className="text-[14px] text-center font-medium">Crafty</p>
-          </div>
-            
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/link.svg" alt="link" className="w-[20px] h-[20px]" />
-            <p className="text-[14px] text-center font-medium">Link</p>
-          </div>
+            {/* MORE button */}
+            <div
+              onClick={() => navigate("/dashboard/home/allcategories")}
+              className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
+            >
+              <img src="../SkillCategories/more.svg" alt="More" className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">More</p>
+            </div>
 
-            
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/bakery.svg" alt="bakery" className="w-[20px] h-[20px]" />
-            <p className="text-[14px] text-center font-medium">Bakery</p>
-          </div>
-
-            
-          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-            <img src="../SkillCategories/more.svg" alt="more" className="w-[24px] h-[24px]" />
-            <p className="text-[14px] text-center font-medium">More</p>
           </div>
         </div>
 

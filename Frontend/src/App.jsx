@@ -19,6 +19,7 @@ import MySkills from "./components/Profile/MySkills"
 import TradeHistory from "./components/Profile/TradeHistory"
 import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 import PrivateRoute from "./components/PrivateRoute"
+import AllCategories from "./pages/Dashboard/Home/AllCategories"
 
 
 function App() {
@@ -41,7 +42,11 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          <Route path="home" element={<Home />} />
+
+          {/* /dashboard/home */}
+          <Route path="home" element={<Home />}/>
+          {/* /dashboard/home/allcategories */}
+          <Route path="home/allcategories" element={<AllCategories />} />
 
           <Route path="request" element={<Request/>} />
 

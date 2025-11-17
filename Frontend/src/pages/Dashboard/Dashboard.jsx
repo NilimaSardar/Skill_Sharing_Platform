@@ -26,8 +26,7 @@ const Dashboard = () => {
   return (
     <>
       <Outlet />
-      {/* {showMobileMenu && <MobileMenu />} */}
-      <MobileMenu />
+      {showMobileMenu && <MobileMenu />}
     </>
   );
 };
