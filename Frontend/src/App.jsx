@@ -22,6 +22,7 @@ import PrivateRoute from "./components/PrivateRoute"
 import AllCategories from "./pages/Dashboard/Home/AllCategories"
 import Categories from "./pages/Dashboard/Home/Categories"
 import ProposeExchange from "./pages/Dashboard/Home/ProposeExchange"
+import ViewShareDetails from "./pages/Dashboard/Home/ViewShareDetails"
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="home/allcategories" element={<AllCategories />} />
           <Route path="home/categories" element={<Categories />} />
           <Route path="home/propose-exchange" element={<ProposeExchange />} />
+          <Route path="home/view-share-details" element={<ViewShareDetails />} />
 
 
           <Route path="request" element={<Request/>} />
