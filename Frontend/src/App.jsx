@@ -21,6 +21,7 @@ import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 import PrivateRoute from "./components/PrivateRoute"
 import AllCategories from "./pages/Dashboard/Home/AllCategories"
 import Categories from "./pages/Dashboard/Home/Categories"
+import ProposeExchange from "./pages/Dashboard/Home/ProposeExchange"
 
 
 function App() {
@@ -49,6 +50,8 @@ function App() {
           {/* /dashboard/home/allcategories */}
           <Route path="home/allcategories" element={<AllCategories />} />
           <Route path="home/categories" element={<Categories />} />
+          <Route path="home/propose-exchange" element={<ProposeExchange />} />
+
 
           <Route path="request" element={<Request/>} />
 

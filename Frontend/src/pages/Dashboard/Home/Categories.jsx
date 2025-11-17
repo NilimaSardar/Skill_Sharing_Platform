@@ -18,14 +18,14 @@ const Categories = () => {
   
   return (
     <div className="bg-white  pb-20">
-        <div className='flex items-center justify-between px-[20px] py-5 bg-primary text-white'>
-            <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
-              <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
-            </div>
-            <h3 className='font-serif w-full text-center text-xl mr-5'>
-                {skillName}
-            </h3>
+      <div className='flex items-center justify-between px-[20px] py-5 bg-primary text-white'>
+        <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
+          <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
         </div>
+        <h3 className='font-serif w-full text-center text-xl mr-5'>
+          {skillName}
+        </h3>
+      </div>
 
       <div className='mx-[28px] py-4'>
         {/* Search and filter */}
