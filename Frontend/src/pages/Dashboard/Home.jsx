@@ -59,51 +59,74 @@ const Home = () => {
         </div>
 
         {/* Skill Categories */}
-
-          <div className="grid grid-cols-4 gap-4">
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/arts.svg" alt="Arts" className="w-[24px] h-[24px]" />
-              <p className="text-[14px] text-center font-medium">Arts</p>
-            </div>
-
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/music.svg" alt="Music" className="w-[24px] h-[24px]" />
-              <p className="text-[14px] text-center font-medium">Music</p>
-            </div>
-
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/fitness.svg" alt="fitness" className="w-[24px] h-[24px]" />
-              <p className="text-[14px] text-center font-medium tracking-wide">Fitness</p>
-            </div>
-            
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/technology.svg" alt="Technology & IT" className="w-[24px] h-[24px]" />
-              <p className="text-[14px] text-center font-medium">Tech</p>
-            </div>
-          
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/crafty.svg" alt="crafty" className="w-[20px] h-[20px]" />
-              <p className="text-[14px] text-center font-medium">Crafty</p>
-            </div>
-            
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/link.svg" alt="link" className="w-[20px] h-[20px]" />
-              <p className="text-[14px] text-center font-medium">Link</p>
-            </div>
-
-            
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/bakery.svg" alt="bakery" className="w-[20px] h-[20px]" />
-              <p className="text-[14px] text-center font-medium">Bakery</p>
-            </div>
-
-            
-            <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
-              <img src="../SkillCategories/more.svg" alt="more" className="w-[24px] h-[24px]" />
-              <p className="text-[14px] text-center font-medium">More</p>
-            </div>
-
+        <div className="grid grid-cols-4 gap-4">
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/arts.svg" alt="Arts" className="w-[24px] h-[24px]" />
+            <p className="text-[14px] text-center font-medium">Arts</p>
           </div>
+
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/music.svg" alt="Music" className="w-[24px] h-[24px]" />
+            <p className="text-[14px] text-center font-medium">Music</p>
+          </div>
+
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/fitness.svg" alt="fitness" className="w-[24px] h-[24px]" />
+            <p className="text-[14px] text-center font-medium tracking-wide">Fitness</p>
+          </div>
+            
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/technology.svg" alt="Technology & IT" className="w-[24px] h-[24px]" />
+            <p className="text-[14px] text-center font-medium">Tech</p>
+          </div>
+          
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/crafty.svg" alt="crafty" className="w-[20px] h-[20px]" />
+            <p className="text-[14px] text-center font-medium">Crafty</p>
+          </div>
+            
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/link.svg" alt="link" className="w-[20px] h-[20px]" />
+            <p className="text-[14px] text-center font-medium">Link</p>
+          </div>
+
+            
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/bakery.svg" alt="bakery" className="w-[20px] h-[20px]" />
+            <p className="text-[14px] text-center font-medium">Bakery</p>
+          </div>
+
+            
+          <div className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer">
+            <img src="../SkillCategories/more.svg" alt="more" className="w-[24px] h-[24px]" />
+            <p className="text-[14px] text-center font-medium">More</p>
+          </div>
+        </div>
+
+        {/* Popular Users */}
+        <div>
+          <div className='flex justify-between items-center mt-6 mb-3'>
+            <h3 className='font-[550] text-text'>Popular Users</h3>
+            <Link className='text-primary bg-primary-light py-1 px-2 rounded-lg text-[13px]'>View More</Link>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto whitespace-nowrap py-2 hide-scrollbar">
+            {["Nilima Sardar", "Shikshya Nepal", "Charlie", "Diana", "Eve", "Frank"].map((user, idx) => (
+              <div
+                key={idx}
+                className='flex-shrink-0 flex flex-col gap-1 w-[120px] h-[150px] items-center justify-center border border-border rounded-lg'
+              >
+                <img src="../profile/Nilima.jpeg" alt="" className='w-[90px] h-[90px] rounded-lg'/>
+                <p className='text-[14px] font-medium text-text'>{user}</p>
+                <div className='flex items-center justify-center'>
+                  <img src="../rating/rating.svg" alt="" className='w-2/3'/> 
+                  <span className='text-[#737373] text-xs'>(52)</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
 
       </div>
   </div>
