@@ -7,7 +7,7 @@ import Share from "../../../components/Home/Share";
 
 const Categories = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = React.useState("exchange");
+  const [activeTab, setActiveTab] = React.useState("share");
 
   const location = useLocation();
   const navigate = useNavigate();
