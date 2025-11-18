@@ -63,7 +63,7 @@ const ViewShareDetails = () => {
           </div>
 
           {/* Title */}
-          <h2 className="text-text text-[15px] font-semibold mt-1">
+          <h2 className="text-text text-[15px] font-[580] mt-1">
             {state.title}
           </h2>
 
@@ -89,8 +89,52 @@ const ViewShareDetails = () => {
           </div>
 
           {/* What you will learn */}
+          <div>
+            <h3 className="text-text text-[15px] font-[550] mb-1">What You Will Learn</h3>
+
+            <div className="flex flex-col divide-y divide-gray-300 text-[#737373] text-[14px] font-[500]">
+              {/* Row 1 */}
+              <div className="flex justify-between py-1.5">
+                <span>1. Introduction</span>
+                <span>2. Layout Guide</span>
+              </div>
+
+              {/* Row 2 */}
+              <div className="flex justify-between py-1.5">
+                <span>3. Wireframes</span>
+                <span>4. Typography</span>
+              </div>
+
+              {/* Row 3 */}
+              <div className="flex justify-between py-1.5">
+                <span>5. Colors Style</span>
+                <span>6. Auto Layout</span>
+              </div>
+
+              {/* Row 4 (single item) */}
+              <div className="flex justify-between py-1.5">
+                <span>7. Prototype</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
 
         </div>
+
+        {/* Fees */}
+        <div className="flex items-center justify-between mt-3 px-2">
+          <p className="text-primary text-[14px]">Session Fees:</p>
+          <p className="text-text text-[14px]">Rs.785</p>
+        </div>
+
+        {/* Proceed To Payment Button */}
+        <button
+            onClick={() => navigate()}
+            className='bg-primary text-white text-[14px] font-medium px-2 py-2 mt-3 rounded-lg w-full'
+          >
+            Proceed To Payment
+          </button>
       </div>
 
     </div>
