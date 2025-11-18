@@ -5,17 +5,93 @@ const ViewShareDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  if (!state) return <p>No data found</p>;
+  if (!state) return <p>No state found</p>;
 
   return (
-    <div className="p-4">
+    <div className="bg-white pb-20 min-h-screen">
 
-      <button onClick={() => navigate(-1)}>Back</button>
+      {/* Top Header */}
+      <div className="flex items-center justify-between px-[20px] py-5 bg-primary text-white">
+        <div
+          onClick={() => navigate(-1)}
+          className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer"
+        >
+          <img
+            src="../../images/BackArrow.svg"
+            alt="back"
+            className="w-[25px] h-[25px]"
+          />
+        </div>
+        <h3 className="w-full text-center text-xl mr-5 font-serif">
+          Details
+        </h3>
+      </div>
 
-      <h2>{state.title}</h2>
-      <p>{state.description}</p>
-      <p>Schedule: {state.schedule}</p>
-      <p>Fees: Rs.{state.fees}</p>
+      {/* User Summary Card */}
+      <div className="mx-[28px] py-4">
+        <div className="border border-border rounded-lg p-3 flex flex-col gap-1.5 shadow-sm">
+
+          {/* Profile Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="relative w-[50px] h-[50px] flex items-center justify-center">
+                <img
+                  src={state.profile}
+                  alt="user"
+                  className="w-[40px] h-[40px] rounded-full object-cover"
+                />
+              </div>
+
+              <div>
+                <h3 className="text-[16px] font-serif">{state.name}</h3>
+                <p className="text-[13px] text-[#7B7676] font-serif">
+                  {state.age}, {state.location}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-end">
+              <div className="flex items-center">
+                <img src="../../rating/Star.svg" alt="" />
+                <p className="text-text font-[550] text-[14px]">{state.rating}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <img src="../../images/Calender.svg" alt="" />
+                <p className="text-[13px] text-[#7B7676]">{state.posted}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-text text-[15px] font-semibold mt-1">
+            {state.title}
+          </h2>
+
+          {/* Description */}
+          <p className="text-[#737373] text-[14px] font-[500] text-justify leading-5 tracking-normal">
+            {state.description}
+          </p>
+
+          {/* Duration & Users*/}
+          <div className="flex items-center justify-between bg-primary-light px-3 py-2 my-1 rounded-lg">
+            <div className='flex items-center gap-1'>
+              <img src="../../images/Time_blue.svg" alt="" className='w-4 h-4'/>
+              <p className='font-serif text-[13px] text-[#7B7676]'>
+                {state.schedule}
+              </p>
+            </div>
+            <div className='flex items-center gap-1'>
+              <img src="../../images/users.svg" alt="" className='w-4 h-4'/>
+              <p className='font-serif text-[13px] text-[#7B7676]'>
+                30+ Users
+              </p>
+            </div>
+          </div>
+
+          {/* What you will learn */}
+
+        </div>
+      </div>
 
     </div>
   );
