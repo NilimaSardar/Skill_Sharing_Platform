@@ -6,29 +6,28 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
   description: { type: String, required: true, trim: true },
 
-  // Skills (optional fields for post context)
   skillsOffered:    [String],
   skillsInterested: [String],
 
-// Duration is required ONLY for 'share'
-duration: {
-  type: String,
-  required: function () {
-    return this.type === "share";
-  },
-},
+  addLessons: [String],
 
-// Fees required ONLY for 'share'
-fees: {
-  type: Number,
-  required: function () {
-    return this.type === "share";
+  duration: {
+    type: String,
+    required: function () {
+      return this.type === "share";
+    },
   },
-  default: 0,
-},
 
-  status: { type: String, default: "active" } // active/completed
-}, { timestamps: true });
+  fees: {
+    type: Number,
+    required: function () {
+      return this.type === "share";
+    },
+    default: 0,
+  },
+
+    status: { type: String, default: "active" } 
+  }, { timestamps: true });
 
 module.exports = mongoose.model("Post", postSchema);
 

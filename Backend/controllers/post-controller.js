@@ -11,6 +11,7 @@ export const createPost = async (req, res) => {
       fees,
       skillsOffered,
       skillsInterested,
+      addLessons,
     } = req.body;
 
     // Common required fields
@@ -27,6 +28,13 @@ export const createPost = async (req, res) => {
           message: "For share type, skillsOffered, duration, and fees are required",
         });
       }
+
+      // addLessons is required only for share
+      if (!addLessons || addLessons.length === 0) {
+        return res.status(400).json({
+          message: "For share type, addLessons is required",
+        });
+      }
     }
 
     // VALIDATION FOR EXCHANGE
@@ -35,6 +43,13 @@ export const createPost = async (req, res) => {
         return res.status(400).json({
           message:
             "For exchange type, skillsOffered and skillsInterested are required",
+        });
+      }
+
+      // Prevent addLessons for exchange
+      if (addLessons) {
+        return res.status(400).json({
+          message: "addLessons is only for share type posts",
         });
       }
     }
@@ -48,6 +63,7 @@ export const createPost = async (req, res) => {
       fees,
       skillsOffered,
       skillsInterested,
+      addLessons,  // <---- ADDING HERE
     });
 
     res.status(201).json({

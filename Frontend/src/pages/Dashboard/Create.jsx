@@ -212,6 +212,30 @@ const Create = () => {
           )}
         </div>
 
+          {/* Add Lessons */}
+          <div className='relative transition-all duration-300 w-full'>
+            <p className="text-text text-[14px] font-serif">Add Lesson</p>
+
+            <select
+              name="skillOffered"
+              value={formData.skillOffered}
+              onChange={handleInput}
+              className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+            >
+              <option value="">Eg: Web Development</option>
+              <option value="dance">Dancing</option>
+              <option value="coding">Programming</option>
+              <option value="music">Music</option>
+              <option value="cooking">Cooking</option>
+            </select>
+
+            <img
+              src="../../create/add.svg"
+              alt=""
+              className="w-5 h-5 absolute right-1 top-9 opacity-70"
+            />
+          </div>
+
         {/* Duration + Fees — ONLY FOR SHARE */}
         {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
