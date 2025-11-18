@@ -14,14 +14,12 @@ export const createPost = async (req, res) => {
       addLessons,
     } = req.body;
 
-    // Common required fields
     if (!type || !title || !description) {
       return res.status(400).json({
         message: "Type, title, and description are required",
       });
     }
 
-    // VALIDATION FOR SHARE
     if (type === "share") {
       if (!skillsOffered || !duration || !fees) {
         return res.status(400).json({
@@ -29,27 +27,17 @@ export const createPost = async (req, res) => {
         });
       }
 
-      // addLessons is required only for share
       if (!addLessons || addLessons.length === 0) {
         return res.status(400).json({
-          message: "For share type, addLessons is required",
+          message: "For share type, add at least one lesson",
         });
       }
     }
 
-    // VALIDATION FOR EXCHANGE
     if (type === "exchange") {
       if (!skillsOffered || !skillsInterested) {
         return res.status(400).json({
-          message:
-            "For exchange type, skillsOffered and skillsInterested are required",
-        });
-      }
-
-      // Prevent addLessons for exchange
-      if (addLessons) {
-        return res.status(400).json({
-          message: "addLessons is only for share type posts",
+          message: "For exchange type, skillsOffered and skillsInterested are required",
         });
       }
     }
@@ -63,7 +51,7 @@ export const createPost = async (req, res) => {
       fees,
       skillsOffered,
       skillsInterested,
-      addLessons,  // <---- ADDING HERE
+      addLessons,
     });
 
     res.status(201).json({
@@ -72,11 +60,10 @@ export const createPost = async (req, res) => {
     });
   } catch (error) {
     console.error("Create Post Error:", error);
-    res.status(500).json({
-      message: "Internal server error",
-    });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 // Get all posts
 export const getAllPosts = async (req, res) => {

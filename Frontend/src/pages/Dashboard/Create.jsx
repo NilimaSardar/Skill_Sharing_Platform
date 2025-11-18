@@ -14,11 +14,33 @@ const Create = () => {
     skillWanted: "",
     duration: "",
     fees: "",
+    addLessons: [],
+    lessonInput: "",
   });
 
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleLessonInput = (e) => {
+    setFormData({ ...formData, lessonInput: e.target.value });
+  };
+  
+  const addLesson = () => {
+    if (!formData.lessonInput.trim()) return;
+  
+    setFormData({
+      ...formData,
+      addLessons: [...formData.addLessons, formData.lessonInput.trim()],
+      lessonInput: "",
+    });
+  };
+  
+  const removeLesson = (index) => {
+    const updated = formData.addLessons.filter((_, i) => i !== index);
+    setFormData({ ...formData, addLessons: updated });
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,7 +72,9 @@ const Create = () => {
           : [],
       duration: formData.duration,
       fees: formData.fees,
-    };
+      addLessons:
+        formData.postType === "share" ? formData.addLessons : [], // ← important
+    };    
 
     try {
       const response = await fetch(`${API}/api/posts`, {
@@ -74,7 +98,9 @@ const Create = () => {
           skillWanted: "",
           duration: "",
           fees: "",
-        });
+          addLessons: [], 
+          lessonInput: "",
+        });      
       } else {
         toast.error(data.message || "Failed to create post");
       }
@@ -212,29 +238,51 @@ const Create = () => {
           )}
         </div>
 
-          {/* Add Lessons */}
-          <div className='relative transition-all duration-300 w-full'>
-            <p className="text-text text-[14px] font-serif">Add Lesson</p>
+{/* Add Lessons — ONLY FOR SHARE */}
+{formData.postType === "share" && (
+  <div className="mt-3 w-full transition-all duration-300">
 
-            <select
-              name="skillOffered"
-              value={formData.skillOffered}
-              onChange={handleInput}
-              className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
-            >
-              <option value="">Eg: Web Development</option>
-              <option value="dance">Dancing</option>
-              <option value="coding">Programming</option>
-              <option value="music">Music</option>
-              <option value="cooking">Cooking</option>
-            </select>
+    <p className="text-text text-[14px] font-serif">Add Lessons</p>
 
-            <img
-              src="../../create/add.svg"
-              alt=""
-              className="w-5 h-5 absolute right-1 top-9 opacity-70"
-            />
-          </div>
+    {/* Input + Add button */}
+    <div className="relative flex items-center mt-2">
+      <input
+        type="text"
+        value={formData.lessonInput}
+        onChange={handleLessonInput}
+        className="w-full border border-border bg-white px-3 py-2 rounded-lg text-[12px]"
+        placeholder="Type lesson name..."
+      />
+
+      <img
+        src="../../create/add.svg"
+        onClick={addLesson}
+        className="w-6 h-6 absolute right-2 cursor-pointer opacity-80"
+        alt="add"
+      />
+    </div>
+
+    {/* Added lessons list */}
+    <div className="flex flex-wrap gap-2 mt-2">
+      {formData.addLessons.map((lesson, index) => (
+        <span
+          key={index}
+          className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px] flex items-center gap-1"
+        >
+          {lesson}
+          <button
+            onClick={() => removeLesson(index)}
+            className="text-red-500 text-xs ml-1"
+          >
+            ✕
+          </button>
+        </span>
+      ))}
+    </div>
+
+  </div>
+)}
+
 
         {/* Duration + Fees — ONLY FOR SHARE */}
         {formData.postType === "share" && (
