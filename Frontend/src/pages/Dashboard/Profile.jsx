@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import MySkills from "../../components/profile/MySkills";
-import TradeHistory from "../../components/profile/TradeHistory";
+import ManagePost from "../../components/Profile/ManagePost";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("skills"); // default tab
@@ -59,13 +59,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className='flex flex-col gap-2 mt-4'>
-          <button type="submit" className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
-            Add Skills +
-          </button>
-        </div>
-
         {/* Tabs (Like Chat Page) */}
         <div className="flex w-full mt-4 text-center text-[16px] font-medium text-text border border-border rounded-lg">
 
@@ -88,7 +81,7 @@ const Profile = () => {
             }`}
             onClick={() => setActiveTab("history")}
           >
-            Trade History
+            Manage Post
           </button>
 
         </div>
@@ -96,7 +89,7 @@ const Profile = () => {
         {/* Content Area (No Outlet) */}
         <div className="py-4 pb-20">
           {activeTab === "skills" && <MySkills />}
-          {activeTab === "history" && <TradeHistory />}
+          {activeTab === "history" && <ManagePost/>}
         </div>
 
       </div>
