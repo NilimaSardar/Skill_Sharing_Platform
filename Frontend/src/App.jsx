@@ -14,9 +14,6 @@ import Profile from "./pages/Dashboard/Profile"
 import Chat from "./pages/Dashboard/Chat"
 import Create from "./pages/Dashboard/Create"
 import ChatRoom from "./pages/Dashboard/Chat/ChatRoom"
-import ProfilePage from "./pages/Dashboard/Profile/ProfilePage"
-import MySkills from "./components/Profile/MySkills"
-import TradeHistory from "./components/Profile/TradeHistory"
 import ProfileSetting from "./pages/Dashboard/Profile/ProfileSetting"
 import PrivateRoute from "./components/PrivateRoute"
 import AllCategories from "./pages/Dashboard/Home/AllCategories"
@@ -24,18 +21,18 @@ import Categories from "./pages/Dashboard/Home/Categories"
 import ProposeExchange from "./pages/Dashboard/Home/ProposeExchange"
 import ViewShareDetails from "./pages/Dashboard/Home/ViewShareDetails"
 
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Dashboard routes */}
+        {/* Dashboard Protected */}
         <Route 
           path="/dashboard" 
           element={
@@ -46,36 +43,30 @@ function App() {
         >
           <Route index element={<Home />} />
 
-          {/* /dashboard/home */}
-          <Route path="home" element={<Home />}/>
-          {/* /dashboard/home/allcategories */}
+          {/* Home Routes */}
+          <Route path="home" element={<Home />} />
           <Route path="home/allcategories" element={<AllCategories />} />
           <Route path="home/categories" element={<Categories />} />
           <Route path="home/propose-exchange" element={<ProposeExchange />} />
           <Route path="home/view-share-details" element={<ViewShareDetails />} />
 
-
-          <Route path="request" element={<Request/>} />
-
+          <Route path="request" element={<Request />} />
           <Route path="create" element={<Create />} />
 
+          {/* Chat */}
           <Route path="chat" element={<Chat />} />
           <Route path="chat/:chatId" element={<ChatRoom />} />
+          
+          {/* Profile */}
+          <Route path="profile" element={<Profile />} />
 
-
-          <Route path="profile" element={<Profile/>}>
-            <Route element={<ProfilePage />}>
-              <Route index element={<Navigate to="mySkills" replace />} />     
-              <Route path="mySkills" element={<MySkills/>} />
-              <Route path="trade-history" element={<TradeHistory />} />
-            </Route>
-            <Route path="profileSettings" element={<ProfileSetting />} />
-          </Route>
+          {/* Profile Settings */}
+          <Route path="profile/profileSettings" element={<ProfileSetting />} />
 
           <Route path="logout" element={<Logout />} />
         </Route>
 
-        {/* Fallback route */}
+        {/* Fallback */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
