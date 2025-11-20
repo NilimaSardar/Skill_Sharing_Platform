@@ -22,9 +22,7 @@ export const createPost = async (req, res) => {
       });
     }
 
-    // ================================
     // SHARE TYPE VALIDATION
-    // ================================
     if (type === "share") {
       if (!skillsOffered || skillsOffered.length === 0) {
         return res
@@ -73,9 +71,7 @@ export const createPost = async (req, res) => {
       }
     }
 
-    // ================================
     // EXCHANGE TYPE VALIDATION
-    // ================================
     if (type === "exchange") {
       if (!skillsOffered || skillsOffered.length === 0) {
         return res.status(400).json({
@@ -247,7 +243,7 @@ export const updatePost = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    // User authorization
+    // Authorization check
     if (post.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Unauthorized" });
     }
@@ -256,7 +252,6 @@ export const updatePost = async (req, res) => {
       type,
       title,
       description,
-      category,
       duration,
       fees,
       skillsOffered,
@@ -264,20 +259,9 @@ export const updatePost = async (req, res) => {
       addLessons
     } = req.body;
 
-    // VALIDATE MAIN CATEGORY
-    let finalCategory = category || post.category;
-
-    const categoryData = await SkillCategory.findById(finalCategory);
-    if (!categoryData) {
-      return res.status(404).json({ message: "Selected category not found" });
-    }
-
-    const validSubIds = categoryData.subcategories.map((s) => s._id.toString());
-
-    // VALIDATE TYPE
     let finalType = type || post.type;
 
-    // SHARE VALIDATION
+    // VALIDATION FOR SHARE TYPE
     if (finalType === "share") {
       const offered = skillsOffered || post.skillsOffered;
 
@@ -287,41 +271,29 @@ export const updatePost = async (req, res) => {
         });
       }
 
+      // Validate offered skills
       for (const skill of offered) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
             message: "Each offered skill must contain category & subcategory",
           });
         }
-
-        // Category must match main category
-        if (skill.category !== finalCategory.toString()) {
-          return res.status(400).json({
-            message: "Offered skill category must match the selected main category",
-          });
-        }
-
-        if (!validSubIds.includes(skill.subcategory)) {
-          return res.status(400).json({
-            message: "Invalid subcategory selected in skillsOffered",
-          });
-        }
       }
 
-      // Duration & fees required
+      // Duration & Fees required for share
       if (!duration && !post.duration) {
         return res.status(400).json({
           message: "Duration is required for share",
         });
       }
-      if (!fees && !post.fees) {
+      if (!fees && post.fees === 0) {
         return res.status(400).json({
           message: "Fees is required for share",
         });
       }
     }
 
-    // EXCHANGE VALIDATION
+    // VALIDATION FOR EXCHANGE TYPE
     if (finalType === "exchange") {
       const offered = skillsOffered || post.skillsOffered;
       const interested = skillsInterested || post.skillsInterested;
@@ -338,7 +310,6 @@ export const updatePost = async (req, res) => {
         });
       }
 
-      // Validate both arrays
       for (const skill of offered) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
@@ -360,12 +331,11 @@ export const updatePost = async (req, res) => {
     post.title = title || post.title;
     post.description = description || post.description;
     post.type = finalType;
-    post.category = finalCategory;
+
     post.skillsOffered = skillsOffered || post.skillsOffered;
     post.skillsInterested = skillsInterested || post.skillsInterested;
 
-    // Share → use provided duration/fees  
-    // Exchange → automatically remove
+    // For exchange → no duration or fees
     post.duration = finalType === "exchange" ? "" : (duration || post.duration);
     post.fees = finalType === "exchange" ? 0 : (fees || post.fees);
 

@@ -44,19 +44,27 @@ const Create = () => {
 
         // --- Load Edit Values ---
         if (isEditing) {
-          const selectedCategory = data.categories.find(
-            c => c._id === editingPost.category
+
+          const selectedOfferedCategory = data.categories.find(
+            c => c._id === editingPost.skillsOffered?.[0]?.category
           );
 
-          setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
+          const selectedWantedCategory = data.categories.find(
+            c => c._id === editingPost.skillsInterested?.[0]?.category
+          );
+
+          setSubcategories(selectedOfferedCategory ? selectedOfferedCategory.subcategories : []);
+
+          setWantedSubcategories(selectedWantedCategory ? selectedWantedCategory.subcategories : []);
 
           setFormData({
             title: editingPost.title,
             description: editingPost.description,
             postType: editingPost.type,
-            category: editingPost.category,
+
             skillOffered: editingPost.skillsOffered?.[0] || { category: "", subcategory: "" },
-            skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },            
+            skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },
+
             duration: editingPost.duration,
             fees: editingPost.fees,
             addLessons: editingPost.addLessons || [],
