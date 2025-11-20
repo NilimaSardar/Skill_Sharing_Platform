@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import { toast } from "react-toastify";
 
 const Create = () => {
   const { API } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { state } = location;  
+  const editingPost = state?.post || null;
+  const isEditing = Boolean(editingPost);
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -23,37 +29,59 @@ const Create = () => {
     lessonInput: "",
   });
 
-  // Fetch categories and subcategories from API
+  // Fetch categories & pre-fill if editing
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(`${API}/api/skills`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
+
         const data = await res.json();
         setCategories(data.categories || []);
-
-        // Flatten all subcategories for Skill Wanted (exchange)
         const allSubs = data.categories ? data.categories.flatMap(c => c.subcategories) : [];
         setAllSubcategories(allSubs);
+
+        // --- Load Edit Values ---
+        if (isEditing) {
+          const selectedCategory = data.categories.find(
+            c => c._id === editingPost.category
+          );
+
+          setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
+
+          setFormData({
+            title: editingPost.title,
+            description: editingPost.description,
+            postType: editingPost.type,
+            category: editingPost.category,
+            skillOffered: editingPost.skillsOffered?.[0] || "",
+            skillWanted: editingPost.skillsInterested?.[0] || "",
+            duration: editingPost.duration,
+            fees: editingPost.fees,
+            addLessons: editingPost.addLessons || [],
+            lessonInput: "",
+          });
+        }
       } catch (err) {
         console.error("Error fetching categories:", err);
       }
     };
+
     fetchCategories();
-  }, [API]);
+  }, [API, isEditing, editingPost]);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
 
     if (name === "category") {
-      // Update skillOffered options when category changes
       const selectedCategory = categories.find(c => c._id === value);
       setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
+
       setFormData({
         ...formData,
         category: value,
-        skillOffered: "", // reset selected skillOffered
+        skillOffered: "",
       });
       return;
     }
@@ -67,6 +95,7 @@ const Create = () => {
 
   const addLesson = () => {
     if (!formData.lessonInput.trim()) return;
+
     setFormData({
       ...formData,
       addLessons: [...formData.addLessons, formData.lessonInput.trim()],
@@ -81,22 +110,6 @@ const Create = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.title || !formData.description) {
-      return toast.error("Title & description are required");
-    }
-
-    if (formData.postType === "share") {
-      if (!formData.skillOffered || !formData.duration || !formData.fees) {
-        return toast.error("For share: skill offered, duration & fees are required");
-      }
-    }
-
-    if (formData.postType === "exchange") {
-      if (!formData.skillOffered || !formData.skillWanted) {
-        return toast.error("For exchange: skill offered & skill wanted are required");
-      }
-    }
 
     const payload = {
       title: formData.title,
@@ -114,8 +127,14 @@ const Create = () => {
     };
 
     try {
-      const response = await fetch(`${API}/api/posts`, {
-        method: "POST",
+      const url = isEditing
+        ? `${API}/api/posts/update/${editingPost._id}`
+        : `${API}/api/posts`;
+
+      const method = isEditing ? "PATCH" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -124,22 +143,12 @@ const Create = () => {
       });
 
       const data = await response.json();
+
       if (response.ok) {
-        toast.success("Post created successfully");
-        setFormData({
-          title: "",
-          description: "",
-          postType: "exchange",
-          category: "",
-          skillOffered: "",
-          skillWanted: "",
-          duration: "",
-          fees: "",
-          addLessons: [],
-          lessonInput: "",
-        });
+        toast.success(isEditing ? "Post updated successfully!" : "Post created!");
+        navigate("/dashboard/profile");
       } else {
-        toast.error(data.message || "Failed to create post");
+        toast.error(data.message || "Failed to save post");
       }
     } catch (error) {
       console.error(error);
@@ -150,7 +159,9 @@ const Create = () => {
   return (
     <div className='mb-20'>
       <div className='flex items-center justify-start py-5 bg-primary text-white'>
-        <h3 className='font-serif w-full text-center text-[18px]'>Create Post</h3>
+        <h3 className='font-serif w-full text-center text-[18px]'>
+          {isEditing ? "Edit Post" : "Create Post"}
+        </h3>
       </div>
 
       <form className='flex flex-col py-3 mx-[28px]' onSubmit={handleSubmit}>
@@ -234,7 +245,7 @@ const Create = () => {
           </select>
         </div>
 
-        {/* Skill Offered / Skill Wanted */}
+        {/* Skill Offered / Wanted */}
         <div className="flex items-start gap-2 mt-3 w-full">
           <div className={`relative transition-all duration-300 ${formData.postType === "share" ? "w-full" : "w-1/2"}`}>
             <p className="text-text text-[14px] font-serif">Skill You Offer</p>
@@ -269,13 +280,11 @@ const Create = () => {
           )}
         </div>
 
-        {/* Add Lessons — ONLY FOR SHARE */}
+        {/* Add Lessons (only SHARE) */}
         {formData.postType === "share" && (
           <div className="mt-3 w-full transition-all duration-300">
-
             <p className="text-text text-[14px] font-serif">Add Lessons</p>
 
-            {/* Input + Add button */}
             <div className="relative flex items-center mt-2">
               <input
                 type="text"
@@ -293,7 +302,6 @@ const Create = () => {
               />
             </div>
 
-            {/* Added lessons list */}
             <div className="flex flex-wrap gap-2 mt-2">
               {formData.addLessons.map((lesson, index) => (
                 <span
@@ -310,11 +318,10 @@ const Create = () => {
                 </span>
               ))}
             </div>
-
           </div>
         )}
 
-        {/* Duration + Fees — ONLY FOR SHARE */}
+        {/* Duration + Fees (only SHARE) */}
         {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
 
@@ -358,9 +365,9 @@ const Create = () => {
         {/* Buttons */}
         <div className='flex flex-col gap-2 mt-4'>
           <button type="submit" className='bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
-            Post
+            {isEditing ? "Update Post" : "Post"}
           </button>
-          <Link to="/dashboard/home" type="button" className='border border-border text-center text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
+          <Link to="/dashboard/home" className='border border-border text-center text-[#737373] text-[12px] font-medium px-2 py-2 rounded-lg w-full'>
             Cancel
           </Link>
         </div>

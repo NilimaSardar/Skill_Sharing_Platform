@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 
 const ManagePost = () => {
   const { user, API } = useAuth();
+  const navigate = useNavigate();
   console.log("Current user ID:", user._id);
 
   const token = localStorage.getItem("token");
@@ -50,6 +52,10 @@ const ManagePost = () => {
     }
   };
 
+  const handleEdit = (post) => {
+    navigate("/dashboard/create", { state: { post, isEditing: true } });
+  };  
+
   useEffect(() => {
     if (!user?._id) return; // wait for user data
 
@@ -90,7 +96,7 @@ const ManagePost = () => {
                   <button className="flex items-center" onClick={() => handleDelete(item._id)}>
                     <img src="../../images/delete.svg" alt="" />
                   </button>
-                  <button className="flex items-center">
+                  <button className="flex items-center" onClick={() => handleEdit(item)}>
                     <img src="../../images/tabler_edit.svg" alt="" />
                   </button>
                 </div>
@@ -123,10 +129,10 @@ const ManagePost = () => {
                   </div>
 
                 <div className="flex items-end gap-2">
-                  <button className="flex items-center">
+                  <button className="flex items-center" onClick={() => handleDelete(item._id)}>
                     <img src="../../images/delete.svg" alt="" />
                   </button>
-                  <button className="flex items-center">
+                  <button className="flex items-center" onClick={() => handleEdit(item)}>
                     <img src="../../images/tabler_edit.svg" alt="" />
                   </button>
                 </div>

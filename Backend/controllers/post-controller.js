@@ -117,7 +117,6 @@ export const getPostsByUser = async (req, res) => {
   try {
     const userId = req.params.userId;
 
-  // Get posts by user ID (only active)
   const posts = await Post.find({ userId, status: "active" }).sort({ createdAt: -1 }); // optional: latest first
 
     res.status(200).json({ success: true, posts });
@@ -186,3 +185,41 @@ export const deletePost = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+// Update post
+export const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (post.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    // Update allowed fields
+    post.title = req.body.title || post.title;
+    post.description = req.body.description || post.description;
+    post.type = req.body.type || post.type;
+    post.category = req.body.category || post.category;
+    post.skillsOffered = req.body.skillsOffered || post.skillsOffered;
+    post.skillsInterested = req.body.skillsInterested || post.skillsInterested;
+    post.duration = req.body.duration || post.duration;
+    post.fees = req.body.fees || post.fees;
+    post.addLessons = req.body.addLessons || post.addLessons;
+
+    const updated = await post.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Post updated successfully",
+      post: updated,
+    });
+
+  } catch (error) {
+    console.error("Update Post Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
