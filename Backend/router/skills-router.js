@@ -1,12 +1,21 @@
-const express = require("express");
+import express from "express";
+import {
+  createSkillCategory,
+  getAllCategories,
+  getCategoryById,
+  updateCategory,
+  deleteCategory,
+} from "../controllers/skill-controller.js";
+
+import authMiddleware from "../middlewares/auth-middleware.js";
+
 const router = express.Router();
-const skillController = require("../controllers/skill-controller");
-const authMiddleware = require("../middlewares/auth-middleware");
 
-router.post("/", authMiddleware, skillController.createSkillCategory);
-router.get("/", authMiddleware, skillController.getAllCategories);
-router.get("/:id", authMiddleware, skillController.getCategoryById);
-router.put("/:id", authMiddleware, skillController.updateCategory);
-router.delete("/:id", authMiddleware, skillController.deleteCategory);
+// Routes
+router.post("/", authMiddleware, createSkillCategory);
+router.get("/", authMiddleware, getAllCategories);
+router.get("/:id", authMiddleware, getCategoryById);
+router.put("/:id", authMiddleware, updateCategory);
+router.delete("/:id", authMiddleware, deleteCategory);
 
-module.exports = router;
+export default router;

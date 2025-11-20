@@ -1,41 +1,35 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-const authMiddleware = async (req, res, next) =>{
-    const token = req.header("Authorization");
+const authMiddleware = async (req, res, next) => {
+  const token = req.header("Authorization");
 
-    if(!token){
-        //if you attempt to use an expired token, 
-        // you'll receive a "401 unauthorixed HTTP" response.
-        return res
-        .status(401)
-        .json({message: "Unauthorized HTTP, Token not provided"});
-    }
-    
-    //Assuming token is in the format "Bearer <jwtToken>",
-    //Removing the "Bearer" prefix"
-    const jwtToken = token.replace("Bearer", "").trim();
-    // console.log("token from auth middleware", jwtToken);
+  if (!token) {
+    return res.status(401).json({
+      message: "Unauthorized HTTP, Token not provided",
+    });
+  }
 
+  // Remove "Bearer" prefix
+  const jwtToken = token.replace("Bearer", "").trim();
 
-    try {
-        const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
-        
-        const userData = await User.findOne({ email: isVerified.email }).
-        select({
-            password_hash: 0,
-        });
-        // console.log(userData);
+  try {
+    const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
 
-        req.user = userData;
-        req.token = token;
-        req.userID = userData._id;
+    const userData = await User.findOne({ email: isVerified.email }).select({
+      password_hash: 0,
+    });
 
-        next();     
-    } catch (error) {
-        return res.status(401).json({ message: "Unauthorized. Invalid token." });
-    }
+    req.user = userData;
+    req.token = token;
+    req.userID = userData._id;
 
-}
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "Unauthorized. Invalid token.",
+    });
+  }
+};
 
-module.exports = authMiddleware;
+export default authMiddleware;
