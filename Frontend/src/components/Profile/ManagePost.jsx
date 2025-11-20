@@ -24,6 +24,32 @@ const ManagePost = () => {
     return `just now`;
   };
 
+  const handleDelete = async (postId) => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+  
+    try {
+      const res = await fetch(`${API}/api/posts/delete/${postId}`, {
+        method: "PATCH", // PATCH to update status
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ status: "inactive" }),
+      });
+  
+      const data = await res.json();
+      if (data.success) {
+        alert("Post deleted successfully");
+        // Remove the post from state (so it disappears from UI)
+        setUserPosts(userPosts.filter((post) => post._id !== postId));
+      } else {
+        alert("Failed to delete post");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
   useEffect(() => {
     if (!user?._id) return; // wait for user data
 
@@ -61,7 +87,7 @@ const ManagePost = () => {
                   </div>
 
                 <div className="flex items-end gap-2">
-                  <button className="flex items-center">
+                  <button className="flex items-center" onClick={() => handleDelete(item._id)}>
                     <img src="../../images/delete.svg" alt="" />
                   </button>
                   <button className="flex items-center">

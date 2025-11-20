@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/", authMiddleware, createPost);
 router.get("/", authMiddleware, getAllPosts);
 router.get("/:id", authMiddleware, getPostById);
-router.delete("/:id", authMiddleware, deletePost);
+router.patch("/delete/:id", authMiddleware, deletePost);
 router.get("/user/:userId", authMiddleware, getPostsByUser);
 
 export default router;
