@@ -276,65 +276,83 @@ const Create = () => {
 
         {/* Skill Offered / Wanted */}
         <div className="flex items-start flex-col gap-2 mt-3 w-full">
-          <div className="mt-3 w-full">
-            <p className="text-text text-[14px] font-serif">Skill You Offer (Category)</p>
+          
+            <fieldset className='border border-border rounded-lg p-3'>
+              <legend className="text-text text-[15px] font-[550]">Skill You Offer</legend>
 
-            <select
-              name="skillOfferedCategory"
-              value={formData.skillOffered.category}
-              onChange={handleInput}
-              className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-            >
-              <option value="">Select Category</option>
-              {categories.map(cat => (
-                <option key={cat._id} value={cat._id}>{cat.name}</option>
-              ))}
-            </select>
+              <div className='flex w-full items-center gap-2'>
+                <div>
+                  <p className="text-text text-[14px] font-serif">Category</p>
+                  <select
+                    name="skillOfferedCategory"
+                    value={formData.skillOffered.category}
+                    onChange={handleInput}
+                    className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map(cat => (
+                      <option key={cat._id} value={cat._id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
 
-            <p className="text-text text-[14px] font-serif mt-2">Subcategory</p>
+                <div>
+                  <p className="text-text text-[14px] font-serif">Subcategory</p>
 
-            <select
-              name="skillOfferedSubcategory"
-              value={formData.skillOffered.subcategory}
-              onChange={handleInput}
-              className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-            >
-              <option value="">Select Subcategory</option>
-              {subcategories.map(sub => (
-                <option key={sub._id} value={sub._id}>{sub.name}</option>
-              ))}
-            </select>
-          </div>
+                  <select
+                    name="skillOfferedSubcategory"
+                    value={formData.skillOffered.subcategory}
+                    onChange={handleInput}
+                    className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+                  >
+                    <option value="">Select Subcategory</option>
+                    {subcategories.map(sub => (
+                      <option key={sub._id} value={sub._id}>{sub.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </fieldset>
 
           {formData.postType === "exchange" && (
-            <div className="mt-3 w-full">
-              <p className="text-text text-[14px] font-serif">Skill You Want (Category)</p>
+            <div className="flex items-start flex-col gap-2 mt-3 w-full">
 
-              <select
-                name="skillWantedCategory"
-                value={formData.skillWanted.category}
-                onChange={handleInput}
-                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-              >
-                <option value="">Select Category</option>
-                {categories.map(cat => (
-                  <option key={cat._id} value={cat._id}>{cat.name}</option>
-                ))}
-              </select>
+              <fieldset className='border border-border rounded-lg p-3'>
+                <legend className="text-text text-[15px] font-[550]">Skill You Want</legend>
 
-              <p className="text-text text-[14px] font-serif mt-2">Subcategory</p>
+                <div className='flex w-full items-center gap-2'>
+                  <div>
+                    <p className="text-text text-[14px] font-serif">Category</p>
+                    <select
+                  name="skillWantedCategory"
+                  value={formData.skillWanted.category}
+                  onChange={handleInput}
+                  className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map(cat => (
+                    <option key={cat._id} value={cat._id}>{cat.name}</option>
+                  ))}
+                </select>
+                  </div>
 
-              <select
-                name="skillWantedSubcategory"
-                value={formData.skillWanted.subcategory}
-                onChange={handleInput}
-                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-              >
-                <option value="">Select Subcategory</option>
-                {wantedSubcategories.map(sub => (
-                  <option key={sub._id} value={sub._id}>{sub.name}</option>
-                ))}
-              </select>
+                  <div>
+                    <p className="text-text text-[14px] font-serif">Subcategory</p>
+
+                    <select
+                  name="skillWantedSubcategory"
+                  value={formData.skillWanted.subcategory}
+                  onChange={handleInput}
+                  className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+                >
+                  <option value="">Select Subcategory</option>
+                  {wantedSubcategories.map(sub => (
+                    <option key={sub._id} value={sub._id}>{sub.name}</option>
+                  ))}
+                </select>
+                  </div>
+                </div>
+              </fieldset>
             </div>
           )}
         </div>
