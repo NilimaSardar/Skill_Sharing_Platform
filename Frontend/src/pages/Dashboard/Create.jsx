@@ -15,14 +15,14 @@ const Create = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [allSubcategories, setAllSubcategories] = useState([]);
+  const [wantedSubcategories, setWantedSubcategories] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     postType: "exchange",
-    category: "",
-    skillOffered: "",
-    skillWanted: "",
+    skillOffered: { category: "", subcategory: "" },
+    skillWanted: { category: "", subcategory: "" },    
     duration: "",
     fees: "",
     addLessons: [],
@@ -55,8 +55,8 @@ const Create = () => {
             description: editingPost.description,
             postType: editingPost.type,
             category: editingPost.category,
-            skillOffered: editingPost.skillsOffered?.[0] || "",
-            skillWanted: editingPost.skillsInterested?.[0] || "",
+            skillOffered: editingPost.skillsOffered?.[0] || { category: "", subcategory: "" },
+            skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },            
             duration: editingPost.duration,
             fees: editingPost.fees,
             addLessons: editingPost.addLessons || [],
@@ -74,17 +74,50 @@ const Create = () => {
   const handleInput = (e) => {
     const { name, value } = e.target;
 
-    if (name === "category") {
-      const selectedCategory = categories.find(c => c._id === value);
-      setSubcategories(selectedCategory ? selectedCategory.subcategories : []);
-
+    if (name === "skillOfferedCategory") {
       setFormData({
         ...formData,
-        category: value,
-        skillOffered: "",
+        skillOffered: { category: value, subcategory: "" }
+      });
+    
+      const cat = categories.find(c => c._id === value);
+      setSubcategories(cat ? cat.subcategories : []);
+      return;
+    }
+    
+    if (name === "skillOfferedSubcategory") {
+      setFormData({
+        ...formData,
+        skillOffered: {
+          ...formData.skillOffered,
+          subcategory: value
+        }
       });
       return;
     }
+    
+    if (name === "skillWantedCategory") {
+      const selectedCat = categories.find(c => c._id === value);
+    
+      setWantedSubcategories(selectedCat ? selectedCat.subcategories : []);
+    
+      setFormData({
+        ...formData,
+        skillWanted: { category: value, subcategory: "" }
+      });
+      return;
+    }    
+    
+    if (name === "skillWantedSubcategory") {
+      setFormData({
+        ...formData,
+        skillWanted: {
+          ...formData.skillWanted,
+          subcategory: value
+        }
+      });
+      return;
+    }    
 
     setFormData({ ...formData, [name]: value });
   };
@@ -116,11 +149,15 @@ const Create = () => {
       description: formData.description,
       type: formData.postType,
       category: formData.category,
-      skillsOffered: formData.skillOffered ? [formData.skillOffered] : [],
-      skillsInterested:
-        formData.postType === "exchange" && formData.skillWanted
-          ? [formData.skillWanted]
-          : [],
+      skillsOffered: formData.skillOffered.subcategory
+      ? [{ category: formData.skillOffered.category, subcategory: formData.skillOffered.subcategory }]
+      : [],
+    
+    skillsInterested:
+      formData.postType === "exchange" && formData.skillWanted.subcategory
+        ? [{ category: formData.skillWanted.category, subcategory: formData.skillWanted.subcategory }]
+        : [],
+    
       duration: formData.duration,
       fees: formData.fees,
       addLessons: formData.postType === "share" ? formData.addLessons : [],
@@ -229,33 +266,32 @@ const Create = () => {
           </label>
         </div>
 
-        {/* Category */}
-        <div className="mt-3 w-full">
-          <p className="text-text text-[14px] font-serif">Category</p>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleInput}
-            className="w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
-          >
-            <option value="">Select Category</option>
-            {categories.map(cat => (
-              <option key={cat._id} value={cat._id}>{cat.name}</option>
-            ))}
-          </select>
-        </div>
-
         {/* Skill Offered / Wanted */}
-        <div className="flex items-start gap-2 mt-3 w-full">
-          <div className={`relative transition-all duration-300 ${formData.postType === "share" ? "w-full" : "w-1/2"}`}>
-            <p className="text-text text-[14px] font-serif">Skill You Offer</p>
+        <div className="flex items-start flex-col gap-2 mt-3 w-full">
+          <div className="mt-3 w-full">
+            <p className="text-text text-[14px] font-serif">Skill You Offer (Category)</p>
+
             <select
-              name="skillOffered"
-              value={formData.skillOffered}
+              name="skillOfferedCategory"
+              value={formData.skillOffered.category}
               onChange={handleInput}
-              className="w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+              className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
             >
-              <option value="">Select Skill Offered</option>
+              <option value="">Select Category</option>
+              {categories.map(cat => (
+                <option key={cat._id} value={cat._id}>{cat.name}</option>
+              ))}
+            </select>
+
+            <p className="text-text text-[14px] font-serif mt-2">Subcategory</p>
+
+            <select
+              name="skillOfferedSubcategory"
+              value={formData.skillOffered.subcategory}
+              onChange={handleInput}
+              className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+            >
+              <option value="">Select Subcategory</option>
               {subcategories.map(sub => (
                 <option key={sub._id} value={sub._id}>{sub.name}</option>
               ))}
@@ -263,16 +299,31 @@ const Create = () => {
           </div>
 
           {formData.postType === "exchange" && (
-            <div className="relative w-1/2">
-              <p className="text-text text-[14px] font-serif">Skill You Want</p>
+            <div className="mt-3 w-full">
+              <p className="text-text text-[14px] font-serif">Skill You Want (Category)</p>
+
               <select
-                name="skillWanted"
-                value={formData.skillWanted}
+                name="skillWantedCategory"
+                value={formData.skillWanted.category}
                 onChange={handleInput}
-                className="w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
               >
-                <option value="">Select Skill Wanted</option>
-                {allSubcategories.map(sub => (
+                <option value="">Select Category</option>
+                {categories.map(cat => (
+                  <option key={cat._id} value={cat._id}>{cat.name}</option>
+                ))}
+              </select>
+
+              <p className="text-text text-[14px] font-serif mt-2">Subcategory</p>
+
+              <select
+                name="skillWantedSubcategory"
+                value={formData.skillWanted.subcategory}
+                onChange={handleInput}
+                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+              >
+                <option value="">Select Subcategory</option>
+                {wantedSubcategories.map(sub => (
                   <option key={sub._id} value={sub._id}>{sub.name}</option>
                 ))}
               </select>

@@ -5,35 +5,43 @@ const postSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
 
     type: {
       type: String,
       enum: ["share", "exchange"],
-      required: true
+      required: true,
     },
 
-    // Parent category (e.g. Programming)
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "SkillCategory",
-      required: true
-    },
-
-    // Subcategories from chosen category
+    // SKILLS OFFERED
     skillsOffered: [
       {
-        type: mongoose.Schema.Types.ObjectId, // refers to subcategory _id
-        required: true
-      }
+        category: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "SkillCategory",
+          required: true,
+        },
+        subcategory: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "SkillSubcategory",
+          required: true,
+        },
+      },
     ],
 
-    // All subcategories from all categories
+    // SKILLS INTERESTED
     skillsInterested: [
       {
-        type: mongoose.Schema.Types.ObjectId // refers to subcategory _id
-      }
+        category: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "SkillCategory",
+        },
+        subcategory: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "SkillSubcategory",
+        },
+      },
     ],
 
     duration: { type: String },
@@ -46,7 +54,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       enum: ["active", "inactive"],
       default: "active",
-    },    
+    },
   },
   { timestamps: true }
 );
