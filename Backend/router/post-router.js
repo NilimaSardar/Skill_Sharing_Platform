@@ -1,4 +1,4 @@
-import { createPost, getAllPosts, getPostById, deletePost } from "../controllers/post-controller.js";
+import { createPost, getPostsByUser, getAllPosts, getPostById, deletePost } from "../controllers/post-controller.js";
 import authMiddleware from "../middlewares/auth-middleware.js";
 import express from "express";
 
@@ -9,5 +9,6 @@ router.post("/", authMiddleware, createPost);
 router.get("/", authMiddleware, getAllPosts);
 router.get("/:id", authMiddleware, getPostById);
 router.delete("/:id", authMiddleware, deletePost);
+router.get("/user/:userId", authMiddleware, getPostsByUser);
 
 export default router;

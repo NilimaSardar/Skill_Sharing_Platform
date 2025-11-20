@@ -112,6 +112,21 @@ export const createPost = async (req, res) => {
   }
 };
 
+// Get posts by user ID
+export const getPostsByUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const posts = await Post.find({ userId }) 
+      .sort({ createdAt: -1 }); // optional: latest first
+
+    res.status(200).json({ success: true, posts });
+  } catch (error) {
+    console.error("Get posts by user error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
 // Get all posts
 export const getAllPosts = async (req, res) => {
   try {
