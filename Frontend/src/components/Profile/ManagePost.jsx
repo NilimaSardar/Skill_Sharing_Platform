@@ -112,7 +112,7 @@ const ManagePost = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <img src="../../images/Time.svg" alt="" className="w-4 h-4" />
-                  <p className="text-[14px] text-[#7B7676]">Schedule: {item.schedule}</p>
+                  <p className="text-[14px] text-[#7B7676]">Schedule: {item.duration}</p>
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-[16px] text-text font-[580]">Rs.{item.fees}</p>
