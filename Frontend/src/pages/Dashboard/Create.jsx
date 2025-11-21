@@ -12,9 +12,12 @@ const Create = () => {
   const editingPost = state?.post || null;
   const isEditing = Boolean(editingPost);
 
-  const [categories, setCategories] = useState([]);
+  // User Skills for Skill You Offer
+  const [userSkills, setUserSkills] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [allSubcategories, setAllSubcategories] = useState([]);
+
+  // All Categories for Skill You Want
+  const [allCategories, setAllCategories] = useState([]);
   const [wantedSubcategories, setWantedSubcategories] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -29,143 +32,134 @@ const Create = () => {
     lessonInput: "",
   });
 
-  // Fetch categories & pre-fill if editing
+  // Fetch user's skills for Skill You Offer
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchUserSkills = async () => {
+      try {
+        const res = await fetch(`${API}/api/user/skills`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        const data = await res.json();
+        if (data.skills) setUserSkills(data.skills);
+      } catch (err) {
+        console.error("Error fetching user skills:", err);
+      }
+    };
+    fetchUserSkills();
+  }, [API]);
+
+  // Fetch all categories for Skill You Want
+  useEffect(() => {
+    const fetchAllCategories = async () => {
       try {
         const res = await fetch(`${API}/api/skills`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-
         const data = await res.json();
-        setCategories(data.categories || []);
-        const allSubs = data.categories ? data.categories.flatMap(c => c.subcategories) : [];
-        setAllSubcategories(allSubs);
-
-        // --- Load Edit Values ---
-        if (isEditing) {
-
-          const selectedOfferedCategory = data.categories.find(
-            c => c._id === editingPost.skillsOffered?.[0]?.category
-          );
-
-          const selectedWantedCategory = data.categories.find(
-            c => c._id === editingPost.skillsInterested?.[0]?.category
-          );
-
-          setSubcategories(selectedOfferedCategory ? selectedOfferedCategory.subcategories : []);
-
-          setWantedSubcategories(selectedWantedCategory ? selectedWantedCategory.subcategories : []);
-
-          setFormData({
-            title: editingPost.title,
-            description: editingPost.description,
-            postType: editingPost.type,
-
-            skillOffered: editingPost.skillsOffered?.[0] || { category: "", subcategory: "" },
-            skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },
-
-            duration: editingPost.duration,
-            fees: editingPost.fees,
-            addLessons: editingPost.addLessons || [],
-            lessonInput: "",
-          });
-        }
+        if (data.categories) setAllCategories(data.categories);
       } catch (err) {
         console.error("Error fetching categories:", err);
       }
     };
+    fetchAllCategories();
+  }, [API]);
 
-    fetchCategories();
-  }, [API, isEditing, editingPost]);
+  // Pre-fill if editing
+  useEffect(() => {
+    if (isEditing && editingPost) {
+      setFormData({
+        title: editingPost.title,
+        description: editingPost.description,
+        postType: editingPost.type,
+        skillOffered: editingPost.skillsOffered?.[0] || { category: "", subcategory: "" },
+        skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },
+        duration: editingPost.duration,
+        fees: editingPost.fees,
+        addLessons: editingPost.addLessons || [],
+        lessonInput: "",
+      });
 
+      // Pre-fill subcategories for offered
+      if (editingPost.skillsOffered?.[0]?.category) {
+        const offeredSkill = editingPost.skillsOffered[0];
+        setSubcategories(offeredSkill.subcategory ? [offeredSkill.subcategory] : []);
+      }
+
+      // Pre-fill subcategories for wanted
+      if (editingPost.skillsInterested?.[0]?.category) {
+        const wantedCat = editingPost.skillsInterested[0].category;
+        const selectedCat = allCategories.find(c => c._id === wantedCat);
+        setWantedSubcategories(selectedCat ? selectedCat.subcategories : []);
+      }
+    }
+  }, [isEditing, editingPost, allCategories]);
+
+  // Handle Input Changes
   const handleInput = (e) => {
     const { name, value } = e.target;
 
+    // Skill You Offer
     if (name === "skillOfferedCategory") {
-      setFormData({
-        ...formData,
-        skillOffered: { category: value, subcategory: "" }
-      });
-    
-      const cat = categories.find(c => c._id === value);
-      setSubcategories(cat ? cat.subcategories : []);
+      const selectedSkill = userSkills.find(s => s.category === value);
+      setSubcategories(selectedSkill ? [selectedSkill.subcategory] : []);
+      setFormData({ ...formData, skillOffered: { category: value, subcategory: "" } });
       return;
     }
-    
     if (name === "skillOfferedSubcategory") {
       setFormData({
         ...formData,
-        skillOffered: {
-          ...formData.skillOffered,
-          subcategory: value
-        }
+        skillOffered: { ...formData.skillOffered, subcategory: value }
       });
       return;
     }
-    
+
+    // Skill You Want
     if (name === "skillWantedCategory") {
-      const selectedCat = categories.find(c => c._id === value);
-    
+      const selectedCat = allCategories.find(c => c._id === value);
       setWantedSubcategories(selectedCat ? selectedCat.subcategories : []);
-    
-      setFormData({
-        ...formData,
-        skillWanted: { category: value, subcategory: "" }
-      });
+      setFormData({ ...formData, skillWanted: { category: value, subcategory: "" } });
       return;
-    }    
-    
+    }
     if (name === "skillWantedSubcategory") {
       setFormData({
         ...formData,
-        skillWanted: {
-          ...formData.skillWanted,
-          subcategory: value
-        }
+        skillWanted: { ...formData.skillWanted, subcategory: value }
       });
       return;
-    }    
+    }
 
+    // Other inputs
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleLessonInput = (e) => {
-    setFormData({ ...formData, lessonInput: e.target.value });
-  };
-
+  // Lesson input handlers
+  const handleLessonInput = (e) => setFormData({ ...formData, lessonInput: e.target.value });
   const addLesson = () => {
     if (!formData.lessonInput.trim()) return;
-
     setFormData({
       ...formData,
       addLessons: [...formData.addLessons, formData.lessonInput.trim()],
       lessonInput: "",
     });
   };
-
   const removeLesson = (index) => {
     const updated = formData.addLessons.filter((_, i) => i !== index);
     setFormData({ ...formData, addLessons: updated });
   };
 
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const payload = {
       title: formData.title,
       description: formData.description,
       type: formData.postType,
-      category: formData.category,
       skillsOffered: formData.skillOffered.subcategory
-      ? [{ category: formData.skillOffered.category, subcategory: formData.skillOffered.subcategory }]
-      : [],
-    
-    skillsInterested:
-      formData.postType === "exchange" && formData.skillWanted.subcategory
+        ? [{ category: formData.skillOffered.category, subcategory: formData.skillOffered.subcategory }]
+        : [],
+      skillsInterested: formData.postType === "exchange" && formData.skillWanted.subcategory
         ? [{ category: formData.skillWanted.category, subcategory: formData.skillWanted.subcategory }]
         : [],
-    
       duration: formData.duration,
       fees: formData.fees,
       addLessons: formData.postType === "share" ? formData.addLessons : [],
@@ -175,7 +169,6 @@ const Create = () => {
       const url = isEditing
         ? `${API}/api/posts/update/${editingPost._id}`
         : `${API}/api/posts`;
-
       const method = isEditing ? "PATCH" : "POST";
 
       const response = await fetch(url, {
@@ -188,7 +181,6 @@ const Create = () => {
       });
 
       const data = await response.json();
-
       if (response.ok) {
         toast.success(isEditing ? "Post updated successfully!" : "Post created!");
         navigate("/dashboard/profile");
@@ -211,22 +203,7 @@ const Create = () => {
 
       <form className='flex flex-col py-3 mx-[28px]' onSubmit={handleSubmit}>
 
-        {/* Profile */}
-        <div className='flex items-center gap-2'>
-          <div className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer">
-            <img
-              src="../../profile/Nilima.jpeg"
-              alt="user"
-              className="w-[45px] h-[45px] rounded-full object-cover"
-            />
-          </div>
-          <div>
-            <h3 className='font-serif text-[16px]'>Shikshya Nepal</h3>
-            <p className='font-serif text-[13px] text-[#7B7676]'>28, Biratnagar</p>
-          </div>
-        </div>
-
-        {/* Title + Description */}
+        {/* Title & Description */}
         <div className='flex flex-col gap-2 mt-2'>
           <input
             type="text"
@@ -274,72 +251,78 @@ const Create = () => {
           </label>
         </div>
 
-        {/* Skill Offered / Wanted */}
-        <div className="flex items-start flex-col gap-2 mt-3 w-full">
-          
-            <fieldset className='border border-border rounded-lg p-3'>
-              <legend className="text-text text-[15px] font-[550]">Skill You Offer</legend>
+        {/* Skill You Offer */}
+        <fieldset className='border border-border rounded-lg p-3 mt-3'>
+          <legend className="text-text text-[15px] font-[550]">Skill You Offer</legend>
+          <div className='flex w-full items-center gap-2'>
+            <div>
+              <p className="text-text text-[14px] font-serif">Category</p>
+              <select
+                name="skillOfferedCategory"
+                value={formData.skillOffered.category}
+                onChange={handleInput}
+                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+              >
+                <option value="">Select Category</option>
+                {userSkills.map((skill, idx) => (
+                  <option key={idx} value={skill.category}>{skill.category}</option>
+                ))}
+              </select>
+            </div>
 
-              <div className='flex w-full items-center gap-2'>
-                <div>
-                  <p className="text-text text-[14px] font-serif">Category</p>
-                  <select
-                    name="skillOfferedCategory"
-                    value={formData.skillOffered.category}
-                    onChange={handleInput}
-                    className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-                  >
-                    <option value="">Select Category</option>
-                    {categories.map(cat => (
-                      <option key={cat._id} value={cat._id}>{cat.name}</option>
-                    ))}
-                  </select>
-                </div>
+            <div>
+              <p className="text-text text-[14px] font-serif">Subcategory</p>
+              <select
+                name="skillOfferedSubcategory"
+                value={formData.skillOffered.subcategory}
+                onChange={handleInput}
+                className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
+              >
+                <option value="">Select Subcategory</option>
+                {subcategories.map((sub, idx) => (
+                  <option key={idx} value={sub}>{sub}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </fieldset>
 
-                <div>
-                  <p className="text-text text-[14px] font-serif">Subcategory</p>
+        {/* Proficiency Level */}
+        <div className="relative w-1/2">
+          <p className="text-text text-[14px] font-serif">Proficiency Level</p>
+          <select
+            name="duration"
+            value=""
+            onChange={handleInput}
+            className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+          >
+            <option value="">Intermefiate</option>
+          </select>
+        </div>
 
-                  <select
-                    name="skillOfferedSubcategory"
-                    value={formData.skillOffered.subcategory}
-                    onChange={handleInput}
-                    className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
-                  >
-                    <option value="">Select Subcategory</option>
-                    {subcategories.map(sub => (
-                      <option key={sub._id} value={sub._id}>{sub.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </fieldset>
-
-          {formData.postType === "exchange" && (
-            <div className="flex items-start flex-col gap-2 mt-3 w-full">
-
-              <fieldset className='border border-border rounded-lg p-3'>
-                <legend className="text-text text-[15px] font-[550]">Skill You Want</legend>
-
-                <div className='flex w-full items-center gap-2'>
-                  <div>
-                    <p className="text-text text-[14px] font-serif">Category</p>
-                    <select
+        {/* Skill You Want */}
+        {formData.postType === "exchange" && (
+          <fieldset className='border border-border rounded-lg p-3 mt-3'>
+            <legend className="text-text text-[15px] font-[550]">Skill You Want</legend>
+            <div className='flex w-full items-center gap-2'>
+              <div>
+                <p className="text-text text-[14px] font-serif">Category</p>
+                <select
                   name="skillWantedCategory"
                   value={formData.skillWanted.category}
                   onChange={handleInput}
                   className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
                 >
                   <option value="">Select Category</option>
-                  {categories.map(cat => (
+                  {allCategories.map(cat => (
                     <option key={cat._id} value={cat._id}>{cat.name}</option>
                   ))}
                 </select>
-                  </div>
+              </div>
 
-                  <div>
-                    <p className="text-text text-[14px] font-serif">Subcategory</p>
-
-                    <select
+              <div>
+                <p className="text-text text-[14px] font-serif">Subcategory</p>
+                <select
                   name="skillWantedSubcategory"
                   value={formData.skillWanted.subcategory}
                   onChange={handleInput}
@@ -350,18 +333,15 @@ const Create = () => {
                     <option key={sub._id} value={sub._id}>{sub.name}</option>
                   ))}
                 </select>
-                  </div>
-                </div>
-              </fieldset>
+              </div>
             </div>
-          )}
-        </div>
+          </fieldset>
+        )}
 
-        {/* Add Lessons (only SHARE) */}
+        {/* Share Lessons */}
         {formData.postType === "share" && (
           <div className="mt-3 w-full transition-all duration-300">
             <p className="text-text text-[14px] font-serif">Add Lessons</p>
-
             <div className="relative flex items-center mt-2">
               <input
                 type="text"
@@ -370,7 +350,6 @@ const Create = () => {
                 className="w-full border border-border bg-white px-3 py-2 rounded-lg text-[12px]"
                 placeholder="Type lesson name..."
               />
-
               <img
                 src="../../create/add.svg"
                 onClick={addLesson}
@@ -378,33 +357,22 @@ const Create = () => {
                 alt="add"
               />
             </div>
-
             <div className="flex flex-wrap gap-2 mt-2">
               {formData.addLessons.map((lesson, index) => (
-                <span
-                  key={index}
-                  className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px] flex items-center gap-1"
-                >
+                <span key={index} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px] flex items-center gap-1">
                   {lesson}
-                  <button
-                    onClick={() => removeLesson(index)}
-                    className="text-red-500 text-xs ml-1"
-                  >
-                    ✕
-                  </button>
+                  <button onClick={() => removeLesson(index)} className="text-red-500 text-xs ml-1">✕</button>
                 </span>
               ))}
             </div>
           </div>
         )}
 
-        {/* Duration + Fees (only SHARE) */}
+        {/* Duration & Fees */}
         {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
-
             <div className="relative w-1/2">
               <p className="text-text text-[14px] font-serif">Duration</p>
-
               <select
                 name="duration"
                 value={formData.duration}
@@ -417,17 +385,10 @@ const Create = () => {
                 <option value="2month">2 Month</option>
                 <option value="3month">3 Month</option>
               </select>
-
-              <img
-                src="../../create/dropdown.svg"
-                alt=""
-                className="w-3 h-3 absolute right-1 top-10 opacity-70"
-              />
             </div>
 
             <div className="w-1/2">
               <p className="text-text text-[14px] font-serif">Fees</p>
-
               <input
                 type="number"
                 name="fees"
@@ -448,7 +409,6 @@ const Create = () => {
             Cancel
           </Link>
         </div>
-
       </form>
     </div>
   );

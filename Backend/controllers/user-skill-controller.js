@@ -10,22 +10,22 @@ export const addSkill = async (req, res) => {
       return res.status(400).json({ message: "Category, subcategory & expert level are required" });
     }
 
-    // Validate category and subcategory
-    const categoryData = await SkillCategory.findById(category);
+    // Validate category and subcategory by name
+    const categoryData = await SkillCategory.findOne({ name: category });
     if (!categoryData) {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    const validSubIds = categoryData.subcategories.map(s => s._id.toString());
-    if (!validSubIds.includes(subcategory)) {
+    const validSubNames = categoryData.subcategories.map(s => s.name);
+    if (!validSubNames.includes(subcategory)) {
       return res.status(400).json({ message: "Invalid subcategory for selected category" });
     }
 
     // Add skill to user
     const user = await User.findById(req.user._id);
     user.skills.push({
-      category,
-      subcategory,
+      category,          // store as string
+      subcategory,       // store as string
       expertLevel,
       yearsOfExperience: yearsOfExperience || 0
     });
@@ -42,13 +42,10 @@ export const addSkill = async (req, res) => {
   }
 };
 
-
 // Get all skills of logged-in user
 export const getSkills = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
-      .populate("skills.category", "name")
-      .populate("skills.subcategory", "name");
+    const user = await User.findById(req.user._id);
 
     res.status(200).json({ skills: user.skills });
   } catch (error) {
@@ -57,20 +54,20 @@ export const getSkills = async (req, res) => {
   }
 };
 
-
 // Update a skill
 export const updateSkill = async (req, res) => {
   try {
     const { skillId } = req.params;
-    const { expertLevel, yearsOfExperience } = req.body;
+    const { expertLevel, yearsOfExperience, category, subcategory } = req.body;
 
     const user = await User.findById(req.user._id);
 
     const skill = user.skills.id(skillId);
-    if (!skill) {
-      return res.status(404).json({ message: "Skill not found" });
-    }
+    if (!skill) return res.status(404).json({ message: "Skill not found" });
 
+    // Optional: validate category/subcategory names if provided
+    if (category) skill.category = category;
+    if (subcategory) skill.subcategory = subcategory;
     if (expertLevel) skill.expertLevel = expertLevel;
     if (yearsOfExperience !== undefined) skill.yearsOfExperience = yearsOfExperience;
 
@@ -86,7 +83,6 @@ export const updateSkill = async (req, res) => {
   }
 };
 
-
 // Delete a skill
 export const deleteSkill = async (req, res) => {
   try {
@@ -95,11 +91,9 @@ export const deleteSkill = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     const skill = user.skills.id(skillId);
-    if (!skill) {
-      return res.status(404).json({ message: "Skill not found" });
-    }
+    if (!skill) return res.status(404).json({ message: "Skill not found" });
 
-    skill.deleteOne(); // remove the skill
+    skill.deleteOne();
     await user.save();
 
     res.status(200).json({ message: "Skill removed successfully" });

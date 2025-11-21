@@ -5,12 +5,11 @@ import jwt from "jsonwebtoken";
 // Each USER's personal skill structure
 const userSkillSchema = new mongoose.Schema({
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "SkillCategory",
+    type: String, 
     required: true,
   },
   subcategory: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String, 
     required: true,
   },
   expertLevel: {
@@ -27,13 +26,10 @@ const userSkillSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema(
   {
     fullName: { type: String, required: true }, // combined name
-
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-
     phone: { type: String },
     role: { type: String, default: "user" }, // user / admin
-
     profilePhoto: { type: String },
 
     // EACH USER HAS SEPARATE SKILL SET

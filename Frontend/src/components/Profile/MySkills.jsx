@@ -52,8 +52,8 @@ const MySkills = () => {
 
   // Update subcategories when category changes
   useEffect(() => {
-    const selected = categories.find(cat => cat._id === formData.category);
-    setSubcategories(selected?.subcategories || []);
+    const selected = categories.find(cat => cat.name === formData.category);
+    setSubcategories(selected?.subcategories.map(sub => sub.name) || []);
     setFormData(prev => ({ ...prev, subcategory: "" }));
   }, [formData.category, categories]);
 
@@ -69,14 +69,14 @@ const MySkills = () => {
         },
         body: JSON.stringify({
           category: formData.category,
-          subcategory: formData.subcategory, // send subcategory _id
+          subcategory: formData.subcategory, // now sending string name
           expertLevel: formData.level,
           yearsOfExperience: parseInt(formData.experience) || 0
         })
       });
 
       const data = await res.json();
-      if (!data.message || data.message === "Skill added successfully") {
+      if (res.ok) {
         setShowForm(false);
         loadUserSkills();
         setFormData({ category: "", subcategory: "", experience: "", level: "" });
@@ -103,8 +103,8 @@ const MySkills = () => {
               <img src="../../skillCover/graphic.svg" alt="" className="w-full h-full object-cover" />
             </div>
             <div className="text-[14px]">
-              <h4 className="text-[15px] font-medium">{skill.category?.name}</h4>
-              <p className="text-[#737373] mb-1">{skill.subcategory?.name}</p>
+              <h4 className="text-[15px] font-medium">{skill.category}</h4>
+              <p className="text-[#737373] mb-1">{skill.subcategory}</p>
               <p className="bg-yellow-100 text-yellow-500 inline p-1 rounded-lg">{skill.expertLevel}</p>
             </div>
           </div>
@@ -135,7 +135,7 @@ const MySkills = () => {
               >
                 <option value="">Select Category</option>
                 {categories.map(cat => (
-                  <option key={cat._id} value={cat._id}>{cat.name}</option>
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
                 ))}
               </select>
 
@@ -146,8 +146,8 @@ const MySkills = () => {
                 required
               >
                 <option value="">Select Subcategory</option>
-                {subcategories.map(sub => (
-                  <option key={sub._id} value={sub._id}>{sub.name}</option>
+                {subcategories.map((sub, idx) => (
+                  <option key={idx} value={sub}>{sub}</option>
                 ))}
               </select>
 
