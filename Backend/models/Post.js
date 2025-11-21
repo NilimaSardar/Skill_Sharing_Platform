@@ -17,14 +17,8 @@ const postSchema = new mongoose.Schema(
     // SKILLS OFFERED
     skillsOffered: [
       {
-        category: {
-          type: String,
-          required: true,
-        },
-        subcategory: {
-          type: String,
-          required: true,
-        },
+        category: { type: String, required: true },
+        subcategory: { type: String, required: true },
         expertLevel: {
           type: String,
           enum: ["Beginner", "Intermediate", "Expert"],
@@ -36,15 +30,14 @@ const postSchema = new mongoose.Schema(
     // SKILLS INTERESTED
     skillsInterested: [
       {
-        category: {
-          type: String,
-          required: true,
-        },
-        subcategory: {
-          type: String,
-          required: true,
-        },
+        category: { type: String, required: true },
+        subcategory: { type: String, required: true },
       },
+    ],
+
+    // LESSONS (new)
+    addLessons: [
+      { type: String }
     ],
 
     duration: { type: String },

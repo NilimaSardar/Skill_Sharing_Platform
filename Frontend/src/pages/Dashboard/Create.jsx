@@ -172,24 +172,28 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Skills Offered (include expertLevel)
-    let offeredSkills = [];
-    if (formData.skillOffered.category && formData.skillOffered.subcategory) {
-      offeredSkills = [{
-        category: formData.skillOffered.category,
-        subcategory: formData.skillOffered.subcategory,
-        expertLevel: formData.skillOffered.expertLevel || "", // include expert level
-      }];
-    }
+    // Prepare Skills Offered
+    const offeredSkills = formData.skillOffered.category && formData.skillOffered.subcategory
+      ? [{
+          category: formData.skillOffered.category,
+          subcategory: formData.skillOffered.subcategory,
+          expertLevel: formData.skillOffered.expertLevel || "",
+        }]
+      : [];
   
-    // Skills Wanted (for exchange type, no expertLevel needed)
-    let interestedSkills = [];
-    if (formData.postType === "exchange" && formData.skillWanted.category && formData.skillWanted.subcategory) {
-      interestedSkills = [{
-        category: formData.skillWanted.category,
-        subcategory: formData.skillWanted.subcategory,
-      }];
-    }
+    // Prepare Skills Wanted
+    const interestedSkills = formData.postType === "exchange" &&
+                             formData.skillWanted.category && formData.skillWanted.subcategory
+      ? [{
+          category: formData.skillWanted.category,
+          subcategory: formData.skillWanted.subcategory,
+        }]
+      : [];
+  
+    // Prepare Lessons (ensure it's always an array)
+    const lessons = formData.postType === "share"
+      ? formData.addLessons.filter(l => l.trim() !== "")
+      : [];
   
     const payload = {
       title: formData.title,
@@ -225,10 +229,10 @@ const Create = () => {
         toast.error(data.message || "Failed to save post");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Submit error:", error);
       toast.error("Internal Server Error");
     }
-  };  
+  };   
 
   return (
     <div className='mb-20'>
@@ -376,7 +380,7 @@ const Create = () => {
         )}
 
         {/* Share Lessons */}
-        {formData.postType === "share" && (
+        {formData.postType === "share" && formData.addLessons && (
           <div className="mt-3 w-full transition-all duration-300">
             <p className="text-text text-[14px] ">Add Lessons</p>
             <div className="relative flex items-center mt-2">
@@ -398,7 +402,7 @@ const Create = () => {
               {formData.addLessons.map((lesson, index) => (
                 <span key={index} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[12px] flex items-center gap-1">
                   {lesson}
-                  <button onClick={() => removeLesson(index)} className="text-red-500 text-xs ml-1">✕</button>
+                  <button type="button" onClick={() => removeLesson(index)} className="text-red-500 text-xs ml-1">✕</button>
                 </span>
               ))}
             </div>
