@@ -24,13 +24,13 @@ const Create = () => {
     title: "",
     description: "",
     postType: "exchange",
-    skillOffered: { category: "", subcategory: "" },
-    skillWanted: { category: "", subcategory: "" },    
+    skillOffered: { category: "", subcategory: "", expertLevel: "" },
+    skillWanted: { category: "", subcategory: "" },
     duration: "",
     fees: "",
     addLessons: [],
     lessonInput: "",
-  });
+  });   
 
   // Fetch user's skills for Skill You Offer
   useEffect(() => {
@@ -68,16 +68,24 @@ const Create = () => {
   useEffect(() => {
     if (isEditing && editingPost) {
       setFormData({
-        title: editingPost.title,
-        description: editingPost.description,
-        postType: editingPost.type,
-        skillOffered: editingPost.skillsOffered?.[0] || { category: "", subcategory: "" },
-        skillWanted: editingPost.skillsInterested?.[0] || { category: "", subcategory: "" },
-        duration: editingPost.duration,
-        fees: editingPost.fees,
+        title: editingPost.title || "",
+        description: editingPost.description || "",
+        postType: editingPost.type || "exchange",
+        skillOffered: {
+          category: editingPost.skillsOffered?.[0]?.category || "",
+          subcategory: editingPost.skillsOffered?.[0]?.subcategory || "",
+          expertLevel: editingPost.skillsOffered?.[0]?.expertLevel || "",
+        },
+        skillWanted: {
+          category: editingPost.skillsInterested?.[0]?.category || "",
+          subcategory: editingPost.skillsInterested?.[0]?.subcategory || "",
+        },
+        duration: editingPost.duration || "",
+        fees: editingPost.fees || "",
         addLessons: editingPost.addLessons || [],
         lessonInput: "",
       });
+      
 
       // Pre-fill subcategories for offered
       if (editingPost.skillsOffered?.[0]?.category) {
@@ -100,15 +108,28 @@ const Create = () => {
 
     // Skill You Offer
     if (name === "skillOfferedCategory") {
-      const selectedSkill = userSkills.find(s => s.category === value);
-      setSubcategories(selectedSkill ? [selectedSkill.subcategory] : []);
-      setFormData({ ...formData, skillOffered: { category: value, subcategory: "" } });
+      const selectedSkill = userSkills.find(s => s.category === value && s.subcategory === formData.skillOffered.subcategory);
+      setSubcategories(userSkills.filter(s => s.category === value).map(s => s.subcategory));
+      
+      setFormData({
+        ...formData,
+        skillOffered: { category: value, subcategory: "", expertLevel: "" }
+      });
       return;
     }
     if (name === "skillOfferedSubcategory") {
+      // Find the skill object with matching category + subcategory
+      const skill = userSkills.find(
+        s => s.category === formData.skillOffered.category && s.subcategory === value
+      );
+
       setFormData({
         ...formData,
-        skillOffered: { ...formData.skillOffered, subcategory: value }
+        skillOffered: {
+          ...formData.skillOffered,
+          subcategory: value,
+          expertLevel: skill ? skill.expertLevel : ""
+        }
       });
       return;
     }
@@ -196,7 +217,7 @@ const Create = () => {
   return (
     <div className='mb-20'>
       <div className='flex items-center justify-start py-5 bg-primary text-white'>
-        <h3 className='font-serif w-full text-center text-[18px]'>
+        <h3 className=' w-full text-center text-[18px]'>
           {isEditing ? "Edit Post" : "Create Post"}
         </h3>
       </div>
@@ -256,10 +277,10 @@ const Create = () => {
           <legend className="text-text text-[15px] font-[550]">Skill You Offer</legend>
           <div className='flex w-full items-center gap-2'>
             <div>
-              <p className="text-text text-[14px] font-serif">Category</p>
+              <p className="text-text text-[14px]">Category</p>
               <select
                 name="skillOfferedCategory"
-                value={formData.skillOffered.category}
+                value={formData.skillOffered.category || ""}
                 onChange={handleInput}
                 className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px]"
               >
@@ -271,7 +292,7 @@ const Create = () => {
             </div>
 
             <div>
-              <p className="text-text text-[14px] font-serif">Subcategory</p>
+              <p className="text-text text-[14px] ">Subcategory</p>
               <select
                 name="skillOfferedSubcategory"
                 value={formData.skillOffered.subcategory}
@@ -288,16 +309,16 @@ const Create = () => {
         </fieldset>
 
         {/* Proficiency Level */}
-        <div className="relative w-1/2">
-          <p className="text-text text-[14px] font-serif">Proficiency Level</p>
-          <select
-            name="duration"
-            value=""
-            onChange={handleInput}
-            className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
-          >
-            <option value="">Intermefiate</option>
-          </select>
+        <div className="w-1/2">
+        <div>
+          <p className="text-text text-[14px]">Proficiency Level</p>
+          <input
+            type="text"
+            value={formData.skillOffered.expertLevel}
+            readOnly
+            className="w-full border border-border px-3 py-2 mt-2 rounded-lg text-[12px] bg-gray-100"
+          />
+        </div>
         </div>
 
         {/* Skill You Want */}
@@ -306,7 +327,7 @@ const Create = () => {
             <legend className="text-text text-[15px] font-[550]">Skill You Want</legend>
             <div className='flex w-full items-center gap-2'>
               <div>
-                <p className="text-text text-[14px] font-serif">Category</p>
+                <p className="text-text text-[14px] ">Category</p>
                 <select
                   name="skillWantedCategory"
                   value={formData.skillWanted.category}
@@ -321,7 +342,7 @@ const Create = () => {
               </div>
 
               <div>
-                <p className="text-text text-[14px] font-serif">Subcategory</p>
+                <p className="text-text text-[14px] ">Subcategory</p>
                 <select
                   name="skillWantedSubcategory"
                   value={formData.skillWanted.subcategory}
@@ -341,7 +362,7 @@ const Create = () => {
         {/* Share Lessons */}
         {formData.postType === "share" && (
           <div className="mt-3 w-full transition-all duration-300">
-            <p className="text-text text-[14px] font-serif">Add Lessons</p>
+            <p className="text-text text-[14px] ">Add Lessons</p>
             <div className="relative flex items-center mt-2">
               <input
                 type="text"
@@ -372,7 +393,7 @@ const Create = () => {
         {formData.postType === "share" && (
           <div className="flex items-start gap-2 mt-3 w-full">
             <div className="relative w-1/2">
-              <p className="text-text text-[14px] font-serif">Duration</p>
+              <p className="text-text text-[14px] ">Duration</p>
               <select
                 name="duration"
                 value={formData.duration}
@@ -388,7 +409,7 @@ const Create = () => {
             </div>
 
             <div className="w-1/2">
-              <p className="text-text text-[14px] font-serif">Fees</p>
+              <p className="text-text text-[14px] ">Fees</p>
               <input
                 type="number"
                 name="fees"
