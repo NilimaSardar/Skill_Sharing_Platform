@@ -166,7 +166,7 @@ const ProfileSetting = () => {
                 </div>
 
                 {/* logout button */}
-                <NavLink to="../../logout" className='border border-border rounded-lg p-1 mt-5 flex justify-center cursor-pointer'>
+                <NavLink to="../logout" className='border border-border rounded-lg p-1 mt-5 flex justify-center cursor-pointer'>
                     <p className='text-red-500'>Logout</p>
                 </NavLink>
             </div>

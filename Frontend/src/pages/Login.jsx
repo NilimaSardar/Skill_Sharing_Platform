@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 export default function Login() {
   const [userInput, setUserInput] = useState({
     email: '',
-    password_hash: '',
+    password: '',
   });
 
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: userInput.email,
-          password: userInput.password_hash,
+          password: userInput.password,
         }),
       });
 
@@ -35,7 +35,7 @@ export default function Login() {
 
       if (response.ok) {
         await storeTokenInLS(res_data.token); // fetches user immediately
-        setUserInput({ email: "", password_hash: "" });
+        setUserInput({ email: "", password: "" });
         alert("Login Successful..");
         navigate("/dashboard"); // navigate immediately after login
       } else {
@@ -76,9 +76,9 @@ export default function Login() {
 
             <input
               type="password"
-              name="password_hash"
+              name="password"
               placeholder="Password"
-              value={userInput.password_hash}
+              value={userInput.password}
               onChange={handleInput}
               className="w-full px-5 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-input-bg text-gray-800 placeholder-input"
               required
