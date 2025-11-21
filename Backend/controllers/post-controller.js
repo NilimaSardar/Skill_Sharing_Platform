@@ -15,25 +15,20 @@ export const createPost = async (req, res) => {
       addLessons,
     } = req.body;
 
-    // BASIC REQUIRED FIELDS
+    // Basic validation
     if (!type || !title || !description) {
-      return res.status(400).json({
-        message: "Type, title and description are required",
-      });
+      return res.status(400).json({ message: "Type, title and description are required" });
     }
 
     // Validate skillsOffered
     if (!skillsOffered || skillsOffered.length === 0) {
-      return res.status(400).json({
-        message: `skillsOffered is required for ${type} type`,
-      });
+      return res.status(400).json({ message: `skillsOffered is required for ${type} type` });
     }
 
     for (const skill of skillsOffered) {
       if (!skill.category || !skill.subcategory || !skill.expertLevel) {
         return res.status(400).json({
-          message:
-            "Each offered skill must include category, subcategory, and expertLevel",
+          message: "Each offered skill must include category, subcategory, and expertLevel",
         });
       }
     }
@@ -41,33 +36,26 @@ export const createPost = async (req, res) => {
     // Validate skillsInterested for exchange type
     if (type === "exchange") {
       if (!skillsInterested || skillsInterested.length === 0) {
-        return res.status(400).json({
-          message: "skillsInterested is required for exchange type",
-        });
+        return res.status(400).json({ message: "skillsInterested is required for exchange type" });
       }
 
+      // Here we accept strings only, no expertLevel required
       for (const skill of skillsInterested) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
-            message:
-              "Each interested skill must include category and subcategory",
+            message: "Each interested skill must include category and subcategory",
           });
         }
       }
     }
 
-    // Duration & Fees required for share type
-    const cleanDuration = type === "exchange" ? "" : duration;
-    const cleanFees = type === "exchange" ? 0 : fees;
-
-    // CREATE POST
     const newPost = await Post.create({
       userId: req.user._id,
       type,
       title,
       description,
-      duration: cleanDuration,
-      fees: cleanFees,
+      duration: type === "exchange" ? "" : duration,
+      fees: type === "exchange" ? 0 : fees,
       skillsOffered,
       skillsInterested: skillsInterested || [],
       addLessons: addLessons || [],
@@ -159,7 +147,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-// Update post
+// Update Post
 export const updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -174,11 +162,9 @@ export const updatePost = async (req, res) => {
       addLessons,
     } = req.body;
 
-    // Find post
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    // Authorization
     if (post.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Unauthorized" });
     }
@@ -186,30 +172,18 @@ export const updatePost = async (req, res) => {
     const finalType = type || post.type;
 
     // Validate skillsOffered
-    if (finalType === "share" || finalType === "exchange") {
-      const offered = skillsOffered || post.skillsOffered;
-
-      if (!offered || offered.length === 0) {
-        return res.status(400).json({ message: "skillsOffered is required" });
-      }
-
-      for (const skill of offered) {
-        if (!skill.category || !skill.subcategory || !skill.expertLevel) {
-          return res.status(400).json({
-            message: "Each offered skill must include category, subcategory, and expertLevel",
-          });
-        }
+    const offered = skillsOffered || post.skillsOffered;
+    for (const skill of offered) {
+      if (!skill.category || !skill.subcategory || !skill.expertLevel) {
+        return res.status(400).json({
+          message: "Each offered skill must include category, subcategory, and expertLevel",
+        });
       }
     }
 
-    // Validate skillsInterested only for exchange type
+    // Validate skillsInterested for exchange
     if (finalType === "exchange") {
       const interested = skillsInterested || post.skillsInterested;
-
-      if (!interested || interested.length === 0) {
-        return res.status(400).json({ message: "skillsInterested is required" });
-      }
-
       for (const skill of interested) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
@@ -219,22 +193,18 @@ export const updatePost = async (req, res) => {
       }
     }
 
-    // Prepare update object
     const updatedData = {
       title: title || post.title,
       description: description || post.description,
       type: finalType,
       skillsOffered: skillsOffered || post.skillsOffered,
-      skillsInterested: skillsInterested || post.skillsInterested,
+      skillsInterested: skillsInterested || post.skillsInterested, // now string data
       addLessons: addLessons || post.addLessons,
       duration: finalType === "exchange" ? "" : duration || post.duration,
       fees: finalType === "exchange" ? 0 : fees || post.fees,
     };
 
-    // Update post safely
-    const updatedPost = await Post.findByIdAndUpdate(postId, updatedData, {
-      new: true,
-    });
+    const updatedPost = await Post.findByIdAndUpdate(postId, updatedData, { new: true });
 
     res.status(200).json({
       success: true,

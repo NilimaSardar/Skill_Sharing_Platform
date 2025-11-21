@@ -144,16 +144,28 @@ const ManagePost = () => {
               {/* Exchange Details */}
               <div className="flex items-center justify-between bg-primary-light px-3 py-2 my-1 rounded-lg">
                 <div>
-                  <p className="text-[#737373] text-[14px]">Offers</p>
-                  <p className="text-primary text-[14px]">{item.offer}</p>
+                <p className="text-[#737373] text-[14px]">Offers</p>
+                {item.skillsOffered.map((skill, index) => (
+                  <p key={index} className="text-primary text-[14px]">
+                    {skill.category}
+                  </p>
+                ))}
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <p className="bg-red-200 text-[10px] text-red-500 p-[3px] rounded-xs">{item.offerLevel}</p>
+                  {item.skillsOffered.map((skill, index) => (
+                  <p key={index} className="bg-red-200 text-[10px] text-red-500 p-[3px] rounded-xs">
+                    {skill.expertLevel}
+                  </p>
+                ))}
                   <img src="../../images/exchange.svg" alt="" />
                 </div>
                 <div className="flex flex-col items-end">
                   <p className="text-[#737373] text-[14px]">Wants</p>
-                  <p className="text-primary text-[14px]">{item.want}</p>
+                  {item.skillsInterested.map((skill, index) => (
+                    <p key={index} className="text-primary text-[14px]">
+                      {skill.subcategory}
+                    </p>
+                  ))}
                 </div>
               </div>
 

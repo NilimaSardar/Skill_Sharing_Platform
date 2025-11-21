@@ -95,8 +95,8 @@ const Create = () => {
 
       // Pre-fill subcategories for wanted
       if (editingPost.skillsInterested?.[0]?.category) {
-        const wantedCat = editingPost.skillsInterested[0].category;
-        const selectedCat = allCategories.find(c => c._id === wantedCat);
+        const wantedCat = editingPost.skillsInterested?.[0]?.category;
+        const selectedCat = allCategories.find(c => c.name === wantedCat);
         setWantedSubcategories(selectedCat ? selectedCat.subcategories : []);
       }
     }
@@ -367,7 +367,7 @@ const Create = () => {
                 >
                   <option value="">Select Subcategory</option>
                   {wantedSubcategories.map(sub => (
-                    <option key={sub._id} value={sub._id}>{sub.name}</option>
+                    <option key={sub._id} value={sub._name}>{sub.name}</option>
                   ))}
                 </select>
               </div>
