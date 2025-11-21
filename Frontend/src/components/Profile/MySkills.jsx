@@ -150,7 +150,21 @@ const MySkills = () => {
             <div className="text-[14px]">
               <h4 className="text-[15px] font-medium">{skill.category}</h4>
               <p className="text-[#737373] mb-1">{skill.subcategory}</p>
-              <p className="bg-yellow-100 text-yellow-500 inline p-1 rounded-lg">{skill.expertLevel}</p>
+              {skill.expertLevel && (
+                <p
+                  className={`inline p-1 rounded-lg ${
+                    skill.expertLevel === "Beginner"
+                      ? "bg-green-100 text-green-500"
+                      : skill.expertLevel === "Intermediate"
+                      ? "bg-yellow-100 text-yellow-500"
+                      : skill.expertLevel === "Expert"
+                      ? "bg-red-100 text-red-500"
+                      : "bg-gray-100 text-gray-500"
+                  }`}
+                >
+                  {skill.expertLevel}
+                </p>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <button className="flex items-center" onClick={() => handleDelete(skill._id)}>

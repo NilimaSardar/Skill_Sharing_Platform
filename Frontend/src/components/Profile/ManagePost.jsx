@@ -152,11 +152,32 @@ const ManagePost = () => {
                 ))}
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  {item.skillsOffered.map((skill, index) => (
-                  <p key={index} className="bg-red-200 text-[10px] text-red-500 p-[3px] rounded-xs">
-                    {skill.expertLevel}
-                  </p>
-                ))}
+                  {item.skillsOffered.map((skill, index) => {
+                    let levelClass = "";
+
+                    switch (skill.expertLevel) {
+                      case "Beginner":
+                        levelClass = "bg-green-200 text-green-600";
+                        break;
+                      case "Intermediate":
+                        levelClass = "bg-yellow-200 text-yellow-600";
+                        break;
+                      case "Expert":
+                        levelClass = "bg-red-200 text-red-600";
+                        break;
+                      default:
+                        levelClass = "bg-gray-200 text-gray-600";
+                    }
+
+                    return (
+                      <p
+                        key={index}
+                        className={`text-[10px] p-[4px] rounded-lg ${levelClass}`}
+                      >
+                        {skill.expertLevel}
+                      </p>
+                    );
+                  })}
                   <img src="../../images/exchange.svg" alt="" />
                 </div>
                 <div className="flex flex-col items-end">
