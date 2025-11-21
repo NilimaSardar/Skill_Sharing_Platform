@@ -5,7 +5,7 @@ import { useAuth } from "../../store/auth";
 const ManagePost = () => {
   const { user, API } = useAuth();
   const navigate = useNavigate();
-  console.log("Current user ID:", user._id);
+  // console.log("Current user ID:", user._id);
 
   const token = localStorage.getItem("token");
   const [userPosts, setUserPosts] = useState([]);
@@ -65,7 +65,7 @@ const ManagePost = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        console.log("Fetched posts:", data);
+        // console.log("Fetched posts:", data);
         if (data.posts) setUserPosts(data.posts);
       } catch (err) {
         console.error("Error fetching user posts:", err);

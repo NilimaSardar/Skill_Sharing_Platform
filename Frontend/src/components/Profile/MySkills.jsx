@@ -5,6 +5,7 @@ const MySkills = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
+  const [editingSkillId, setEditingSkillId] = useState(null);
 
   const [formData, setFormData] = useState({
     category: "",
@@ -57,27 +58,75 @@ const MySkills = () => {
     setFormData(prev => ({ ...prev, subcategory: "" }));
   }, [formData.category, categories]);
 
-  // Handle submit
+ // Delete Skill
+  const handleDelete = async (skillId) => {
+    if (!window.confirm("Are you sure you want to delete this skill?")) return;
+
+    try {
+      const res = await fetch(`http://localhost:8000/api/user/skills/${skillId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Skill deleted successfully");
+        setUserSkills(userSkills.filter(skill => skill._id !== skillId));
+      } else {
+        alert(data.message || "Failed to delete skill");
+      }
+    } catch (error) {
+      console.error("Error deleting skill:", error);
+    }
+  };
+
+  // Edit Skill
+  const handleEdit = (skill) => {
+    setFormData({
+      category: skill.category,
+      subcategory: skill.subcategory,
+      experience: skill.yearsOfExperience,
+      level: skill.expertLevel
+    });
+    setShowForm(true);
+    setEditingSkillId(skill._id); // store the id to know we are editing
+  };
+
+  // Handle submit for edit/add
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      category: formData.category,
+      subcategory: formData.subcategory,
+      expertLevel: formData.level,
+      yearsOfExperience: parseInt(formData.experience) || 0
+    };
+
     try {
-      const res = await fetch("http://localhost:8000/api/user/skills", {
-        method: "POST",
+      let url = "http://localhost:8000/api/user/skills";
+      let method = "POST";
+
+      if (editingSkillId) {
+        url = `http://localhost:8000/api/user/skills/${editingSkillId}`;
+        method = "PUT";
+      }
+
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({
-          category: formData.category,
-          subcategory: formData.subcategory, // now sending string name
-          expertLevel: formData.level,
-          yearsOfExperience: parseInt(formData.experience) || 0
-        })
+        body: JSON.stringify(payload)
       });
 
       const data = await res.json();
       if (res.ok) {
         setShowForm(false);
+        setEditingSkillId(null);
         loadUserSkills();
         setFormData({ category: "", subcategory: "", experience: "", level: "" });
       } else {
@@ -87,7 +136,6 @@ const MySkills = () => {
       alert("Network error");
     }
   };
-
   return (
     <div className="flex flex-col gap-3">
 
@@ -98,14 +146,19 @@ const MySkills = () => {
         )}
 
         {userSkills.map(skill => (
-          <div key={skill._id} className="flex gap-4 p-2 border border-border bg-white rounded-lg">
-            <div className="w-[130px] h-[70px]">
-              <img src="../../skillCover/graphic.svg" alt="" className="w-full h-full object-cover" />
-            </div>
+          <div key={skill._id} className="flex justify-between items-start gap-4 p-2 border border-border bg-white rounded-lg">
             <div className="text-[14px]">
               <h4 className="text-[15px] font-medium">{skill.category}</h4>
               <p className="text-[#737373] mb-1">{skill.subcategory}</p>
               <p className="bg-yellow-100 text-yellow-500 inline p-1 rounded-lg">{skill.expertLevel}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="flex items-center" onClick={() => handleDelete(skill._id)}>
+                <img src="../../images/delete.svg" alt="" />
+              </button>
+              <button className="flex items-center" onClick={() => handleEdit(skill)}>
+                <img src="../../images/tabler_edit.svg" alt="" />
+              </button>
             </div>
           </div>
         ))}
