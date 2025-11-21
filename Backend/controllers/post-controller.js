@@ -22,93 +22,30 @@ export const createPost = async (req, res) => {
       });
     }
 
-    // SHARE TYPE VALIDATION
-    if (type === "share") {
-      if (!skillsOffered || skillsOffered.length === 0) {
-        return res
-          .status(400)
-          .json({ message: "skillsOffered is required for share type" });
-      }
+    // Validate skillsOffered
+    if (!skillsOffered || skillsOffered.length === 0) {
+      return res.status(400).json({
+        message: `skillsOffered is required for ${type} type`,
+      });
+    }
 
-      // Each offered skill must contain category & subcategory
-      for (const skill of skillsOffered) {
-        if (!skill.category || !skill.subcategory) {
-          return res.status(400).json({
-            message:
-              "Each offered skill must include category and subcategory",
-          });
-        }
-
-        // Validate category & subcategory exists in DB
-        const cat = await SkillCategory.findById(skill.category);
-        if (!cat) {
-          return res.status(400).json({
-            message: "Invalid category in skillsOffered",
-          });
-        }
-
-        const validSubs = cat.subcategories.map((s) => s._id.toString());
-
-        if (!validSubs.includes(skill.subcategory)) {
-          return res.status(400).json({
-            message:
-              "Selected subcategory does not belong to its category (skillsOffered)",
-          });
-        }
-      }
-
-      // Duration & Fees required
-      if (!duration || !fees) {
+    for (const skill of skillsOffered) {
+      if (!skill.category || !skill.subcategory || !skill.expertLevel) {
         return res.status(400).json({
-          message: "Duration and fees are required for share type",
-        });
-      }
-
-      if (!addLessons || addLessons.length === 0) {
-        return res.status(400).json({
-          message: "At least one lesson is required for share type",
+          message:
+            "Each offered skill must include category, subcategory, and expertLevel",
         });
       }
     }
 
-    // EXCHANGE TYPE VALIDATION
+    // Validate skillsInterested for exchange type
     if (type === "exchange") {
-      if (!skillsOffered || skillsOffered.length === 0) {
-        return res.status(400).json({
-          message: "skillsOffered is required for exchange type",
-        });
-      }
-
       if (!skillsInterested || skillsInterested.length === 0) {
         return res.status(400).json({
           message: "skillsInterested is required for exchange type",
         });
       }
 
-      // Validate offered skills
-      for (const skill of skillsOffered) {
-        if (!skill.category || !skill.subcategory) {
-          return res.status(400).json({
-            message:
-              "Each offered skill must include category and subcategory",
-          });
-        }
-        const cat = await SkillCategory.findById(skill.category);
-        if (!cat) {
-          return res.status(400).json({
-            message: "Invalid category in skillsOffered",
-          });
-        }
-        const validSubs = cat.subcategories.map((s) => s._id.toString());
-        if (!validSubs.includes(skill.subcategory)) {
-          return res.status(400).json({
-            message:
-              "Selected subcategory does not belong to its category (skillsOffered)",
-          });
-        }
-      }
-
-      // Validate interested skills
       for (const skill of skillsInterested) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
@@ -116,23 +53,10 @@ export const createPost = async (req, res) => {
               "Each interested skill must include category and subcategory",
           });
         }
-        const cat = await SkillCategory.findById(skill.category);
-        if (!cat) {
-          return res.status(400).json({
-            message: "Invalid category in skillsInterested",
-          });
-        }
-        const validSubs = cat.subcategories.map((s) => s._id.toString());
-        if (!validSubs.includes(skill.subcategory)) {
-          return res.status(400).json({
-            message:
-              "Selected subcategory does not belong to its category (skillsInterested)",
-          });
-        }
       }
     }
 
-    // CLEANUPS
+    // Duration & Fees required for share type
     const cleanDuration = type === "exchange" ? "" : duration;
     const cleanFees = type === "exchange" ? 0 : fees;
 
@@ -239,15 +163,6 @@ export const deletePost = async (req, res) => {
 export const updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
-
-    const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({ message: "Post not found" });
-
-    // Authorization check
-    if (post.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized" });
-    }
-
     const {
       type,
       title,
@@ -256,102 +171,78 @@ export const updatePost = async (req, res) => {
       fees,
       skillsOffered,
       skillsInterested,
-      addLessons
+      addLessons,
     } = req.body;
 
-    let finalType = type || post.type;
+    // Find post
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
-    // VALIDATION FOR SHARE TYPE
-    if (finalType === "share") {
+    // Authorization
+    if (post.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    const finalType = type || post.type;
+
+    // Validate skillsOffered
+    if (finalType === "share" || finalType === "exchange") {
       const offered = skillsOffered || post.skillsOffered;
 
       if (!offered || offered.length === 0) {
-        return res.status(400).json({
-          message: "skillsOffered is required for share type",
-        });
+        return res.status(400).json({ message: "skillsOffered is required" });
       }
 
-      // Validate offered skills
       for (const skill of offered) {
-        if (!skill.category || !skill.subcategory) {
+        if (!skill.category || !skill.subcategory || !skill.expertLevel) {
           return res.status(400).json({
-            message: "Each offered skill must contain category & subcategory",
+            message: "Each offered skill must include category, subcategory, and expertLevel",
           });
         }
-      }
-
-      // Duration & Fees required for share
-      if (!duration && !post.duration) {
-        return res.status(400).json({
-          message: "Duration is required for share",
-        });
-      }
-      if (!fees && post.fees === 0) {
-        return res.status(400).json({
-          message: "Fees is required for share",
-        });
       }
     }
 
-    // VALIDATION FOR EXCHANGE TYPE
+    // Validate skillsInterested only for exchange type
     if (finalType === "exchange") {
-      const offered = skillsOffered || post.skillsOffered;
       const interested = skillsInterested || post.skillsInterested;
 
-      if (!offered || offered.length === 0) {
-        return res.status(400).json({
-          message: "skillsOffered is required for exchange type",
-        });
-      }
-
       if (!interested || interested.length === 0) {
-        return res.status(400).json({
-          message: "skillsInterested is required for exchange type",
-        });
-      }
-
-      for (const skill of offered) {
-        if (!skill.category || !skill.subcategory) {
-          return res.status(400).json({
-            message: "Each offered skill must contain category & subcategory",
-          });
-        }
+        return res.status(400).json({ message: "skillsInterested is required" });
       }
 
       for (const skill of interested) {
         if (!skill.category || !skill.subcategory) {
           return res.status(400).json({
-            message: "Each interested skill must contain category & subcategory",
+            message: "Each interested skill must include category and subcategory",
           });
         }
       }
     }
 
-    // APPLY UPDATES
-    post.title = title || post.title;
-    post.description = description || post.description;
-    post.type = finalType;
+    // Prepare update object
+    const updatedData = {
+      title: title || post.title,
+      description: description || post.description,
+      type: finalType,
+      skillsOffered: skillsOffered || post.skillsOffered,
+      skillsInterested: skillsInterested || post.skillsInterested,
+      addLessons: addLessons || post.addLessons,
+      duration: finalType === "exchange" ? "" : duration || post.duration,
+      fees: finalType === "exchange" ? 0 : fees || post.fees,
+    };
 
-    post.skillsOffered = skillsOffered || post.skillsOffered;
-    post.skillsInterested = skillsInterested || post.skillsInterested;
-
-    // For exchange → no duration or fees
-    post.duration = finalType === "exchange" ? "" : (duration || post.duration);
-    post.fees = finalType === "exchange" ? 0 : (fees || post.fees);
-
-    post.addLessons = addLessons || post.addLessons;
-
-    const updated = await post.save();
+    // Update post safely
+    const updatedPost = await Post.findByIdAndUpdate(postId, updatedData, {
+      new: true,
+    });
 
     res.status(200).json({
       success: true,
       message: "Post updated successfully",
-      post: updated,
+      post: updatedPost,
     });
-
   } catch (error) {
     console.error("Update Post Error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-

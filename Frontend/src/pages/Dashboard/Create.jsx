@@ -171,27 +171,43 @@ const Create = () => {
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Skills Offered (include expertLevel)
+    let offeredSkills = [];
+    if (formData.skillOffered.category && formData.skillOffered.subcategory) {
+      offeredSkills = [{
+        category: formData.skillOffered.category,
+        subcategory: formData.skillOffered.subcategory,
+        expertLevel: formData.skillOffered.expertLevel || "", // include expert level
+      }];
+    }
+  
+    // Skills Wanted (for exchange type, no expertLevel needed)
+    let interestedSkills = [];
+    if (formData.postType === "exchange" && formData.skillWanted.category && formData.skillWanted.subcategory) {
+      interestedSkills = [{
+        category: formData.skillWanted.category,
+        subcategory: formData.skillWanted.subcategory,
+      }];
+    }
+  
     const payload = {
       title: formData.title,
       description: formData.description,
       type: formData.postType,
-      skillsOffered: formData.skillOffered.subcategory
-        ? [{ category: formData.skillOffered.category, subcategory: formData.skillOffered.subcategory }]
-        : [],
-      skillsInterested: formData.postType === "exchange" && formData.skillWanted.subcategory
-        ? [{ category: formData.skillWanted.category, subcategory: formData.skillWanted.subcategory }]
-        : [],
+      skillsOffered: offeredSkills,
+      skillsInterested: interestedSkills,
       duration: formData.duration,
       fees: formData.fees,
       addLessons: formData.postType === "share" ? formData.addLessons : [],
     };
-
+  
     try {
       const url = isEditing
         ? `${API}/api/posts/update/${editingPost._id}`
         : `${API}/api/posts`;
       const method = isEditing ? "PATCH" : "POST";
-
+  
       const response = await fetch(url, {
         method,
         headers: {
@@ -200,7 +216,7 @@ const Create = () => {
         },
         body: JSON.stringify(payload),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         toast.success(isEditing ? "Post updated successfully!" : "Post created!");
@@ -212,7 +228,7 @@ const Create = () => {
       console.error(error);
       toast.error("Internal Server Error");
     }
-  };
+  };  
 
   return (
     <div className='mb-20'>
