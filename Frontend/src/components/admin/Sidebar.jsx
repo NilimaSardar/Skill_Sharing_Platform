@@ -96,7 +96,7 @@ const Sidebar = ({ children }) => {
 
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-64 p-4 md:pt-4 pt-16">
+      <main className="flex-1 md:ml-64 md:pt-0 pt-16">
         {children}
       </main>
     </div>
