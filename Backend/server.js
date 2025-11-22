@@ -9,6 +9,8 @@ import postRoutes from "./router/post-router.js";
 import skillRoutes from "./router/skills-router.js";
 import userSkillRoutes from "./router/user-skill-router.js";
 
+import adminRoutes from "./router/admin-router.js";
+
 import connectDb from "./utils/db.js";
 import errorMiddleware from "./middlewares/error-middleware.js";
 
@@ -29,6 +31,9 @@ app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/user/skills", userSkillRoutes);
+
+// admin Routes
+app.use("/api/admin", adminRoutes);
 
 // Error middleware
 app.use(errorMiddleware);

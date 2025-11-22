@@ -1,74 +1,47 @@
-const User = require("../models/user-model");
-const Contact = require("../models/contact-model");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find({}, { password: 0 });
-        console.log(users);
-        
-        if(!users || users.length === 0) {
-            return res.status(404).json({message: "No Users Found"});
-        }
-        return res.status(200).json(users);
-    } catch (error) {
-        next(error);
-    }
-}
+// Admin login
+export const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-const getUserById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await User.findOne({_id: id}, {password: 0});
-        return res.status(200).json(data);
-    } catch (error) {
-        next(error);
-    }
-}
+    // Find admin
+    const admin = await User.findOne({ email, role: "admin" });
+    if (!admin)
+      return res.status(404).json({ message: "Admin not found" });
 
-const updateUserById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updatedUserData = req.body;
+    // Check password
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid password" });
 
-        const updateData = await User.updateOne({_id: id},{$set: updatedUserData});
-        return res.status(200).json(updateData);
-    } catch (error) {
-        next(error);
-    }
-}
+    // Generate token
+    const token = jwt.sign(
+        {userId: admin._id, email: admin.email, role: admin.role },
+        process.env.JWT_SECRET_KEY,
+        {expiresIn: "7d"}
+    );
 
-const deleteUserById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        await User.deleteOne({_id: id});
-        return res.status(200).json({message: "User Deleted Successfully"});
-    } catch (error) {
-        next(error);
-    }
-}
+    res.status(200).json({
+      message: "Admin logged in",
+      token,
+      admin: {
+        id: admin._id,
+        fullName: admin.fullName,
+        email: admin.email,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-const deleteContactById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        await Contact.deleteOne({_id: id});
-        return res.status(200).json({message: "Contact Deleted Successfully"});
-    } catch (error) {
-        next(error);
-    }
-}
-
-const getAllContacts = async (req, res) => {
-    try {
-        const contacts = await Contact.find();
-
-        if(!contacts || contacts.length === 0) {
-            return res.status(404).json({message: "No Contacts Found"});
-        }
-
-        return res.status(200).json(contacts);
-    } catch (error) {
-        next(error);
-    }
-}
-
-module.exports = {getAllUsers, getAllContacts, deleteUserById, getUserById, updateUserById, deleteContactById};
+// Admin dashboard example protected endpoint
+export const getAdminDashboard = async (req, res) => {
+  res.json({
+    message: "Welcome Admin",
+    user: req.user,
+  });
+};
