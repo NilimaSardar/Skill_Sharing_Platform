@@ -20,6 +20,10 @@ import AllCategories from "./pages/Dashboard/Home/AllCategories"
 import Categories from "./pages/Dashboard/Home/Categories"
 import ProposeExchange from "./pages/Dashboard/Home/ProposeExchange"
 import ViewShareDetails from "./pages/Dashboard/Home/ViewShareDetails"
+import AdminLogin from "./pages/admin/AdminLogin"
+import AdminDashboard from "./pages/admin/AdminDashboard"
+import AdminLogout from "./pages/Admin/AdminLogout"
+import AdminProtected from "./components/AdminProtected"
 
 function App() {
   return (
@@ -31,6 +35,31 @@ function App() {
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/logout" element={<AdminLogout/>} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminProtected>
+              <AdminDashboard />
+            </AdminProtected>
+          }
+        />
+
+        {/* Admin Protected */}
+        {/* <Route
+          path="/admin/dashboard"
+          element={
+            <AdminProtected>
+              <AdminDashboard />
+            </AdminProtected>
+          }
+        />
+
+        </Routes> */}
 
         {/* Dashboard Protected */}
         <Route 
