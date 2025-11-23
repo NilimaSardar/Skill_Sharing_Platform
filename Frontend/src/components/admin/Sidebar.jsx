@@ -8,11 +8,16 @@ import { FaFolderTree} from "react-icons/fa6";
 import { FaUserCog } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { IoSettingsSharp } from "react-icons/io5";
-import { FiLogOut } from "react-icons/fi";
+import { FiChevronDown, FiLogOut } from "react-icons/fi";
+
+
+import { FaPlusCircle } from "react-icons/fa";
+import { MdOutlineSubdirectoryArrowRight } from "react-icons/md"; 
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -38,56 +43,97 @@ const Sidebar = ({ children }) => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-3 text-gray-700 mt-6 flex-1">
+        <nav className="flex flex-col gap-2 text-gray-700 mt-6 flex-1">
 
-          <Link
+        {/* Dashboard */}
+        <Link
             to="/admin/dashboard"
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium"
-          >
-            <MdSpaceDashboard size={20} /> Dashboard
-          </Link>
+        >
+            <MdSpaceDashboard size={18} /> Dashboard
+        </Link>
 
-          <button
-            onClick={() => {
-              navigate("/admin/category");
-              setOpen(false);
-            }}
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg text-left"
-          >
-            <FaFolderTree size={18} /> Category
-          </button>
+        {/* CATEGORY DROPDOWN */}
+        <div className="flex flex-col">
+        <button
+            onClick={() => setCategoryOpen(prev => !prev)}
+            className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg"
+        >
+            <span className="flex items-center gap-3">
+            <FaFolderTree size={18} />
+            Category
+            </span>
 
-          <button
+            <FiChevronDown
+            size={16}
+            className={`transition-transform duration-300 ${
+                categoryOpen ? "rotate-180" : "rotate-0"
+            }`}
+            />
+        </button>
+
+        {/* Dropdown items */}
+        {categoryOpen && (
+            <div className="ml-10 mt-1 flex flex-col gap-1 animate-fadeIn">
+            <button
+                onClick={() => {
+                navigate("/admin/addCategory");
+                setOpen(false);
+                setCategoryOpen(false);
+                }}
+                className="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-lg text-sm"
+            >
+                <FaPlusCircle size={15} /> Add Category
+            </button>
+
+            <button
+                onClick={() => {
+                navigate("/admin/addSubcategory");
+                setOpen(false);
+                setCategoryOpen(false);
+                }}
+                className="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-lg text-sm"
+            >
+                <MdOutlineSubdirectoryArrowRight size={18} /> Add Subcategory
+            </button>
+            </div>
+        )}
+        </div>
+
+
+        {/* Reports */}
+        <button
             onClick={() => {
-              navigate("/admin/usermanagement");
-              setOpen(false);
+            navigate("/admin/reports");
+            setOpen(false);
             }}
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg text-left"
-          >
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg"
+        >
+            <TbReportAnalytics size={18} /> Reports
+        </button>
+
+        {/* Users */}
+        <button
+            onClick={() => {
+            navigate("/admin/usermanagement");
+            setOpen(false);
+            }}
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg"
+        >
             <FaUserCog size={18} /> User Management
+        </button>
 
-          </button>
-
-          <button
+        {/* Settings */}
+        <button
             onClick={() => {
-              navigate("/admin/reports");
-              setOpen(false);
+            navigate("/admin/settings");
+            setOpen(false);
             }}
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg text-left"
-          >
-            <TbReportAnalytics size={20} /> Reports
-          </button>
-
-          <button
-            onClick={() => {
-              navigate("/admin/settings");
-              setOpen(false);
-            }}
-            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg text-left"
-          >
-            <IoSettingsSharp size={20} /> Settings
-          </button>
+            className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg"
+        >
+            <IoSettingsSharp size={18} /> Settings
+        </button>
         </nav>
 
         {/* Logout Bottom */}
