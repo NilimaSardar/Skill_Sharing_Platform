@@ -13,7 +13,7 @@ const AddCategory = () => {
   const [existingImage, setExistingImage] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
 
-  const entriesPerPage = 6;
+  const entriesPerPage = 5;
 
   // Fetch all categories from backend
   const fetchCategories = async () => {
@@ -178,7 +178,7 @@ const AddCategory = () => {
                       {startIndex + index + 1}
                     </td>
                     <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
-                      {cat.image && <img src={`http://localhost:8000/${cat.image}`} alt={cat.name} className="w-12 h-12 object-cover rounded" />}
+                      {cat.image && <img src={`http://localhost:8000/${cat.image}`} alt={cat.name} className="w-10 h-10 object-cover rounded" />}
                     </td>
                     <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-600">{cat.name}</td>
                     <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-600"> 
@@ -234,7 +234,7 @@ const AddCategory = () => {
                   <img
                     src={URL.createObjectURL(newCategory.imageFile)}
                     alt="Preview"
-                    className="w-32 h-32 object-cover rounded"
+                    className="w-16 h-16 object-cover rounded"
                   />
                 </div>
               ) : existingImage ? (
@@ -242,7 +242,7 @@ const AddCategory = () => {
                   <img
                     src={existingImage}
                     alt="Current"
-                    className="w-32 h-32 object-cover rounded"
+                    className="w-16 h-16 object-cover rounded"
                   />
                 </div>
               ) : null}
