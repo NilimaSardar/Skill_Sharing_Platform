@@ -7,11 +7,9 @@ const subcategorySchema = new mongoose.Schema({
 const skillCategorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, unique: true },
-
+    image: { type: String }, // store image path or URL
     subcategories: [subcategorySchema],
-
     isActive: { type: Boolean, default: true },
-
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"

@@ -14,9 +14,12 @@ export const createSkillCategory = async (req, res) => {
       return res.status(400).json({ message: "Category already exists" });
     }
 
+    const image = req.file ? req.file.path : null; // save image path
+
     const category = await SkillCategory.create({
       name: name.trim(),
       subcategories: subcategories || [],
+      image,
       createdBy: req.user._id,
     });
 
@@ -65,6 +68,7 @@ export const updateCategory = async (req, res) => {
     if (name) category.name = name.trim();
     if (subcategories) category.subcategories = subcategories;
     if (typeof isActive === "boolean") category.isActive = isActive;
+    if (req.file) category.image = req.file.path; // update image
 
     await category.save();
 

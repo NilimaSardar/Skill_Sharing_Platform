@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 import authRoute from "./router/auth-router.js";
 import postRoutes from "./router/post-router.js";
@@ -15,6 +16,9 @@ import connectDb from "./utils/db.js";
 import errorMiddleware from "./middlewares/error-middleware.js";
 
 const app = express();
+
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // CORS options
 const corsOption = {
