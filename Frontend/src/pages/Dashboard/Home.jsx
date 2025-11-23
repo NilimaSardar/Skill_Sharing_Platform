@@ -129,6 +129,31 @@ const Home = () => {
 
         </div>
 
+        {/* Recent Post */}
+        <div>
+          <div className='flex justify-between items-center mt-6 mb-3'>
+            <h3 className='font-[550] text-text'>Recent Post</h3>
+            <Link className='text-primary bg-primary-light py-1 px-2 rounded-lg text-[13px]'>View More</Link>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto whitespace-nowrap py-2 hide-scrollbar">
+            {["Nilima Sardar", "Shikshya Nepal", "Charlie", "Diana", "Eve", "Frank"].map((user, idx) => (
+              <div
+                key={idx}
+                className='flex-shrink-0 flex flex-col gap-1 w-[120px] h-[150px] items-center justify-center border border-border rounded-lg'
+              >
+                <img src="../profile/Nilima.jpeg" alt="" className='w-[90px] h-[90px] rounded-lg'/>
+                <p className='text-[14px] font-medium text-text'>{user}</p>
+                <div className='flex items-center justify-center'>
+                  <img src="../rating/rating.svg" alt="" className='w-2/3'/> 
+                  <span className='text-[#737373] text-xs'>(52)</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
       </div>
   </div>
   )

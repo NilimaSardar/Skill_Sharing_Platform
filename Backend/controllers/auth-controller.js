@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import fs from "fs";
+import path from "path";
 
 // Home route
 export const home = async (req, res) => {
@@ -71,3 +73,54 @@ export const user = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Get user by ID
+export const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Update user profile
+export const updateUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const { fullName, email, phone, age, location, skills, removePhoto } = req.body;
+
+    if (fullName) user.fullName = fullName;
+    if (email) user.email = email;
+    if (phone) user.phone = phone;
+    if (age) user.age = age;
+    if (location) user.location = location;
+    if (skills) user.skills = JSON.parse(skills);
+
+    // Handle profile photo upload
+    if (req.file) {
+      if (user.profilePhoto) {
+        const oldPath = path.join("uploads", user.profilePhoto);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+      user.profilePhoto = req.file.filename;
+    }
+
+    // Remove profile photo if requested
+    if (removePhoto && user.profilePhoto) {
+      const oldPath = path.join("uploads", user.profilePhoto);
+      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      user.profilePhoto = null;
+    }
+
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    console.error("Update user error:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+

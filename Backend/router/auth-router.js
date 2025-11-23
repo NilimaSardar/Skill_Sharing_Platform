@@ -1,16 +1,38 @@
 import express from "express";
-import { home, register, login, user } from "../controllers/auth-controller.js";
+import multer from "multer";
+import {
+  home,
+  register,
+  login,
+  user,
+  getUserById,
+  updateUser,
+} from "../controllers/auth-controller.js";
 import { signupSchema, loginSchema } from "../validators/auth-validator.js";
 import validate from "../middlewares/validate-middleware.js";
 import authMiddleware from "../middlewares/auth-middleware.js";
 
 const router = express.Router();
 
-router.route("/").get(home);
+// Multer setup for profile photo upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
+    const ext = file.originalname.split(".").pop();
+    cb(null, `${Date.now()}.${ext}`);
+  },
+});
+const upload = multer({ storage });
 
-router.route("/register").post(validate(signupSchema), register);
-router.route("/login").post(validate(loginSchema), login);
+// Public routes
+router.get("/", home);
+router.post("/register", validate(signupSchema), register);
+router.post("/login", validate(loginSchema), login);
 
-router.route("/user").get(authMiddleware, user);
+// Protected routes
+router.get("/user", authMiddleware, user); // current logged-in user
+router.get("/user/:id", authMiddleware, getUserById); // get user by ID
+router.get("/user/:id", authMiddleware, updateUser); // get user by ID
+router.put("/user/:id", authMiddleware, upload.single("profilePhoto"), updateUser); // update profile
 
 export default router;

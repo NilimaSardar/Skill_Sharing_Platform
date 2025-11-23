@@ -40,7 +40,7 @@ const ProfileSetting = () => {
                     <h2 className='text-text text-lg'>Personal & Account</h2>
                     <div className='flex flex-col gap-1 py-2'>
                         <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
-                            <div className='flex gap-3'>
+                            <div className='flex gap-3' onClick={() => navigate("/dashboard/profile/editProfile")}>
                                 <img src="../../profileSettings/editInformation.svg" alt="" className='w-[23px] h-[23px]'/>
                                 <p className='text-[#737373] text-[15px]'>Edit Information</p>
                             </div>

@@ -35,6 +35,7 @@ import AddSubcategory from "./pages/Admin/AddSubcategory";
 import Reports from "./pages/Admin/Reports";
 import UserManagement from "./pages/Admin/UserManagement";
 import Settings from "./pages/Admin/Settings";
+import EditProfile from "./pages/Dashboard/Profile/EditProfile";
 
 function App() {
   return (
@@ -93,6 +94,8 @@ function App() {
           {/* Profile */}
           <Route path="profile" element={<Profile />} />
           <Route path="profile/profileSettings" element={<ProfileSetting />} />
+          <Route path="profile/editprofile" element={<EditProfile />} />
+
 
           <Route path="logout" element={<Logout />} />
         </Route>
