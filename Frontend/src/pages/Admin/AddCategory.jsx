@@ -10,6 +10,8 @@ const AddCategory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategory, setNewCategory] = useState({ name: "", imageFile: null });
   const [categories, setCategories] = useState([]);
+  const [existingImage, setExistingImage] = useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const entriesPerPage = 6;
 
@@ -43,30 +45,42 @@ const AddCategory = () => {
     fetchCategories();
   }, [token]);
 
-  // Save new category to backend
+  const handleEditCategory = (category) => {
+    setEditingCategory(category);
+    setNewCategory({ name: category.name, imageFile: null });
+    setExistingImage(category.image ? `http://localhost:8000/${category.image}` : null);
+    setIsModalOpen(true);
+  };  
+
   const handleSaveCategory = async () => {
-    if (!newCategory.name || !newCategory.imageFile) {
-      alert("Please provide category name and image.");
+    if (!newCategory.name && !editingCategory) {
+      alert("Please provide category name");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("name", newCategory.name);
-    formData.append("image", newCategory.imageFile);
-
+    if (newCategory.imageFile) formData.append("image", newCategory.imageFile);
+  
     try {
-      const res = await fetch(`${API}/api/skills`, {
-        method: "POST",
+      const url = editingCategory
+        ? `${API}/api/skills/${editingCategory._id}`
+        : `${API}/api/skills`;
+      const method = editingCategory ? "PUT" : "POST";
+  
+      const res = await fetch(url, {
+        method,
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
-
+  
       const data = await res.json();
       if (res.ok) {
-        fetchCategories(); // Refresh table
+        fetchCategories();
         setNewCategory({ name: "", imageFile: null });
+        setEditingCategory(null);
         setIsModalOpen(false);
       } else {
         alert(data.message || "Failed to save category");
@@ -74,7 +88,7 @@ const AddCategory = () => {
     } catch (err) {
       console.error("Save category error:", err);
     }
-  };
+  };  
 
   const handleDeleteCategory = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
@@ -169,9 +183,9 @@ const AddCategory = () => {
                     <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-600">{cat.name}</td>
                     <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-600"> 
                       <div className="flex items-center gap-4"> 
-                        <button className="flex items-center"> 
-                          <img src="../../images/tabler_edit.svg" alt="Edit" /> 
-                        </button> 
+                        <button onClick={() => handleEditCategory(cat)} className="flex items-center">
+                          <img src="../../images/tabler_edit.svg" alt="Edit" />
+                        </button>
                         <button onClick={() => handleDeleteCategory(cat._id)} className="flex items-center">
                           <img src="../../images/delete.svg" alt="Delete" />
                         </button>
@@ -199,7 +213,9 @@ const AddCategory = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-              <h2 className="text-xl font-semibold mb-4">Add Category</h2>
+              <h2 className="text-xl font-semibold mb-4">
+                {editingCategory ? "Edit Category" : "Add New Category"}
+              </h2>
               <input
                 type="text"
                 placeholder="Category Name"
@@ -213,14 +229,32 @@ const AddCategory = () => {
                 className="w-full mb-4 px-3 py-2 border rounded"
                 onChange={(e) => setNewCategory({ ...newCategory, imageFile: e.target.files[0] })}
               />
-              {newCategory.imageFile && (
+              {newCategory.imageFile ? (
                 <div className="mb-4">
-                  <img src={URL.createObjectURL(newCategory.imageFile)} alt="Preview" className="w-32 h-32 object-cover rounded" />
+                  <img
+                    src={URL.createObjectURL(newCategory.imageFile)}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover rounded"
+                  />
                 </div>
-              )}
+              ) : existingImage ? (
+                <div className="mb-4">
+                  <img
+                    src={existingImage}
+                    alt="Current"
+                    className="w-32 h-32 object-cover rounded"
+                  />
+                </div>
+              ) : null}
+
               <div className="flex justify-end gap-3">
                 <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 border rounded">Cancel</button>
-                <button onClick={handleSaveCategory} className="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+                <button
+                  onClick={handleSaveCategory}
+                  className="px-4 py-2 bg-blue-600 text-white rounded"
+                >
+                  {editingCategory ? "Update" : "Save"}
+                </button>
               </div>
             </div>
           </div>
