@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react'
-import { Link,NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import { useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
 
 const Home = () => {
-  const { user } = useAuth(); // get logged-in user
+  const { user, API } = useAuth(); // get logged-in user
   const [showMore, setShowMore] = React.useState(false);
   // console.log('user in home:', user);
   const [categories, setCategories] = React.useState([]);
@@ -30,18 +30,22 @@ const Home = () => {
     fetchCategories();
   }, []);
   
-
-  // Dynamically get full name, fallback to "User" if not available
-  const fullName = user?.profile?.first_name
-    ? `${user.profile.first_name} ${user.profile.last_name || ""}`.trim()
-    : "User";
   return (
     <div className="bg-white  pb-20">
       <div className="pt-[24px] px-[28px] flex justify-between items-center w-full max-w-md  bg-primary text-white-2">
         <div className="flex items-center gap-3 mb-5">
-          <img src="../profile/Nilima.jpeg" alt="profile image" className="h-[50px] w-[50px] rounded-full"/>
+          <img 
+            src={
+              user?.profilePhoto
+              ? user.profilePhoto.startsWith("http")
+              ? user.profilePhoto
+              : `${API}/uploads/${user.profilePhoto}`
+              : `${API}/uploads/Profile.jpeg`
+            }
+          alt={user?.fullName || "profile"}
+          className="h-[50px] w-[50px] rounded-full"/>
           <div className="leading-5">
-            <p className="text-[18px] tracking-wide">{user.fullName}</p>
+            <p className="text-[18px] tracking-wide">{user?.fullName || "User Name"}</p>
             <h3 className="font-normal text-[12px]">Discover your skills today</h3>
           </div>
         </div>

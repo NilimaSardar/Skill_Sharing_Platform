@@ -1,37 +1,44 @@
-import React from 'react'
+import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { useAuth } from '../../../store/auth';
 
 const ProfileSetting = () => {
     const navigate = useNavigate();
-    
-  return (
-    <div>
-        <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
-            <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
-              <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
-            </div>
-          <h3 className='font-serif w-full text-center text-xl mr-5'>Settings</h3>
-        </div>
+    const { user, API } = useAuth(); 
 
-        <div className='mx-[28px] py-2'>
-            {/* profile */}
-            <div className="flex flex-col justify-center">
-                <div className="flex flex-col items-center">
-                    <div className="relative w-[85px] h-[85px] flex items-center justify-center cursor-pointer">
-                    <img
-                    src="../../profile/Nilima.jpeg"
-                    alt=""
-                    className="w-[80px] h-[80px] rounded-full object-cover border-2 border-primary-light shadow"
-                    />
-                    {/* Edit button */}
-                    <img src="../../images/Edit.svg" alt="" className="absolute bottom-1 right-1 border-1 border-white rounded-full"/>
-                    </div>
-                    <p className="text-[18px] text-center font-medium mt-2">Nilima Sardar</p>
-                    <p className='text-[#737373]'>nilima@gmail.com</p>
+    return (
+        <div>
+            {/* Topbar */}
+            <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
+                <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
+                  <img src="../../images/BackArrow.svg" alt="Back" className='w-[25px] h-[25px]'/>
                 </div>
-
+                <h3 className='font-serif w-full text-center text-xl mr-5'>Settings</h3>
             </div>
+
+            <div className='mx-[28px] py-2'>
+                {/* Profile Section */}
+                <div className="flex flex-col justify-center">
+                    <div className="flex flex-col items-center">
+                        <div className="relative w-[85px] h-[85px] flex items-center justify-center cursor-pointer">
+                            <img
+                                src={
+                                    user?.profilePhoto
+                                    ? user.profilePhoto.startsWith("http")
+                                        ? user.profilePhoto
+                                        : `${API}/uploads/${user.profilePhoto}`
+                                    : `${API}/uploads/Profile.jpeg`
+                                }
+                                alt={user?.fullName || "profile"}
+                                className="w-[90px] h-[90px] rounded-full object-cover"
+                            />
+                            {/* Edit button */}
+                            <img src="../../images/Edit.svg" onClick={() => navigate("/dashboard/profile/editProfile")} alt="Edit" className="absolute bottom-1 right-1 border-1 border-white rounded-full"/>
+                        </div>
+                        <p className="text-[18px] text-center font-medium mt-2">{user?.fullName || "User Name"}</p>
+                        <p className='text-[#737373]'>{user?.email || "user@example.com"}</p>
+                    </div>
+                </div>
 
             {/* All Settings */}
             <div className='mt-4 mb-28'>

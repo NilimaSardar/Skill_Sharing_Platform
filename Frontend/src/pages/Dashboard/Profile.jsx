@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import MySkills from "../../components/profile/MySkills";
 import ManagePost from "../../components/Profile/ManagePost";
+import { useAuth } from '../../store/auth';
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const { user, API } = useAuth(); 
+
   const [activeTab, setActiveTab] = useState("skills"); // default tab
 
   return (
@@ -23,14 +27,20 @@ const Profile = () => {
           <div className="flex flex-col items-center">
             <div className="relative w-[85px] h-[85px] flex items-center justify-center cursor-pointer">
               <img
-                src="../../profile/Profile.jpeg"
-                alt=""
+                src={
+                  user?.profilePhoto
+                  ? user.profilePhoto.startsWith("http")
+                      ? user.profilePhoto
+                      : `${API}/uploads/${user.profilePhoto}`
+                  : `${API}/uploads/Profile.jpeg`
+                }
+                alt={user?.fullName || "profile"}
                 className="w-[85px] h-[85px] rounded-full object-cover"
               />
-              <img src="../../images/Edit.svg" alt="" className="absolute bottom-1 right-1 border-1 border-white rounded-full" />
+              <img src="../../images/Edit.svg" onClick={() => navigate("/dashboard/profile/editProfile")} alt="" className="absolute bottom-1 right-1 border-1 border-white rounded-full" />
             </div>
 
-            <p className="text-[18px] text-center font-medium mt-2">Nilima Sardar</p>
+              <p className="text-[18px] text-center font-medium mt-2">{user?.fullName || "User Name"}</p>
           </div>
 
           <div className='flex justify-between my-4'>

@@ -140,7 +140,7 @@ return (
             <img
               src={preview}
               alt="profile"
-              className="w-28 h-28 rounded-full object-cover border-2 border-blue-200 shadow-md"
+              className="w-28 h-28 rounded-full object-cover"
             />
             {user?.profilePhoto && (
               <button
