@@ -76,6 +76,29 @@ const AddCategory = () => {
     }
   };
 
+  const handleDeleteCategory = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this category?")) return;
+  
+    try {
+      const res = await fetch(`${API}/api/skills/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await res.json();
+      if (res.ok) {
+        // Refresh categories after delete
+        fetchCategories();
+      } else {
+        alert(data.message || "Failed to delete category");
+      }
+    } catch (err) {
+      console.error("Delete category error:", err);
+    }
+  };  
+
   // Pagination logic
   const filteredCategories = (categories || []).filter((cat) =>
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -149,9 +172,9 @@ const AddCategory = () => {
                         <button className="flex items-center"> 
                           <img src="../../images/tabler_edit.svg" alt="Edit" /> 
                         </button> 
-                        <button className="flex items-center"> 
-                          <img src="../../images/delete.svg" alt="Delete" /> 
-                        </button> 
+                        <button onClick={() => handleDeleteCategory(cat._id)} className="flex items-center">
+                          <img src="../../images/delete.svg" alt="Delete" />
+                        </button>
                       </div>
                     </td>
                   </tr>
