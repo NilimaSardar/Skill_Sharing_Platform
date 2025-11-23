@@ -88,35 +88,38 @@ try {
 };
 
 const handleSubmit = async (e) => {
-e.preventDefault();
-const data = new FormData();
-data.append("fullName", formData.fullName);
-data.append("email", formData.email);
-data.append("phone", formData.phone);
-data.append("age", formData.age);
-data.append("location", formData.location);
-if (formData.profilePhoto) data.append("profilePhoto", formData.profilePhoto);
-data.append("skills", JSON.stringify(skills));
+  e.preventDefault();
+  const data = new FormData();
+  data.append("fullName", formData.fullName);
+  data.append("email", formData.email);
+  data.append("phone", formData.phone);
+  data.append("age", formData.age);
+  data.append("location", formData.location);
+  if (formData.profilePhoto) data.append("profilePhoto", formData.profilePhoto);
+  data.append("skills", JSON.stringify(skills));
 
-try {
-  const res = await fetch(`${API}/api/auth/user/${user._id}`, {
-    method: "PUT",
-    body: data,
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const res = await fetch(`${API}/api/auth/user/${user._id}`, {
+      method: "PUT",
+      body: data,
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  if (!res.ok) {
-    const errData = await res.json();
-    throw new Error(errData.message || "Failed to update profile");
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || "Failed to update profile");
+    }
+
+    const updatedUser = await res.json();
+    setUser(updatedUser);
+    alert("Profile updated successfully!");
+
+    // Navigate to Profile Settings page
+    navigate("/dashboard/profile");
+  } catch (err) {
+    console.error(err);
+    alert("Error updating profile: " + err.message);
   }
-
-  const updatedUser = await res.json();
-  setUser(updatedUser);
-  alert("Profile updated successfully!");
-} catch (err) {
-  console.error(err);
-  alert("Error updating profile: " + err.message);
-}
 
 };
 
