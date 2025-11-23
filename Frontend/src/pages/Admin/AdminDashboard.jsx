@@ -1,6 +1,5 @@
 import React from "react";
-import Topbar from "../../components/Admin/Topbar";
-import Sidebar from "../../components/admin/Sidebar";
+import AdminLayout from "../../Layout/AdminLayout";
 
 import {
   ResponsiveContainer,
@@ -39,10 +38,9 @@ const COLORS = ["#0ea5e9", "#2563eb", "#7c3aed"];
 
 const AdminDashboard = () => {
   return (
-    <Sidebar>
-      <Topbar />
+    <AdminLayout>
 
-      <div className="p-4">
+<div className="p-4">
         {/* TOP CARDS — now responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
 
@@ -156,7 +154,8 @@ const AdminDashboard = () => {
             </div>
         </div>
       </div>
-    </Sidebar>
+
+    </AdminLayout>
   );
 };
 
