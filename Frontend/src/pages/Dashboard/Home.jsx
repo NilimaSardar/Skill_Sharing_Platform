@@ -1,27 +1,34 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link,NavLink } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import { useNavigate } from "react-router-dom";
-
-const skillCategories = [
-  { name: "Arts", icon: "../SkillCategories/arts.svg" },
-  { name: "Music", icon: "../SkillCategories/music.svg" },
-  { name: "Fitness", icon: "../SkillCategories/fitness.svg" },
-  { name: "Tech", icon: "../SkillCategories/technology.svg" },
-  { name: "Crafty", icon: "../SkillCategories/crafty.svg" },
-  { name: "Link", icon: "../SkillCategories/link.svg" },
-  { name: "Bakery", icon: "../SkillCategories/bakery.svg" },
-  { name: "Sports", icon: "../SkillCategories/sports.svg" },
-  { name: "Cooking", icon: "../SkillCategories/cooking.svg" },
-  { name: "Photography", icon: "../SkillCategories/photo.svg" },
-];
+// import { useEffect } from "react";
 
 const Home = () => {
   const { user } = useAuth(); // get logged-in user
   const [showMore, setShowMore] = React.useState(false);
   // console.log('user in home:', user);
+  const [categories, setCategories] = React.useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/skills", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const data = await res.json();
+        setCategories(data.categories); // assuming your backend returns { categories: [...] }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    fetchCategories();
+  }, []);
   
 
   // Dynamically get full name, fallback to "User" if not available
@@ -74,16 +81,16 @@ const Home = () => {
         <div>
           <div className="grid grid-cols-4 gap-4">
 
-            {skillCategories.slice(0, 7).map((item, index) => (
-              <div
-                key={index}
-                onClick={() => navigate("/dashboard/home/categories", { state: item })}
-                className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
-              >
-                <img src={item.icon} alt={item.name} className="w-[24px] h-[24px]" />
-                <p className="text-[14px] text-center font-medium">{item.name}</p>
-              </div>
-            ))}
+          {categories.slice(0, 7).map((item, index) => (
+            <div
+              key={index}
+              onClick={() => navigate("/dashboard/home/categories", { state: item })}
+              className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col items-center justify-center gap-1 rounded-lg cursor-pointer"
+            >
+              <img src={`http://localhost:8000/${item.image}`} alt={item.name} className="w-[24px] h-[24px]" />
+              <p className="text-[14px] text-center font-medium">{item.name}</p>
+            </div>
+          ))}
 
             {/* MORE button */}
             <div

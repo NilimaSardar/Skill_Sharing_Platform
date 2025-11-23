@@ -1,21 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const allCategories = [
-  { name: "Arts", icon: "../../SkillCategories/arts.svg" },
-  { name: "Music", icon: "../../SkillCategories/music.svg" },
-  { name: "Fitness", icon: "../../SkillCategories/fitness.svg" },
-  { name: "Tech", icon: "../../SkillCategories/technology.svg" },
-  { name: "Crafty", icon: "../../SkillCategories/crafty.svg" },
-  { name: "Link", icon: "../../SkillCategories/link.svg" },
-  { name: "Bakery", icon: "../../SkillCategories/bakery.svg" },
-  { name: "Sports", icon: "../../SkillCategories/sports.svg" },
-  { name: "Cooking", icon: "../../SkillCategories/cooking.svg" },
-  { name: "Photography", icon: "../../SkillCategories/photo.svg" },
-];
-
 const AllCategories = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/skills", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const data = await res.json();
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div>
@@ -32,16 +38,14 @@ const AllCategories = () => {
 
       {/* Category List */}
       <div className="grid grid-cols-4 gap-4 mx-[28px] py-5">
-        {allCategories.map((item, index) => (
+        {categories.map((item, index) => (
           <div
             key={index}
-            onClick={() =>
-              navigate("/dashboard/home/categories", { state: item })
-            }
+            onClick={() => navigate("/dashboard/home/categories", { state: item })}
             className="w-[70px] h-[65px] p-[10px] bg-icon-bg-hover flex flex-col 
                        items-center justify-center gap-1 rounded-lg cursor-pointer"
           >
-            <img src={item.icon} alt={item.name} className="w-[24px] h-[24px]" />
+            <img src={`http://localhost:8000/${item.image}`} alt={item.name} className="w-[24px] h-[24px]" />
             <p className="text-[14px] text-center font-medium">{item.name}</p>
           </div>
         ))}

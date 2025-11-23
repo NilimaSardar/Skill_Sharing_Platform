@@ -23,9 +23,9 @@ const Profile = () => {
           <div className="flex flex-col items-center">
             <div className="relative w-[85px] h-[85px] flex items-center justify-center cursor-pointer">
               <img
-                src="../../profile/Nilima.jpeg"
+                src="../../profile/Profile.jpeg"
                 alt=""
-                className="w-[80px] h-[80px] rounded-full object-cover border-2 border-primary-light shadow"
+                className="w-[85px] h-[85px] rounded-full object-cover"
               />
               <img src="../../images/Edit.svg" alt="" className="absolute bottom-1 right-1 border-1 border-white rounded-full" />
             </div>
