@@ -25,11 +25,11 @@ const Topbar = () => {
   return (
     <div className="flex justify-end items-center bg-white shadow-md py-2 px-4 relative">
 
-      {/* Quick Action Button */}
+      {/* DESKTOP BUTTON */}
       <button
         ref={buttonRef}
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg 
+        className="hidden md:flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg 
                    transition text-sm font-medium text-gray-700"
       >
         Quick Action
@@ -39,29 +39,41 @@ const Topbar = () => {
         />
       </button>
 
-      {/* Dropdown */}
+      {/* MOBILE ONLY — Down Arrow */}
+      <button
+        ref={buttonRef}
+        onClick={() => setOpen((prev) => !prev)}
+        className="md:hidden p-2 rounded-full bg-gray-100 hover:bg-gray-200
+                   transition flex items-center justify-center"
+      >
+        <FiChevronDown
+          size={22}
+          className={`transition-transform ${open ? "rotate-180" : "rotate-0"}`}
+        />
+      </button>
+
+      {/* DROPDOWN */}
       {open && (
         <div
           ref={menuRef}
-          className="absolute top-12 right-0 w-48 bg-white border border-border shadow-lg rounded-lg py-2 z-50"
+          className="absolute top-12 right-2 w-48 bg-white border border-gray-200 shadow-lg 
+                     rounded-lg py-2 z-[9999]"
         >
           <button
-            className="w-full flex items-center text-gray-600 gap-2 px-4 py-1 text-md hover:bg-gray-100 transition"
+            className="w-full flex items-center text-gray-600 gap-2 px-4 py-2 hover:bg-gray-100 transition"
             onClick={() => alert("Profile")}
           >
-            <FiUser size={20} className="text-gray-600" />
-            Profile
+            <FiUser size={18} /> Profile
           </button>
 
           <button
-            className="w-full flex items-center gap-2 px-4 py-1 text-md text-red-500 hover:bg-red-50 transition"
+            className="w-full flex items-center gap-2 px-4 py-2 text-red-500 hover:bg-red-50 transition"
             onClick={() => {
               localStorage.removeItem("adminToken");
               window.location.href = "/admin/login";
             }}
           >
-            <FiLogOut size={20} />
-            Logout
+            <FiLogOut size={18} /> Logout
           </button>
         </div>
       )}

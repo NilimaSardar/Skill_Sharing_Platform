@@ -1,23 +1,18 @@
 import React from "react";
 import Topbar from "../components/Admin/Topbar";
 import Sidebar from "../components/Admin/Sidebar";
+import { Outlet } from "react-router-dom";
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = () => {
   return (
-    <div className="min-h-screen flex bg-gray-100">
-
-      {/* SIDEBAR */}
+    <div className="relative min-h-screen bg-gray-100">
       <Sidebar />
-
-      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col">
-
-        {/* TOPBAR */}
         <Topbar />
-
-        {/* PAGE CONTENT */}
-        <main className="p-4">
-          {children}
+        
+        {/* Child pages will render here */}
+        <main className="p-4 md:pl-68">
+          <Outlet />
         </main>
 
       </div>
