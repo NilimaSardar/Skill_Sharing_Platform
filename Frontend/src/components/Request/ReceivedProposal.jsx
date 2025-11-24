@@ -19,7 +19,13 @@ const ReceivedProposal = () => {
         if (!res.ok) throw new Error("Failed to fetch proposals");
 
         const data = await res.json();
-        setProposals(data.proposals || []);
+
+        // Filter out proposals sent by the logged-in user
+        const receivedFromOthers = (data.proposals || []).filter(
+          (p) => p.senderId._id !== user._id
+        );
+
+        setProposals(receivedFromOthers);
       } catch (err) {
         console.error(err);
         setProposals([]);
@@ -32,7 +38,6 @@ const ReceivedProposal = () => {
   }, [API, user, token]);
 
   if (loading) return <p>Loading proposals...</p>;
-
   if (proposals.length === 0) return <p>No received proposals</p>;
 
   return (
@@ -44,19 +49,21 @@ const ReceivedProposal = () => {
         >
           <div className="h-30 w-22 rounded-lg">
             <img
-                src={
-                    proposal.senderId?.profilePhoto
-                    ? `${API}/uploads/${proposal.senderId.profilePhoto}`
-                    : `${API}/uploads/Profile.jpeg`
-                }
-                alt={proposal.senderId?.fullName || "User"}
-                className="w-full h-full object-cover rounded-lg"
+              src={
+                proposal.senderId?.profilePhoto
+                  ? `${API}/uploads/${proposal.senderId.profilePhoto}`
+                  : `${API}/uploads/Profile.jpeg`
+              }
+              alt={proposal.senderId?.fullName || "User"}
+              className="w-full h-full object-cover rounded-lg"
             />
-
           </div>
+
           <div className="flex flex-col justify-between h-30 w-2/3">
             <div className="flex gap-3 items-end">
-              <h3 className="text-[14px] text-text font-[570]">{proposal.senderId?.fullName || "Unknown"}</h3>
+              <h3 className="text-[14px] text-text font-[570]">
+                {proposal.senderId?.fullName || "Unknown"}
+              </h3>
               <p className="text-[#737373] text-[12px]">28, Biratnagar</p>
             </div>
             <p className="text-[#737373] text-[13px]">

@@ -14,9 +14,12 @@ export const createProposal = async (req, res) => {
 export const getUserProposals = async (req, res) => {
   const userId = req.params.userId;
   try {
-    const proposals = await Proposal.find({ receiverId: userId })
+    const proposals = await Proposal.find({
+      $or: [{ receiverId: userId }, { senderId: userId }],
+    })
       .populate("postId", "title type")
-      .populate("senderId", "fullName profilePhoto");
+      .populate("senderId", "fullName profilePhoto")
+      .populate("receiverId", "fullName profilePhoto");
     res.status(200).json({ success: true, proposals });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
