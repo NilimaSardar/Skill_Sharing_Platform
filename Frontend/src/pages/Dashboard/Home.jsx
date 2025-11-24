@@ -140,7 +140,7 @@ const Home = () => {
             <Link className='text-primary bg-primary-light py-1 px-2 rounded-lg text-[13px]'>View More</Link>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto whitespace-nowrap py-2 hide-scrollbar">
+          {/* <div className="flex gap-4 overflow-x-auto whitespace-nowrap py-2 hide-scrollbar">
             {["Nilima Sardar", "Shikshya Nepal", "Charlie", "Diana", "Eve", "Frank"].map((user, idx) => (
               <div
                 key={idx}
@@ -154,7 +154,7 @@ const Home = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
         </div>
 
