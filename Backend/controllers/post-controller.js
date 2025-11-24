@@ -91,9 +91,8 @@ export const getPostsByUser = async (req, res) => {
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find({ status: "active" })
-    .populate("userId", "fullName email profilePhoto")
-    .populate("category", "name")
-    .sort({ createdAt: -1 });
+      .populate("userId", "fullName email profilePhoto")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({ posts });
   } catch (error) {
@@ -106,8 +105,8 @@ export const getAllPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-      .populate("userId", "fullName email profilePhoto")
-      .populate("category", "name");
+      .populate("userId", "fullName email profilePhoto age location");
+      // .populate("category", "name");
 
     if (!post)
       return res.status(404).json({ message: "Post not found" });

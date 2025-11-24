@@ -28,6 +28,8 @@ const ReceivedProposal = () => {
           (p) => p.senderId._id !== user._id
         );
 
+        // console.log(receivedFromOthers);
+        
         setProposals(receivedFromOthers);
       } catch (err) {
         console.error(err);
@@ -80,7 +82,7 @@ const ReceivedProposal = () => {
               <p className="text-[#737373] text-[12px]">(52)</p>
             </div> */}
             <button onClick={() => navigate("/dashboard/home/view-proposal", { state: { post: proposal.postId, proposal } })}
- className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1">
+              className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1">
               View Proposal
             </button>
           </div>
