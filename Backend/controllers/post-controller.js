@@ -216,3 +216,31 @@ export const updatePost = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Get posts filtered by type and category, excluding current user's posts
+export const getPosts = async (req, res) => {
+  try {
+    const { type, category } = req.query;
+    const currentUserId = req.user._id; 
+
+    if (!type) return res.status(400).json({ message: "Type is required" });
+
+    let filter = { 
+      type, 
+      userId: { $ne: currentUserId } 
+    };
+
+    if (category) {
+      filter["skillsOffered.category"] = category;
+    }
+
+    const posts = await Post.find(filter)
+      .populate("userId", "fullName profilePhoto age location skills")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -99,7 +99,7 @@ export default function Login() {
             </p>
           </div>
 
-          <div className="">
+          {/* <div className="">
             <p className="text-center text-primary text-[16px] font-medium mb-3">
               Or continue with
             </p>
@@ -117,7 +117,7 @@ export default function Login() {
                 <img src="images/Apple.svg" alt="" className='text-3xl'/>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
     </div>
   );

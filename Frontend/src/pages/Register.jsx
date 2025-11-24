@@ -131,7 +131,7 @@ export default function Register() {
           <Link to='/login'>Already have an account</Link>
         </p>
 
-        <div>
+        {/* <div>
           <p className="text-center text-primary text-[16px] font-medium mb-3">Or continue with</p>
           <div className="flex justify-center space-x-4">
             <button className="flex items-center justify-center w-[60px] h-[44px] bg-icon-bg rounded-[10px] hover:bg-icon-bg-hover transition duration-300 ease-in-out">
@@ -144,7 +144,7 @@ export default function Register() {
               <img src="images/Apple.svg" alt="Apple"/>
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
