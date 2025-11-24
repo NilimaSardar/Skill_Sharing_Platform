@@ -36,6 +36,7 @@ import Reports from "./pages/Admin/Reports";
 import UserManagement from "./pages/Admin/UserManagement";
 import Settings from "./pages/Admin/Settings";
 import EditProfile from "./pages/Dashboard/Profile/EditProfile";
+import ViewProposal from "./pages/Dashboard/Home/ViewProposal";
 
 function App() {
   return (
@@ -83,6 +84,7 @@ function App() {
           <Route path="home/categories" element={<Categories />} />
           <Route path="home/propose-exchange" element={<ProposeExchange />} />
           <Route path="home/view-share-details" element={<ViewShareDetails />} />
+          <Route path="home/view-proposal" element={<ViewProposal />} />
 
           <Route path="request" element={<Request />} />
           <Route path="create" element={<Create />} />
