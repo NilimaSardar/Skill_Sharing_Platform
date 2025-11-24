@@ -9,6 +9,7 @@ import authRoute from "./router/auth-router.js";
 import postRoutes from "./router/post-router.js";
 import skillRoutes from "./router/skills-router.js";
 import userSkillRoutes from "./router/user-skill-router.js";
+import proposalRoutes from "./router/proposal-router.js";
 
 import adminRoutes from "./router/admin-router.js";
 
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/user/skills", userSkillRoutes);
+app.use("/api/proposals", proposalRoutes);
 
 // admin Routes
 app.use("/api/admin", adminRoutes);
