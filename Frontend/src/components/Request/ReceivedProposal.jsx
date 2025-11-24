@@ -72,10 +72,10 @@ const ReceivedProposal = () => {
             <p className="text-[#737373] text-[13px]">
               Message: <span className="text-text">{proposal.message}</span>
             </p>
-            <div className="flex">
+            {/* <div className="flex">
               <img src="../../rating/rating.svg" alt="" />
               <p className="text-[#737373] text-[12px]">(52)</p>
-            </div>
+            </div> */}
             <button className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1">
               View Proposal
             </button>
