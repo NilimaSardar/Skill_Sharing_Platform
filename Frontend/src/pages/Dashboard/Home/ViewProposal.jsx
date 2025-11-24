@@ -26,7 +26,6 @@ const ViewProposal = () => {
         if (!res.ok) throw new Error("Failed to fetch full post");
   
         const data = await res.json();
-        console.log("FULL POST RESPONSE:", data);
   
         setFullPost(data.post);
       } catch (err) {
@@ -65,7 +64,11 @@ const ViewProposal = () => {
   const handleStatus = async (status) => {
     try {
       const token = localStorage.getItem("token");
-
+      if (!token) {
+        alert("You are not logged in");
+        return;
+      }
+  
       const res = await fetch(`${API}/api/proposals/${proposal._id}/status`, {
         method: "PATCH",
         headers: {
@@ -74,19 +77,29 @@ const ViewProposal = () => {
         },
         body: JSON.stringify({ status }),
       });
-
+  
       const data = await res.json();
-      console.log("Propose Exchange", data);
-      
-      if (!res.ok) throw new Error(data.message || "Failed");
-
+  
+      if (!res.ok) {
+        alert(data.message || "Failed to update proposal");
+        return;
+      }
+  
       alert(`Proposal ${status}!`);
-      navigate(-1);
+  
+      if (status === "rejected") {
+        // Redirect to Request page
+        navigate("/dashboard/request");
+      } else if (status === "accepted") {
+        // Go back
+        navigate(-1);
+      }
+  
     } catch (err) {
-      console.error(err);
-      alert("Something went wrong");
+      console.error("Error updating status:", err);
+      alert("Something went wrong!");
     }
-  };
+  };  
 
   return (
     <div className="bg-white pb-20 min-h-screen">

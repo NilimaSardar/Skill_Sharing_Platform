@@ -18,7 +18,11 @@ const SendProposal = () => {
         if (!res.ok) throw new Error("Failed to fetch proposals");
         const data = await res.json();
         // Filter sent proposals where the current user is sender
-        setProposals(data.proposals?.filter(p => p.senderId?._id === user._id) || []);
+        setProposals(
+          data.proposals
+            ?.filter(p => p.senderId?._id === user._id && p.status === "pending")
+            || []
+        );
       } catch (err) {
         console.error(err);
         setProposals([]);
@@ -40,14 +44,18 @@ const SendProposal = () => {
         },
         body: JSON.stringify({ status: "cancelled" }),
       });
+  
       if (!res.ok) throw new Error("Failed to cancel proposal");
-
+  
       const updated = await res.json();
-      setProposals(proposals.map(p => p._id === proposalId ? updated.proposal : p));
+  
+      // Remove cancelled proposal from displayed list
+      setProposals(prev => prev.filter(p => p._id !== proposalId));
+  
     } catch (err) {
       console.error(err);
     }
-  };
+  };  
 
   if (loading) return <p>Loading sent proposals...</p>;
   if (proposals.length === 0) return <p>No sent proposals</p>;

@@ -16,6 +16,7 @@ export const getUserProposals = async (req, res) => {
 
   try {
     const proposals = await Proposal.find({
+      status: "pending",
       $or: [{ receiverId: userId }, { senderId: userId }],
     })
       .populate("senderId", "fullName profilePhoto age location")
