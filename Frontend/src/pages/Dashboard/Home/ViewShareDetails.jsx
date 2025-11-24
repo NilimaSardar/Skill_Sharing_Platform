@@ -1,11 +1,33 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../store/auth";
 
 const ViewShareDetails = () => {
+  const { API} = useAuth();
   const { state } = useLocation();
+  console.log("state",state)
   const navigate = useNavigate();
 
   if (!state) return <p>No state found</p>;
+  const user = state.userId || {};
+  const skills = state.skillsOffered?.map(s => `${s.subcategory} (${s.expertLevel})`).join(", ");
+  const lessons = state.addLessons?.length ? state.addLessons : [];
+
+  const timeAgo = (dateString) => {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffInMs = now - past;
+  
+    const seconds = Math.floor(diffInMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+  
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return `just now`;
+  };
 
   return (
     <div className="bg-white pb-20 min-h-screen">
@@ -35,29 +57,29 @@ const ViewShareDetails = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="relative w-[50px] h-[50px] flex items-center justify-center">
-                <img
-                  src={state.profile}
-                  alt="user"
+              <img
+                  src={user.profilePhoto ? `${API}/uploads/${user.profilePhoto}` : `${API}/uploads/Profile.jpeg`}
+                  alt={user.fullName || "Anonymous"}
                   className="w-[40px] h-[40px] rounded-full object-cover"
                 />
               </div>
 
               <div>
-                <h3 className="text-[16px] font-serif">{state.name}</h3>
+                <h3 className="text-[16px] font-serif">{user.fullName || "Anonymous"}</h3>
                 <p className="text-[13px] text-[#7B7676] font-serif">
-                  {state.age}, {state.location}
+                  {user.age || "N/A"}, {user.location || "Unknown"}
                 </p>
               </div>
             </div>
 
             <div className="flex flex-col items-end">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <img src="../../rating/Star.svg" alt="" />
                 <p className="text-text font-[550] text-[14px]">{state.rating}</p>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2">
                 <img src="../../images/Calender.svg" alt="" />
-                <p className="text-[13px] text-[#7B7676]">{state.posted}</p>
+                <p className="text-[13px] text-[#7B7676]">{timeAgo(state.createdAt)}</p>
               </div>
             </div>
           </div>
@@ -77,47 +99,29 @@ const ViewShareDetails = () => {
             <div className='flex items-center gap-1'>
               <img src="../../images/Time_blue.svg" alt="" className='w-4 h-4'/>
               <p className='font-serif text-[13px] text-[#7B7676]'>
-                {state.schedule}
+                {state.duration || "N/A"}
               </p>
             </div>
             <div className='flex items-center gap-1'>
-              <img src="../../images/users.svg" alt="" className='w-4 h-4'/>
+              {/* <img src="../../images/users.svg" alt="" className='w-4 h-4'/>
               <p className='font-serif text-[13px] text-[#7B7676]'>
                 30+ Users
-              </p>
+              </p> */}
             </div>
           </div>
 
-          {/* What you will learn */}
-          <div>
-            <h3 className="text-text text-[15px] font-[550] mb-1">What You Will Learn</h3>
-
-            <div className="flex flex-col divide-y divide-gray-300 text-[#737373] text-[14px] font-[500]">
-              {/* Row 1 */}
-              <div className="flex justify-between py-1.5">
-                <span>1. Introduction</span>
-                <span>2. Layout Guide</span>
-              </div>
-
-              {/* Row 2 */}
-              <div className="flex justify-between py-1.5">
-                <span>3. Wireframes</span>
-                <span>4. Typography</span>
-              </div>
-
-              {/* Row 3 */}
-              <div className="flex justify-between py-1.5">
-                <span>5. Colors Style</span>
-                <span>6. Auto Layout</span>
-              </div>
-
-              {/* Row 4 (single item) */}
-              <div className="flex justify-between py-1.5">
-                <span>7. Prototype</span>
-                <span></span>
-              </div>
-            </div>
+           {/* Lessons */}
+           {lessons.length > 0 && (
+          <div className="mt-3">
+            <h3 className="font-semibold">Lessons:</h3>
+            <ul className="list-disc list-inside text-gray-600">
+              {lessons.map((lesson, idx) => (
+                <li key={idx}>{lesson}</li>
+              ))}
+            </ul>
           </div>
+        )}
+
 
 
         </div>
@@ -125,7 +129,7 @@ const ViewShareDetails = () => {
         {/* Fees */}
         <div className="flex items-center justify-between mt-3 px-2">
           <p className="text-primary text-[14px]">Session Fees:</p>
-          <p className="text-text text-[14px]">Rs.785</p>
+          <p className="text-text text-[14px]">Rs.{state.fees || 0}</p>
         </div>
 
         {/* Proceed To Payment Button */}
