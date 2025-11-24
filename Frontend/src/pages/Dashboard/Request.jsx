@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import SendProposal from "../../components/Request/SendProposal";
 import ReceivedProposal from "../../components/Request/ReceivedProposal";
 
 const Request = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [filter, setFilter] = useState("received"); // DEFAULT → Received Proposal
+  const [filter, setFilter] = useState("received"); // Default: Received Proposal
   const menuRef = useRef(null);
 
   const handleOptionClick = () => setShowMenu(!showMenu);
@@ -15,47 +14,46 @@ const Request = () => {
     setShowMenu(false);
   };
 
-  // Close menu on outside click
+  // Close menu if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMenu(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="relative">
-      
+    <div className="relative min-h-screen bg-gray-100">
       {/* Header */}
-      <div className="flex items-center justify-between px-[28px] py-5 bg-primary text-white">
-        <h3 className="font-serif w-full text-xl">Proposal Request</h3>
+      <div className="flex items-center justify-between px-6 py-5 bg-primary text-white relative">
+        <h3 className="font-serif text-xl">Proposal Request</h3>
 
+        {/* Options Menu */}
         <div
-          className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer relative"
-          onClick={handleOptionClick}
+          className="relative"
           ref={menuRef}
         >
-          <img
-            src="../../images/options.svg"
-            alt="setting"
-            className="w-[25px] h-[25px]"
-          />
+          <button
+            onClick={handleOptionClick}
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30"
+          >
+            <img src="../../images/options.svg" alt="options" className="w-6 h-6" />
+          </button>
 
           {showMenu && (
-            <div className="absolute top-7 right-0 bg-white shadow-md rounded-lg border border-gray-200 z-10 w-[160px]">
+            <div className="absolute top-12 right-0 bg-white shadow-md rounded-lg border border-gray-200 z-20 w-40">
               <p
-                className="px-4 py-2 text-text text-[14px] hover:bg-gray-100 cursor-pointer"
                 onClick={() => handleFilter("sent")}
+                className="px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
               >
                 Sent Proposal
               </p>
               <p
-                className="px-4 py-2 text-text text-[14px] hover:bg-gray-100 cursor-pointer"
                 onClick={() => handleFilter("received")}
+                className="px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
               >
                 Received Proposal
               </p>
@@ -65,7 +63,7 @@ const Request = () => {
       </div>
 
       {/* Content */}
-      <div className="mx-[28px] my-3">
+      <div className="mx-6 my-4">
         {filter === "received" && <ReceivedProposal />}
         {filter === "sent" && <SendProposal />}
       </div>
