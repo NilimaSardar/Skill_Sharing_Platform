@@ -227,13 +227,24 @@ export const getPosts = async (req, res) => {
 
     let filter = { 
       type, 
-      userId: { $ne: currentUserId } 
+      userId: { $ne: currentUserId } // exclude current user's posts
     };
 
+    // Filter by category for both share and exchange types
     if (category) {
-      filter["skillsOffered.category"] = category;
+      if (type === "share") {
+        // For share, filter by offered skills category
+        filter["skillsOffered.category"] = category;
+      } else if (type === "exchange") {
+        // For exchange, filter where either offered or interested category matches
+        filter.$or = [
+          { "skillsOffered.category": category },
+          { "skillsInterested.category": category }
+        ];
+      }
     }
 
+    // Fetch posts with user info and include relevant fields
     const posts = await Post.find(filter)
       .populate("userId", "fullName profilePhoto age location skills")
       .sort({ createdAt: -1 });
