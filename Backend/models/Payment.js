@@ -6,7 +6,7 @@ const paymentSchema = new mongoose.Schema({
   receiverId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 
   amount: { type: Number, required: true },
-  method: { type: String, enum: ["Khalti", "Esewa", "Card"], required: true },
+  method: { type: String, enum: ["Esewa"], required: true },
 
   status: { type: String, enum: ["paid", "pending", "failed"], default: "pending" }
 }, { timestamps: true });
