@@ -47,6 +47,13 @@ export const login = async (req, res) => {
     const isPasswordValid = await userExist.comparePassword(password);
 
     if (isPasswordValid) {
+
+      // Mark user as active
+      await User.findByIdAndUpdate(userExist._id, {
+        isActive: true,
+        lastLogin: new Date(),
+      });
+
       return res.status(200).json({
         message: "Login successful",
         token: await userExist.generateToken(),
@@ -121,6 +128,23 @@ export const updateUser = async (req, res) => {
   } catch (err) {
     console.error("Update user error:", err);
     res.status(500).json({ message: err.message });
+  }
+};
+
+// User Logout
+export const logout = async (req, res) => {
+  try {
+    const userId = req.userID; // from auth middleware
+
+    await User.findByIdAndUpdate(userId, {
+      isActive: false,
+      lastLogin: new Date(),
+    });
+
+    return res.json({ message: "User logged out successfully" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

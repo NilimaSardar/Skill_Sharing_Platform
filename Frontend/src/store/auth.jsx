@@ -22,11 +22,34 @@ export const AuthProvider = ({ children }) => {
     let isLoggedIn = !!token;
     // console.log('isLoggedIn',isLoggedIn);
 
-    //tackling logout functionality
-    const LogoutUser = () =>{
+    const LogoutUser = async () => {
+      try {
+        if (token) {
+          const res = await fetch(`${API}/api/auth/logout`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          // optional: handle response
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({ message: "Logout failed" }));
+            console.warn("Logout API responded:", err);
+          }
+        }
+        return true;
+      } catch (error) {
+        console.log("Logout error:", error);
+        return false;
+      } finally {
+        // always clear local state
         setToken("");
-        return localStorage.removeItem('token');
-    }
+        setUser(null);
+        localStorage.removeItem("token");
+      }
+    };
 
     //JWT AUTHENTICATION to get the currently
     //loggedIN user data

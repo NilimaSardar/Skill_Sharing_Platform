@@ -4,6 +4,7 @@ import {
   home,
   register,
   login,
+  logout,
   user,
   getUserById,
   updateUser,
@@ -28,6 +29,7 @@ const upload = multer({ storage });
 router.get("/", home);
 router.post("/register", validate(signupSchema), register);
 router.post("/login", validate(loginSchema), login);
+router.post("/logout", authMiddleware, logout);
 
 // Protected routes
 router.get("/user", authMiddleware, user); // current logged-in user

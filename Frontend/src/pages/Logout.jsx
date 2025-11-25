@@ -1,14 +1,24 @@
-import React, { useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 
 const Logout = () => {
-    const {LogoutUser} = useAuth();
-    
-    useEffect(()=>{
-        LogoutUser();
-    },[LogoutUser]);
-  return <Navigate to='/login'/>
-}
+  const { LogoutUser } = useAuth();
+  const navigate = useNavigate();
 
-export default Logout
+  useEffect(() => {
+    const doLogout = async () => {
+      await LogoutUser(); // await API + cleanup
+      navigate("/login", { replace: true });
+    };
+    doLogout();
+  }, []); // run once
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <p>Logging out...</p>
+    </div>
+  );
+};
+
+export default Logout;
