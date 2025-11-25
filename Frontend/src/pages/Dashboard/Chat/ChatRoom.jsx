@@ -1,6 +1,15 @@
 import { useParams } from "react-router-dom";
 
-export default function ChatRoom() {
-  const { chatId } = useParams();
-  return <div>Chat Room for ID: {chatId}</div>;
-}
+const ChatRoom = () => {
+  const { senderId, receiverId } = useParams();
+
+  console.log("CHAT BETWEEN:", senderId, receiverId);
+
+  return (
+    <div>
+      Chat between {senderId} and {receiverId}
+    </div>
+  );
+};
+
+export default ChatRoom;

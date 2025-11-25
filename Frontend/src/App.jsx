@@ -91,7 +91,7 @@ function App() {
 
           {/* Chat */}
           <Route path="chat" element={<Chat />} />
-          <Route path="chat/:chatId" element={<ChatRoom />} />
+          <Route path="chat-room/:senderId/:receiverId" element={<ChatRoom />} />
 
           {/* Profile */}
           <Route path="profile" element={<Profile />} />

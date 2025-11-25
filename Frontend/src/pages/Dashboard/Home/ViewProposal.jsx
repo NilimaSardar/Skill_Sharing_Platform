@@ -91,8 +91,7 @@ const ViewProposal = () => {
         // Redirect to Request page
         navigate("/dashboard/request");
       } else if (status === "accepted") {
-        // Go back
-        navigate(-1);
+        navigate(`/dashboard/chat-room/${proposal.senderId._id}/${proposal.receiverId._id}`);
       }
   
     } catch (err) {
