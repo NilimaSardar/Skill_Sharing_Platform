@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Proposal from "../models/Proposal.js";
 import fs from "fs";
 import path from "path";
 
@@ -150,12 +151,32 @@ export const logout = async (req, res) => {
 
 export const getActiveUsers = async (req, res) => {
   try {
-    const users = await User.find({ isActive: true, role: "user" })
-      .select("fullName profilePhoto _id");
-    
-    return res.json({ users });
+    const currentUserId = req.user._id;
+
+    const proposals = await Proposal.find({
+      status: "accepted",
+      $or: [
+        { senderId: currentUserId },
+        { receiverId: currentUserId }
+      ]
+    }).populate("senderId", "fullName profilePhoto _id")
+      .populate("receiverId", "fullName profilePhoto _id");
+
+    const usersSet = new Map();
+
+    proposals.forEach(p => {
+      const otherUser = p.senderId._id.toString() === currentUserId.toString()
+        ? p.receiverId
+        : p.senderId;
+      usersSet.set(otherUser._id.toString(), otherUser);
+    });
+
+    const users = Array.from(usersSet.values());
+
+    res.json({ users });
   } catch (error) {
     console.error("Active users error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+

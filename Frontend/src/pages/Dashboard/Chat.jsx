@@ -28,12 +28,9 @@ const Chat = () => {
         if (!res.ok) return console.log("Fetch failed", res.status);
   
         const data = await res.json();
-        const userId = JSON.parse(atob(token.split(".")[1])).userId; // decode JWT to get current user id
   
-        // Exclude current user
-        const filteredUsers = (data.users || []).filter(u => u._id !== userId);
-  
-        setActiveUsers(filteredUsers);
+        // no need to filter by current user anymore
+        setActiveUsers(data.users || []);
   
       } catch (err) {
         console.log(err);
@@ -41,7 +38,7 @@ const Chat = () => {
     };
   
     fetchActiveUsers();
-  }, []);  
+  }, []);   
 
   return (
     <div className=''>
