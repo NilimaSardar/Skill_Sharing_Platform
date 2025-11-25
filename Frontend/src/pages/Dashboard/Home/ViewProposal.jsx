@@ -13,38 +13,37 @@ const ViewProposal = () => {
   const [fullPost, setFullPost] = useState(post);
 
   const sender = proposal.senderId || {};
+  const postId = typeof post === "string" ? post : post._id;
 
+  // Fetch full post data
   useEffect(() => {
     const fetchPost = async () => {
+      if (!postId) return;
+
       try {
-        const res = await fetch(`${API}/api/posts/${post._id}`, {
+        const res = await fetch(`${API}/api/posts/${postId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-  
+
         if (!res.ok) throw new Error("Failed to fetch full post");
-  
+
         const data = await res.json();
-  
         setFullPost(data.post);
       } catch (err) {
         console.error("Failed to fetch full post", err);
       }
     };
-  
+
     fetchPost();
-  }, [post, API]);
-  
+  }, [postId, API]);
 
-  const offeredSkills =
-  fullPost?.skillsOffered?.map((s) => s.subcategory).join(", ") || "N/A";
+  const postOwner = fullPost?.userId || {}; // Post owner info
 
-    const wantedSkills =
-  fullPost?.skillsInterested?.map((s) => s.subcategory).join(", ") || "N/A";
-
-    const expertLevels =
-  fullPost?.skillsOffered?.map((s) => s.expertLevel).join(", ") || "N/A";
+  const offeredSkills = fullPost?.skillsOffered?.map(s => s.subcategory).join(", ") || "N/A";
+  const wantedSkills = fullPost?.skillsInterested?.map(s => s.subcategory).join(", ") || "N/A";
+  const expertLevels = fullPost?.skillsOffered?.map(s => s.expertLevel).join(", ") || "N/A";
 
   const timeAgo = (dateString) => {
     const now = new Date();
@@ -68,7 +67,7 @@ const ViewProposal = () => {
         alert("You are not logged in");
         return;
       }
-  
+
       const res = await fetch(`${API}/api/proposals/${proposal._id}/status`, {
         method: "PATCH",
         headers: {
@@ -77,28 +76,26 @@ const ViewProposal = () => {
         },
         body: JSON.stringify({ status }),
       });
-  
+
       const data = await res.json();
-  
+
       if (!res.ok) {
         alert(data.message || "Failed to update proposal");
         return;
       }
-  
+
       alert(`Proposal ${status}!`);
-  
+
       if (status === "rejected") {
-        // Redirect to Request page
         navigate("/dashboard/request");
       } else if (status === "accepted") {
         navigate(`/dashboard/chat-room/${proposal.senderId._id}/${proposal.receiverId._id}`);
       }
-  
     } catch (err) {
       console.error("Error updating status:", err);
       alert("Something went wrong!");
     }
-  };  
+  };
 
   return (
     <div className="bg-white pb-20 min-h-screen">
@@ -110,38 +107,55 @@ const ViewProposal = () => {
         >
           <img src="../../images/BackArrow.svg" alt="back" className="w-[25px] h-[25px]" />
         </div>
-        <h3 className="w-full text-center text-xl mr-5 font-serif">
-          View Proposal
-        </h3>
+        <h3 className="w-full text-center text-xl mr-5 font-serif">View Proposal</h3>
       </div>
 
-      {/* User Summary Card */}
+            {/* Sender Info */}
+            <div className="mx-[28px] py-2">
+        <div className="flex items-center gap-2">
+          <img
+            src={
+              sender.profilePhoto
+                ? `${API}/uploads/${sender.profilePhoto}`
+                : `${API}/uploads/Profile.jpeg`
+            }
+            alt={sender.fullName}
+            className="w-[40px] h-[40px] rounded-full object-cover"
+          />
+          <div>
+            <h3 className="text-[15px] font-serif">{sender.fullName}</h3>
+            <p className="text-[12px] text-[#7B7676] font-serif">
+              {sender.age ? `${sender.age}` : "Age N/A"}
+              {sender.location ? `, ${sender.location}` : ", Unknown"}
+            </p>
+          </div>
+          <p className="text-[12px] text-[#7B7676] ml-auto">{timeAgo(proposal.createdAt)}</p>
+        </div>
+      </div>
+
+      {/* Post Owner Card */}
       <div className="mx-[28px] py-4">
         <div className="border border-border rounded-lg p-3 flex flex-col gap-1.5 shadow-sm">
           <div className="flex items-center gap-2">
             <img
               src={
-                sender.profilePhoto
-                  ? `${API}/uploads/${sender.profilePhoto}`
+                postOwner.profilePhoto
+                  ? `${API}/uploads/${postOwner.profilePhoto}`
                   : `${API}/uploads/Profile.jpeg`
               }
-              alt={sender.fullName}
+              alt={postOwner.fullName}
               className="w-[50px] h-[50px] rounded-full object-cover"
             />
             <div>
-              <h3 className="text-[16px] font-serif">{sender.fullName}</h3>
+              <h3 className="text-[16px] font-serif">{postOwner.fullName}</h3>
               <p className="text-[13px] text-[#7B7676] font-serif">
-              {sender.age ? `${sender.age}` : "Age N/A"} 
-              {sender.location ? `, ${sender.location}` : ", Unknown"}
+                {postOwner.age ? `${postOwner.age}` : "Age N/A"}
+                {postOwner.location ? `, ${postOwner.location}` : ", Unknown"}
               </p>
             </div>
           </div>
 
-          <p className="text-[12px] text-[#7B7676] mt-1">
-            {timeAgo(proposal.createdAt)}
-          </p>
-
-          <h2 className="text-text text-[15px] font-semibold mt-2">{post.title}</h2>
+          <h2 className="text-text text-[15px] font-semibold mt-2">{fullPost?.title}</h2>
 
           <div className="flex items-center justify-between bg-primary-light px-3 py-2 my-2 rounded-lg">
             <div>
@@ -170,7 +184,6 @@ const ViewProposal = () => {
 
       {/* READONLY Form */}
       <div className="mx-[28px] flex flex-col gap-5">
-        {/* Proposal Message */}
         <div className="flex flex-col gap-2">
           <p className="font-medium text-[15px]">Proposal Message</p>
           <textarea
@@ -180,7 +193,6 @@ const ViewProposal = () => {
           />
         </div>
 
-        {/* Duration */}
         <div className="flex flex-col gap-2">
           <p className="font-medium text-[15px]">Estimate Duration</p>
           <input
@@ -191,7 +203,6 @@ const ViewProposal = () => {
           />
         </div>
 
-        {/* Start Date */}
         <div className="flex flex-col gap-2">
           <p className="font-medium text-[15px]">Preferred Start Date</p>
           <input
@@ -202,7 +213,6 @@ const ViewProposal = () => {
           />
         </div>
 
-        {/* End Date */}
         <div className="flex flex-col gap-2">
           <p className="font-medium text-[15px]">Preferred End Date</p>
           <input
