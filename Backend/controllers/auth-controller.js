@@ -148,3 +148,14 @@ export const logout = async (req, res) => {
   }
 };
 
+export const getActiveUsers = async (req, res) => {
+  try {
+    const users = await User.find({ isActive: true, role: "user" })
+      .select("fullName profilePhoto _id");
+    
+    return res.json({ users });
+  } catch (error) {
+    console.error("Active users error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
