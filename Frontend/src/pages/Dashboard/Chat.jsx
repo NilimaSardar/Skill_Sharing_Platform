@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import IndividualChat from "../../components/chat/IndividualChat";
-import CommunityChat from "../../components/chat/CommunityChat";
+import ExchangeChat from "../../components/chat/ExchangeChat";
+import ShareChat from "../../components/chat/ShareChat";
 
 const Chat = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("individual"); // default tab
+  const [activeTab, setActiveTab] = useState("exchange");
 
   return (
     <div className=''>
@@ -58,32 +58,32 @@ const Chat = () => {
           
           <button
             className={`py-[7px] w-1/2 rounded-lg ${
-              activeTab === "individual"
+              activeTab === "exchange"
                 ? "bg-primary-light text-text border border-border"
                 : "text-text hover:text-primary border border-border"
             }`}
-            onClick={() => setActiveTab("individual")}
+            onClick={() => setActiveTab("exchange")}
           >
-            Individual
+            Exchange
           </button>
 
           <button
             className={`py-[7px] w-1/2 rounded-lg ${
-              activeTab === "community"
+              activeTab === "share"
                 ? "bg-primary-light text-text border border-border"
                 : "text-text hover:text-primary border border-border"
             }`}
-            onClick={() => setActiveTab("community")}
+            onClick={() => setActiveTab("share")}
           >
-            Community
+            Share
           </button>
 
         </div>
 
         {/* CONTENT AREA */}
         <div className="py-4 pb-20">
-          {activeTab === "individual" && <IndividualChat />}
-          {activeTab === "community" && <CommunityChat />}
+          {activeTab === "exchange" && <ExchangeChat />}
+          {activeTab === "share" && <ShareChat />}
         </div>
       </div>
     </div>

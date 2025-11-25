@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function ChatRoom() {
   const { senderId, receiverId } = useParams();
+  const navigate = useNavigate();
 
   const [messages, setMessages] = useState([
     { id: 1, sender: "me", text: "Hello" },

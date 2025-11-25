@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 
-const IndividualChat = () => {
+const ExchangeChat = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -115,4 +115,4 @@ const IndividualChat = () => {
   )
 }
 
-export default IndividualChat
+export default ExchangeChat
