@@ -37,6 +37,9 @@ import UserManagement from "./pages/Admin/UserManagement";
 import Settings from "./pages/Admin/Settings";
 import EditProfile from "./pages/Dashboard/Profile/EditProfile";
 import ViewProposal from "./pages/Dashboard/Home/ViewProposal";
+import PaymentForm from "./components/payment/PaymentForm";
+import Success from "./components/payment/Success";
+import Failure from "./components/payment/Failure";
 
 function App() {
   return (
@@ -98,6 +101,10 @@ function App() {
           <Route path="profile/profileSettings" element={<ProfileSetting />} />
           <Route path="profile/editprofile" element={<EditProfile />} />
 
+          {/* Payment */}
+          <Route path="payment" element={<PaymentForm />} />
+          <Route path="payment/payment-success" element={<Success />} />
+          <Route path="payment/payment-failure" element={<Failure />} />
 
           <Route path="logout" element={<Logout />} />
         </Route>

@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import path from "path";
+import bodyParser from "body-parser";
 
 import authRoute from "./router/auth-router.js";
 import postRoutes from "./router/post-router.js";
@@ -11,7 +12,7 @@ import skillRoutes from "./router/skills-router.js";
 import userSkillRoutes from "./router/user-skill-router.js";
 import proposalRoutes from "./router/proposal-router.js";
 
-import {EsewaInitiatePayment,paymentStatus} from ""
+import {EsewaInitiatePayment,paymentStatus} from "./controllers/payment-controller.js"; 
 
 import adminRoutes from "./router/admin-router.js";
 
