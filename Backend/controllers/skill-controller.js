@@ -1,4 +1,4 @@
-import SkillCategory from "../models/SkillCategory.js";
+import SkillCategory from "../models/SkillCategory.model.js";
 
 // Create a new Skill Category
 export const createSkillCategory = async (req, res) => {

@@ -1,5 +1,4 @@
-import User from "../models/User.js";
-import Proposal from "../models/Proposal.js";
+import User from "../models/User.model.js";
 import fs from "fs";
 import path from "path";
 

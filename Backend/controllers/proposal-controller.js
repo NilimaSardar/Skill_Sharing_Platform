@@ -1,4 +1,4 @@
-import Proposal from "../models/Proposal.js";
+import Proposal from "../models/Proposal.model.js";
 
 // Create a new proposal
 export const createProposal = async (req, res) => {

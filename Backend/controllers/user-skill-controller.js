@@ -1,5 +1,5 @@
-import User from "../models/User.js";
-import SkillCategory from "../models/SkillCategory.js";
+import User from "../models/User.model.js";
+import SkillCategory from "../models/SkillCategory.model.js";
 
 // Add a new skill to user
 export const addSkill = async (req, res) => {

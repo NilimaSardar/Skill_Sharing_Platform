@@ -1,5 +1,4 @@
-import Post from "../models/Post.js";
-import SkillCategory from "../models/SkillCategory.js";
+import Post from "../models/Post.model.js";
 
 // Create a new post
 export const createPost = async (req, res) => {

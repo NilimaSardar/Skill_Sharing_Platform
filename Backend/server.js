@@ -11,6 +11,8 @@ import skillRoutes from "./router/skills-router.js";
 import userSkillRoutes from "./router/user-skill-router.js";
 import proposalRoutes from "./router/proposal-router.js";
 
+import {EsewaInitiatePayment,paymentStatus} from ""
+
 import adminRoutes from "./router/admin-router.js";
 
 import connectDb from "./utils/db.js";
@@ -37,6 +39,15 @@ app.use("/api/posts", postRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/user/skills", userSkillRoutes);
 app.use("/api/proposals", proposalRoutes);
+
+/* for payment */
+  //middle ware
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+  //routes
+  app.post("/initiate-payment", EsewaInitiatePayment);
+  app.post("/payment-status", paymentStatus);
 
 // admin Routes
 app.use("/api/admin", adminRoutes);
