@@ -13,21 +13,15 @@ export const createProposal = async (req, res) => {
 
 export const getUserProposals = async (req, res) => {
   const userId = req.params.userId;
+  const status = req.query.status;
 
   try {
     const proposals = await Proposal.find({
-      status: "pending",
+      status,
       $or: [{ receiverId: userId }, { senderId: userId }],
     })
-      .populate("senderId", "fullName profilePhoto age location")
-      .populate("receiverId", "fullName profilePhoto age location")
-      .populate({
-        path: "postId",
-        populate: {
-          path: "userId",
-          select: "fullName profilePhoto age location"
-        }
-      });
+      .populate("senderId", "fullName profilePhoto age location isActive")
+      .populate("receiverId", "fullName profilePhoto age location isActive");
 
     res.status(200).json({ success: true, proposals });
   } catch (err) {

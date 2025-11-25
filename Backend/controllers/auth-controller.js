@@ -149,34 +149,34 @@ export const logout = async (req, res) => {
   }
 };
 
-export const getActiveUsers = async (req, res) => {
-  try {
-    const currentUserId = req.user._id;
+// export const getActiveUsers = async (req, res) => {
+//   try {
+//     const currentUserId = req.user._id;
 
-    const proposals = await Proposal.find({
-      status: "accepted",
-      $or: [
-        { senderId: currentUserId },
-        { receiverId: currentUserId }
-      ]
-    }).populate("senderId", "fullName profilePhoto _id")
-      .populate("receiverId", "fullName profilePhoto _id");
+//     const proposals = await Proposal.find({
+//       status: "accepted",
+//       $or: [
+//         { senderId: currentUserId },
+//         { receiverId: currentUserId }
+//       ]
+//     }).populate("senderId", "fullName profilePhoto _id")
+//       .populate("receiverId", "fullName profilePhoto _id");
 
-    const usersSet = new Map();
+//     const usersSet = new Map();
 
-    proposals.forEach(p => {
-      const otherUser = p.senderId._id.toString() === currentUserId.toString()
-        ? p.receiverId
-        : p.senderId;
-      usersSet.set(otherUser._id.toString(), otherUser);
-    });
+//     proposals.forEach(p => {
+//       const otherUser = p.senderId._id.toString() === currentUserId.toString()
+//         ? p.receiverId
+//         : p.senderId;
+//       usersSet.set(otherUser._id.toString(), otherUser);
+//     });
 
-    const users = Array.from(usersSet.values());
+//     const users = Array.from(usersSet.values());
 
-    res.json({ users });
-  } catch (error) {
-    console.error("Active users error:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.json({ users });
+//   } catch (error) {
+//     console.error("Active users error:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 

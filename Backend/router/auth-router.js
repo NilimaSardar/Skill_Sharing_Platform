@@ -8,7 +8,6 @@ import {
   user,
   getUserById,
   updateUser,
-  getActiveUsers,
 } from "../controllers/auth-controller.js";
 import { signupSchema, loginSchema } from "../validators/auth-validator.js";
 import validate from "../middlewares/validate-middleware.js";
@@ -31,12 +30,12 @@ router.get("/", home);
 router.post("/register", validate(signupSchema), register);
 router.post("/login", validate(loginSchema), login);
 router.post("/logout", authMiddleware, logout);
-router.get("/active-users", authMiddleware, getActiveUsers);
+// router.get("/active-users", authMiddleware, getActiveUsers);
 
 // Protected routes
-router.get("/user", authMiddleware, user); // current logged-in user
-router.get("/user/:id", authMiddleware, getUserById); // get user by ID
-router.get("/user/:id", authMiddleware, updateUser); // get user by ID
-router.put("/user/:id", authMiddleware, upload.single("profilePhoto"), updateUser); // update profile
+router.get("/user", authMiddleware, user); 
+router.get("/user/:id", authMiddleware, getUserById); 
+router.get("/user/:id", authMiddleware, updateUser); 
+router.put("/user/:id", authMiddleware, upload.single("profilePhoto"), updateUser); 
 
 export default router;
