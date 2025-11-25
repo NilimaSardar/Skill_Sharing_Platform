@@ -25,8 +25,12 @@ export const getUserProposals = async (req, res) => {
     }
 
     const proposals = await Proposal.find(query)
-      .populate("senderId", "fullName profilePhoto age location isActive")
-      .populate("receiverId", "fullName profilePhoto age location isActive");
+    .populate("senderId", "fullName profilePhoto age location isActive")
+    .populate("receiverId", "fullName profilePhoto age location isActive")
+    .populate({
+      path: "postId",
+      select: "title skillsOffered skillsInterested type",
+    });  
 
     res.status(200).json({ success: true, proposals });
   } catch (err) {
