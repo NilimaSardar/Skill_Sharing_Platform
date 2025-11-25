@@ -16,10 +16,15 @@ export const getUserProposals = async (req, res) => {
   const status = req.query.status;
 
   try {
-    const proposals = await Proposal.find({
-      status,
+    const query = {
       $or: [{ receiverId: userId }, { senderId: userId }],
-    })
+    };
+
+    if (status) {
+      query.status = { $regex: new RegExp(`^${status}$`, "i") }; // case-insensitive
+    }
+
+    const proposals = await Proposal.find(query)
       .populate("senderId", "fullName profilePhoto age location isActive")
       .populate("receiverId", "fullName profilePhoto age location isActive");
 

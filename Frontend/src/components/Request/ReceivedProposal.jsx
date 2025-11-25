@@ -11,25 +11,24 @@ const ReceivedProposal = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!user || !user._id) return; // Don't fetch if user is not loaded
+    if (!user || !user._id) return;
 
     const fetchProposals = async () => {
       try {
-        const res = await fetch(`${API}/api/proposals/user/${user._id}`, {
+        const res = await fetch(`${API}/api/proposals/user/${user._id}?status=pending`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (!res.ok) throw new Error("Failed to fetch proposals");
+        if (!res.ok) throw new Error(`Failed to fetch proposals: ${res.status}`);
 
         const data = await res.json();
+        console.log("Fetched proposals:", data.proposals);
 
-        // Filter out proposals sent by the logged-in user
+        // Only keep proposals received by the user
         const receivedFromOthers = (data.proposals || []).filter(
-          (p) => p.senderId._id !== user._id
+          (p) => p.receiverId?._id === user._id
         );
 
-        // console.log(receivedFromOthers);
-        
         setProposals(receivedFromOthers);
       } catch (err) {
         console.error(err);
@@ -43,7 +42,7 @@ const ReceivedProposal = () => {
   }, [API, user, token]);
 
   if (loading) return <p>Loading proposals...</p>;
-  if (proposals.length === 0) return <p>No received proposals</p>;
+  if (proposals.length === 0) return <p>No pending proposals</p>;
 
   return (
     <div className="flex flex-col gap-3">
@@ -77,12 +76,14 @@ const ReceivedProposal = () => {
             <p className="text-[#737373] text-[13px]">
               Message: <span className="text-text">{proposal.message}</span>
             </p>
-            {/* <div className="flex">
-              <img src="../../rating/rating.svg" alt="" />
-              <p className="text-[#737373] text-[12px]">(52)</p>
-            </div> */}
-            <button onClick={() => navigate("/dashboard/home/view-proposal", { state: { post: proposal.postId, proposal } })}
-              className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1">
+            <button
+              onClick={() =>
+                navigate("/dashboard/home/view-proposal", {
+                  state: { post: proposal.postId, proposal },
+                })
+              }
+              className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1"
+            >
               View Proposal
             </button>
           </div>
