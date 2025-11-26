@@ -58,54 +58,54 @@ const ReceivedProposal = () => {
          
 
   return (
-    <div
-      key={proposal._id}
-      className="flex relative gap-3 items-center w-full h-35 px-2 rounded-lg border border-border"
-    >
-      <div className="h-30 w-22 rounded-lg">
-        <img
-          src={
-            sender.profilePhoto
-              ? `${API}/uploads/${sender.profilePhoto}`
-              : `${API}/uploads/Profile.jpeg`
-          }
-          alt={sender.fullName || "User"}
-          className="w-full h-full object-cover rounded-lg"
-        />
-      </div>
-
-      <div className="flex flex-col justify-between h-30 w-2/3">
-        <div className="flex gap-3 items-end">
-          <h3 className="text-[14px] text-text font-[570]">
-            {sender.fullName || "Unknown"}
-          </h3>
-          <p className="text-[#737373] text-[12px]">
-            {sender.age || "N/A"}, {sender.location || "Unknown"}
-          </p>
+      <div
+        key={proposal._id}
+        className="flex relative gap-3 items-center w-full h-35 px-2 rounded-lg border border-border"
+      >
+        <div className="h-30 w-22 rounded-lg">
+          <img
+            src={
+              sender.profilePhoto
+                ? `${API}/uploads/${sender.profilePhoto}`
+                : `${API}/uploads/Profile.jpeg`
+            }
+            alt={sender.fullName || "User"}
+            className="w-full h-full object-cover rounded-lg"
+          />
         </div>
 
-        <p className="text-[#737373] text-[13px]">
-          Expert: <span className="text-primary">{expertInfo}</span>
-        </p>
+        <div className="flex flex-col justify-between h-30 w-2/3">
+          <div className="flex gap-3 items-end">
+            <h3 className="text-[14px] text-text font-[570]">
+              {sender.fullName || "Unknown"}
+            </h3>
+            <p className="text-[#737373] text-[12px]">
+              {sender.age || "N/A"}, {sender.location || "Unknown"}
+            </p>
+          </div>
 
-        <p className="text-[#737373] text-[13px]">
-          Interested: <span className="text-text">{interestedInfo}</span>
-        </p>
+          <p className="text-[#737373] text-[13px]">
+            Expert: <span className="text-primary">{expertInfo}</span>
+          </p>
 
-        <button
-          onClick={() =>
-            navigate("/dashboard/home/view-proposal", {
-              state: { post: proposal.postId, proposal },
-            })
-          }
-          className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1"
-        >
-          View Proposal
-        </button>
+          <p className="text-[#737373] text-[13px]">
+            Interested: <span className="text-text">{interestedInfo}</span>
+          </p>
+
+          <button
+            onClick={() =>
+              navigate("/dashboard/home/view-proposal", {
+                state: { post: proposal.postId, proposal },
+              })
+            }
+            className="bg-primary text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1"
+          >
+            View Proposal
+          </button>
+        </div>
       </div>
-    </div>
-  );
-})}
+    );
+  })}
 
     </div>
   );
