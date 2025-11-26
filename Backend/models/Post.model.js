@@ -43,6 +43,10 @@ const postSchema = new mongoose.Schema(
     duration: { type: String },
     fees: { type: Number, default: 0 },
 
+    startDate: {
+      type: Date,
+    },
+
     title: { type: String, required: true },
     description: { type: String, required: true },
 

@@ -30,6 +30,7 @@ const Create = () => {
     fees: "",
     addLessons: [],
     lessonInput: "",
+    startDate: "",
   });   
 
   // Fetch user's skills for Skill You Offer
@@ -204,6 +205,7 @@ const Create = () => {
       duration: formData.duration,
       fees: formData.fees,
       addLessons: formData.postType === "share" ? formData.addLessons : [],
+      startDate: formData.postType === "share" ? new Date(formData.startDate) : null,
     };
   
     try {
@@ -411,32 +413,42 @@ const Create = () => {
 
         {/* Duration & Fees */}
         {formData.postType === "share" && (
-          <div className="flex items-start gap-2 mt-3 w-full">
-            <div className="relative w-1/2">
-              <p className="text-text text-[14px] ">Duration</p>
-              <select
-                name="duration"
-                value={formData.duration}
-                onChange={handleInput}
-                className="w-full appearance-none border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
-              >
-                <option value="">Eg: 15 days</option>
-                <option value="20days">20 Days</option>
-                <option value="30days">30 Days</option>
-                <option value="2month">2 Month</option>
-                <option value="3month">3 Month</option>
-              </select>
-            </div>
-
-            <div className="w-1/2">
-              <p className="text-text text-[14px] ">Fees</p>
+          <div>
+            <div className="flex flex-col items-start mt-3 w-full">
+              <p className="text-text text-[14px]">Start Date</p>
               <input
-                type="number"
-                name="fees"
-                value={formData.fees}
+                type="date"
+                name="startDate"
+                value={formData.startDate}
                 onChange={handleInput}
-                className='w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px]'
+                className="w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px]"
+                required
               />
+            </div>
+            
+            <div className="flex items-start gap-2 mt-3 w-full">
+              <div className="relative w-1/2">
+                <p className="text-text text-[14px] ">Duration</p>
+                <input
+                  type="text"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleInput}
+                  placeholder="Eg: 15 days"
+                  className="w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px] text-[#737373]"
+                />
+              </div>
+
+              <div className="w-1/2">
+                <p className="text-text text-[14px] ">Fees</p>
+                <input
+                  type="number"
+                  name="fees"
+                  value={formData.fees}
+                  onChange={handleInput}
+                  className='w-full border border-border bg-white px-3 py-2 mt-2 rounded-lg text-[12px]'
+                />
+              </div>
             </div>
           </div>
         )}

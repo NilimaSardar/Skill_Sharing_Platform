@@ -12,6 +12,7 @@ export const createPost = async (req, res) => {
       skillsOffered,
       skillsInterested,
       addLessons,
+      startDate
     } = req.body;
 
     // Basic validation
@@ -58,6 +59,7 @@ export const createPost = async (req, res) => {
       skillsOffered,
       skillsInterested: skillsInterested || [],
       addLessons: addLessons || [],
+      startDate: startDate ? new Date(startDate) : null,
     });
 
     return res.status(201).json({
@@ -158,6 +160,7 @@ export const updatePost = async (req, res) => {
       skillsOffered,
       skillsInterested,
       addLessons,
+      startDate
     } = req.body;
 
     const post = await Post.findById(postId);
@@ -200,6 +203,7 @@ export const updatePost = async (req, res) => {
       addLessons: addLessons || post.addLessons,
       duration: finalType === "exchange" ? "" : duration || post.duration,
       fees: finalType === "exchange" ? 0 : fees || post.fees,
+      startDate: startDate ? new Date(startDate) : post.startDate,
     };
 
     const updatedPost = await Post.findByIdAndUpdate(postId, updatedData, { new: true });

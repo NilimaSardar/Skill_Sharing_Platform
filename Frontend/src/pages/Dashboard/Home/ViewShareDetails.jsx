@@ -28,7 +28,16 @@ const ViewShareDetails = () => {
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     return `just now`;
   };
-
+  
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+  
+    const date = new Date(dateString);
+  
+    const options = { month: "long", day: "numeric" }; 
+    return date.toLocaleDateString("en-US", options); 
+  };
+  
   return (
     <div className="bg-white pb-20 min-h-screen">
 
@@ -103,10 +112,10 @@ const ViewShareDetails = () => {
               </p>
             </div>
             <div className='flex items-center gap-1'>
-              {/* <img src="../../images/users.svg" alt="" className='w-4 h-4'/>
+              {/* <img src="../../images/users.svg" alt="" className='w-4 h-4'/> */}
               <p className='font-serif text-[13px] text-[#7B7676]'>
-                30+ Users
-              </p> */}
+                Date: {formatDate(state.startDate)}
+              </p>
             </div>
           </div>
 
@@ -138,8 +147,8 @@ const ViewShareDetails = () => {
             navigate("/dashboard/payment", {
               state: {
                 amount: state.fees,
-                senderId: user._id,        // current user
-                receiverId: state.userId._id  // person offering the skill
+                senderId: user._id,        
+                receiverId: state.userId._id 
               },
             })
           }
