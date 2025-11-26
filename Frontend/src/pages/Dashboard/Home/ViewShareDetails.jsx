@@ -134,11 +134,13 @@ const ViewShareDetails = () => {
 
         {/* Proceed To Payment Button */}
         <button
-            onClick={() => navigate()}
-            className='bg-primary text-white text-[14px] font-medium px-2 py-2 mt-3 rounded-lg w-full'
-          >
-            Proceed To Payment
-          </button>
+          onClick={() =>
+            navigate("/dashboard/payment", { state: { amount: state.fees } })
+          }
+          className="bg-primary text-white text-[14px] font-medium px-2 py-2 mt-3 rounded-lg w-full"
+        >
+          Proceed To Payment
+        </button>
       </div>
 
     </div>
