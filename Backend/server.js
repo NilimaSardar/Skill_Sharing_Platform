@@ -11,6 +11,7 @@ import postRoutes from "./router/post-router.js";
 import skillRoutes from "./router/skills-router.js";
 import userSkillRoutes from "./router/user-skill-router.js";
 import proposalRoutes from "./router/proposal-router.js";
+import shareRoutes from "./router/share-router.js";
 
 import {EsewaInitiatePayment,paymentStatus} from "./controllers/payment-controller.js"; 
 
@@ -40,6 +41,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/user/skills", userSkillRoutes);
 app.use("/api/proposals", proposalRoutes);
+app.use("/api/shares", shareRoutes);
 
 /* for payment */
   //middle ware

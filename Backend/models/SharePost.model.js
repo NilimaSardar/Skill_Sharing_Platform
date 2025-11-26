@@ -1,55 +1,38 @@
 import mongoose from "mongoose";
 
-const SharePostSchema = new mongoose.Schema(
+const shareSchema = new mongoose.Schema(
   {
-    userId: {
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+      required: true,
+    },
+
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
 
-    title: {
-      type: String,
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
+    },
+
+    message: {
+      type: String,
       trim: true,
     },
 
-    description: {
+    status: {
       type: String,
-      required: true,
+      enum: ["pending", "completed", "cancelled"],
+      default: "pending",
     },
 
-    category: {
-      type: String,
-      required: true,
-    },
-
-    subcategory: {
-      type: String,
-      required: true,
-    },
-
-    price: {
-      type: Number,
-      default: 0,
-    },
-
-    images: [
-      {
-        type: String,
-      }
-    ],
-
-    // If anyone wants to learn the shared skill
-    interestedUsers: [
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        message: { type: String },
-        createdAt: { type: Date, default: Date.now },
-      }
-    ],
   },
   { timestamps: true }
 );
 
-export const SharePost = mongoose.model("SharePost", SharePostSchema);
+export default mongoose.model("SharePost", shareSchema);
