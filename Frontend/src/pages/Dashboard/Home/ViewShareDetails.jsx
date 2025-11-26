@@ -5,7 +5,7 @@ import { useAuth } from "../../../store/auth";
 const ViewShareDetails = () => {
   const { API} = useAuth();
   const { state } = useLocation();
-  console.log("state",state)
+  // console.log("state",state)
   const navigate = useNavigate();
 
   if (!state) return <p>No state found</p>;
@@ -135,7 +135,13 @@ const ViewShareDetails = () => {
         {/* Proceed To Payment Button */}
         <button
           onClick={() =>
-            navigate("/dashboard/payment", { state: { amount: state.fees } })
+            navigate("/dashboard/payment", {
+              state: {
+                amount: state.fees,
+                senderId: user._id,        // current user
+                receiverId: state.userId._id  // person offering the skill
+              },
+            })
           }
           className="bg-primary text-white text-[14px] font-medium px-2 py-2 mt-3 rounded-lg w-full"
         >

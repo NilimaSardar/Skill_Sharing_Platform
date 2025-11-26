@@ -5,6 +5,8 @@ import { generateUniqueId } from "esewajs";
 const PaymentForm = () => {
   const { state } = useLocation();
   const [amount, setAmount] = useState("");
+  const senderId = state?.senderId;
+  const receiverId = state?.receiverId;
 
   useEffect(() => {
     if (state?.amount) {
@@ -21,6 +23,8 @@ const PaymentForm = () => {
         body: JSON.stringify({
           amount,
           productId: generateUniqueId(),
+          senderId,
+          receiverId
         }),
       });
 
@@ -33,7 +37,7 @@ const PaymentForm = () => {
     } catch (error) {
       console.error("Payment error:", error);
     }
-  };
+  };  
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
