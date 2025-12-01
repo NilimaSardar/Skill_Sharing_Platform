@@ -29,7 +29,7 @@ const Request = () => {
     <div className="relative min-h-screen bg-gray-100">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-5 bg-primary text-white relative sm:text-text sm:bg-gray-200">
-        <h3 className="font-serif text-xl">Proposal Request</h3>
+        <h3 className="text-xl">Proposal Request</h3>
 
         {/* Options Menu */}
         <div

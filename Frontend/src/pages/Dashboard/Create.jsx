@@ -238,8 +238,8 @@ const Create = () => {
 
   return (
     <div className='mb-20'>
-      <div className='flex items-center justify-start py-5 bg-primary text-white'>
-        <h3 className=' w-full text-center text-[18px]'>
+      <div className='flex items-center justify-start py-5 bg-primary text-white sm:text-text sm:bg-gray-200'>
+        <h3 className=' w-full text-center text-[18px] sm:text-start sm:pl-4 sm:text-xl'>
           {isEditing ? "Edit Post" : "Create Post"}
         </h3>
       </div>

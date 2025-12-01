@@ -62,11 +62,11 @@ const Chat = () => {
   return (
     <div className=''>
       {/* Header */}
-      <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
-        <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
+      <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white sm:text-text sm:bg-gray-200'>
+        <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer sm:hidden">
           <img src="../../images/BackArrow.svg" alt="back" className='w-[25px] h-[25px]'/>
         </div>
-        <h3 className='font-serif w-full text-center text-xl'>Message</h3>
+        <h3 className='font-serif w-full text-center text-xl sm:text-start'>Message</h3>
       </div>
 
       <div className='mx-[28px] py-1'>
