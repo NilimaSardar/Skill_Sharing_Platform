@@ -28,7 +28,7 @@ const Request = () => {
   return (
     <div className="relative min-h-screen bg-gray-100">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-5 bg-primary text-white relative">
+      <div className="flex items-center justify-between px-6 py-5 bg-primary text-white relative sm:text-text sm:bg-gray-200">
         <h3 className="font-serif text-xl">Proposal Request</h3>
 
         {/* Options Menu */}
@@ -38,7 +38,7 @@ const Request = () => {
         >
           <button
             onClick={handleOptionClick}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 sm:bg-primary sm:hover:bg-primary sm:rounded-lg transition"
           >
             <img src="../../images/options.svg" alt="options" className="w-6 h-6" />
           </button>

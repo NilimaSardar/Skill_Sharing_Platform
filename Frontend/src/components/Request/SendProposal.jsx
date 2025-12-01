@@ -17,11 +17,10 @@ const SendProposal = () => {
         });
         if (!res.ok) throw new Error("Failed to fetch proposals");
         const data = await res.json();
-        // Filter sent proposals where the current user is sender
         setProposals(
-          data.proposals
-            ?.filter(p => p.senderId?._id === user._id && p.status === "pending")
-            || []
+          data.proposals?.filter(
+            p => p.senderId?._id === user._id && p.status === "pending"
+          ) || []
         );
       } catch (err) {
         console.error(err);
@@ -44,16 +43,14 @@ const SendProposal = () => {
         },
         body: JSON.stringify({ status: "cancelled" }),
       });
-  
+
       if (!res.ok) throw new Error("Failed to cancel proposal");
-  
-      // Remove cancelled proposal from displayed list
+
       setProposals(prev => prev.filter(p => p._id !== proposalId));
-  
     } catch (err) {
       console.error(err);
     }
-  };  
+  };
 
   if (loading) return <p>Loading sent proposals...</p>;
   if (proposals.length === 0) return <p>No sent proposals</p>;
@@ -63,13 +60,11 @@ const SendProposal = () => {
       {proposals.map((proposal) => {
         const receiver = proposal.receiverId || {};
 
-        // Expert: Skills offered in the post
         const expertInfo =
           proposal.postId?.skillsOffered?.length > 0
             ? proposal.postId.skillsOffered.map(s => `${s.subcategory} | ${s.expertLevel}`).join(", ")
             : "Not specified";
 
-        // Interested: Skills wanted in the post
         const interestedInfo =
           proposal.postId?.skillsInterested?.length > 0
             ? proposal.postId.skillsInterested.map(s => s.subcategory).join(", ")
@@ -78,9 +73,9 @@ const SendProposal = () => {
         return (
           <div
             key={proposal._id}
-            className="flex relative gap-3 items-center w-full h-35 px-2 rounded-lg border border-border"
+            className="flex relative gap-3 items-center w-full px-2 py-2 rounded-lg border border-border"
           >
-            <div className="h-30 w-22 rounded-lg">
+            <div className="h-30 w-22 rounded-lg overflow-hidden flex-shrink-0">
               <img
                 src={
                   receiver.profilePhoto
@@ -88,10 +83,11 @@ const SendProposal = () => {
                     : `${API}/uploads/Profile.jpeg`
                 }
                 alt={receiver.fullName || "User"}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex flex-col justify-between h-30 w-2/3">
+
+            <div className="flex gap-1 flex-col justify-between w-full">
               <div className="flex gap-3 items-end">
                 <h3 className="text-[14px] text-text font-[570]">
                   {receiver.fullName || "Unknown"}
@@ -100,12 +96,14 @@ const SendProposal = () => {
                   {receiver.age || "N/A"}, {receiver.location || "Unknown"}
                 </p>
               </div>
+
               <p className="text-[#737373] text-[13px]">
                 Expert: <span className="text-primary">{expertInfo}</span>
               </p>
               <p className="text-[#737373] text-[13px]">
                 Interested: <span className="text-text">{interestedInfo}</span>
               </p>
+
               <button
                 onClick={() => handleCancel(proposal._id)}
                 className="bg-orange-600 text-white text-[12px] font-medium px-2 py-2 rounded-lg w-full mt-1"
