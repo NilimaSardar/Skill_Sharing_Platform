@@ -42,10 +42,10 @@ const ViewShareDetails = () => {
     <div className="bg-white pb-20 min-h-screen">
 
       {/* Top Header */}
-      <div className="flex items-center justify-between px-[20px] py-5 bg-primary text-white">
+      <div className="flex items-center justify-between px-[20px] py-5 bg-primary text-white sm:text-text sm:bg-gray-200">
         <div
           onClick={() => navigate(-1)}
-          className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer"
+          className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer sm:hidden"
         >
           <img
             src="../../images/BackArrow.svg"
@@ -53,7 +53,7 @@ const ViewShareDetails = () => {
             className="w-[25px] h-[25px]"
           />
         </div>
-        <h3 className="w-full text-center text-xl mr-5 font-serif">
+        <h3 className="w-full text-center text-xl mr-5 sm:text-start">
           Details
         </h3>
       </div>

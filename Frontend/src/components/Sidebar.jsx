@@ -31,6 +31,7 @@ const Sidebar = () => {
         <p className="mt-3 font-semibold text-gray-800 text-[15px]">
           {user?.fullName || "User Name"}
         </p>
+        <p className='text-[#737373] text-[14px]'>{user?.email || "user@example.com"}</p>
 
         <Link
           to="/dashboard/profile"
