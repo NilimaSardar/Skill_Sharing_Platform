@@ -1,56 +1,64 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { GoHome } from "react-icons/go";
-import { HiOutlineUserGroup, HiOutlineUser } from "react-icons/hi2";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 import { VscDiffAdded } from "react-icons/vsc";
 import { BsChatText } from "react-icons/bs";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 export default function TopBar() {
   const links = [
-    { to: "/dashboard/home", label: "Home", icon: <GoHome size={22} /> },
-    { to: "/dashboard/request", label: "Request", icon: <HiOutlineUserGroup size={22} /> },
-    { to: "/dashboard/create", label: "Create", icon: <VscDiffAdded size={22} /> },
-    { to: "/dashboard/chat", label: "Chat", icon: <BsChatText size={22} /> },
+    { to: "/dashboard/home", icon: <GoHome size={28} /> },
+    { to: "/dashboard/request", icon: <HiOutlineUserGroup size={28} /> },
+    { to: "/dashboard/create", icon: <VscDiffAdded size={30} /> },
+    { to: "/dashboard/chat", icon: <BsChatText size={26} /> },
   ];
 
   return (
     <div className="hidden sm:flex w-full h-[70px] bg-white shadow-md fixed top-0 z-50 px-6 items-center justify-between">
-      
-      {/* LEFT: LOGO */}
+
+      {/* LEFT LOGO */}
       <div className="flex items-center gap-2">
         <img src="/images/ProXchange.svg" alt="logo" className="h-7 w-auto" />
       </div>
 
-      {/* CENTER: NAV LINKS */}
-      <div className="flex gap-8">
+      {/* CENTER NAV */}
+      <div className="flex items-center h-full mr-20">
         {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
             className={({ isActive }) =>
-              `flex items-center gap-2 text-[16px] font-medium ${
-                isActive ? "text-primary" : "text-gray-500"
-              }`
+              `relative flex items-center justify-center h-full px-4
+              ${isActive ? "text-primary" : "text-gray-500 hover:bg-primary-light"}`
             }
           >
-            {link.icon}
-            {link.label}
+            {({ isActive }) => (
+              <div className="flex flex-col w-23 items-center justify-center h-full relative">
+                {/* ICON */}
+                {link.icon}
+
+                {/* ACTIVE BORDER */}
+                {isActive && (
+                  <div className="absolute bottom-0 left-0 w-full h-[3px] bg-primary rounded-t-md"></div>
+                )}
+              </div>
+            )}
           </NavLink>
         ))}
       </div>
 
-      {/* RIGHT: NOTIFICATION + PROFILE */}
+      {/* RIGHT SECTION */}
       <div className="flex items-center gap-6">
-            <img
-              src="../images/notification.svg"
-              alt="notification"
-              className="w-6 h-6"
-            />
+        <IoNotificationsOutline size={26} className="text-gray-600 cursor-pointer" />
+
+        <NavLink to="/dashboard/chat">
+          <BsChatText size={24} className="text-gray-600" />
+        </NavLink>
 
         <NavLink to="/dashboard/profile">
           <img
-            src="../profile/Nilima.jpeg"
+            src="../../profile/Nilima.jpeg"
             className="w-10 h-10 rounded-full border border-gray-300 cursor-pointer object-cover"
             alt="Profile"
           />
