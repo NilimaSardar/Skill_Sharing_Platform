@@ -12,10 +12,10 @@ const Profile = () => {
 
   return (
     <div>
-      <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
-        <h3 className='font-serif w-full text-center text-xl ml-7'>Profile</h3>
+      <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white sm:text-text sm:bg-gray-200'>
+        <h3 className='font-serif w-full text-start text-xl ml-7'>Profile</h3>
 
-        <NavLink to="profileSettings" className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer"> 
+        <NavLink to="profileSettings" className="w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer sm:p-2 sm:bg-primary sm:hover:bg-primary sm:rounded-lg transition"> 
           <img src="../../images/Settings.svg" alt="setting" className='w-[25px] h-[25px]'/> 
         </NavLink>
       </div>
