@@ -2,18 +2,18 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../store/auth";
 import MobileMenu from "../../components/MobileMenu";
+import UserLayout from "../../Layout/UserLayout";
+import TopBar from "../../components/Topbar";
 
 const Dashboard = () => {
   const { user, isLoading } = useAuth();
   const location = useLocation();
   const path = location.pathname;
 
-  // Show MobileMenu only for "/dashboard" and its one-level child routes
+  // MobileMenu should show only on dashboard-level pages
   const showMobileMenu =
     path === "/dashboard" ||
     (path.startsWith("/dashboard/") && path.split("/").length === 3);
-
-  console.log("user from dashboard:", user?.email ?? "no user yet");
 
   if (isLoading) {
     return (
@@ -25,8 +25,20 @@ const Dashboard = () => {
 
   return (
     <>
-      <Outlet />
-      {showMobileMenu && <MobileMenu />}
+      <div className="sm:hidden">
+        <Outlet />
+        {showMobileMenu && <MobileMenu />}
+      </div>
+
+      <div className="hidden sm:block">
+        <TopBar /> 
+        <div className="pt-[80px]">
+          <UserLayout>
+            <Outlet />
+          </UserLayout>
+        </div>
+      </div>
+
     </>
   );
 };
