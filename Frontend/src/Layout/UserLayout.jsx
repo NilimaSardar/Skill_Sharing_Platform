@@ -1,15 +1,21 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
+import RightSidebar from "../components/RightSidebar";
 
 const UserLayout = ({ children }) => {
   return (
     <div className="hidden sm:flex w-full h-[90vh] bg-gray-50 overflow-hidden">
 
-        {/* SIDEBAR */}
-        <Sidebar />
+      {/* LEFT SIDEBAR */}
+      <Sidebar />
 
-      {/* CONTENT */}
-      <main className="p-6 w-full h-screen overflow-y-auto">{children}</main>
+      {/* MAIN CONTENT */}
+      <main className="flex-1 p-6 h-full overflow-y-auto">
+        {children}
+      </main>
+
+      {/* RIGHT SIDEBAR */}
+      <RightSidebar />
     </div>
   );
 };
