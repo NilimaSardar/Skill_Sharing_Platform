@@ -40,6 +40,10 @@ import ViewProposal from "./pages/Dashboard/Home/ViewProposal";
 import PaymentForm from "./components/payment/PaymentForm";
 import Success from "./components/payment/Success";
 import Failure from "./components/payment/Failure";
+import SafetyGuidelines from "./pages/Dashboard/Profile/SafetyGuidelines";
+import PrivacyPolicy from "./pages/Dashboard/Profile/PrivacyPolicy";
+import HelpSupport from "./pages/Dashboard/Profile/HelpSupport";
+import TermsOfService from "./pages/Dashboard/Profile/TermsOfService";
 
 function App() {
   return (
@@ -100,6 +104,10 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="profile/profileSettings" element={<ProfileSetting />} />
           <Route path="profile/editprofile" element={<EditProfile />} />
+          <Route path="profile/safety-guidelines" element={<SafetyGuidelines />} />
+          <Route path="profile/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="profile/help-support" element={<HelpSupport />} />
+          <Route path="profile/terms-of-service" element={<TermsOfService />} />
 
           {/* Payment */}
           <Route path="payment" element={<PaymentForm />} />
