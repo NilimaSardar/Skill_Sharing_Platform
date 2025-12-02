@@ -23,8 +23,8 @@ export const getSharesByUser = async (req, res) => {
       $or: [{ senderId: userId }, { receiverId: userId }],
     })
       .populate("postId")
-      .populate("senderId", "fullName profilePhoto")
-      .populate("receiverId", "fullName profilePhoto")
+      .populate("senderId", "fullName profilePhoto age location isActive")
+      .populate("receiverId", "fullName profilePhoto age location isActive")
       .sort({ createdAt: -1 });
 
     res.status(200).json(shares);

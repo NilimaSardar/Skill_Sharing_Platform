@@ -9,56 +9,67 @@ import ShareChat from "../../components/chat/ShareChat";
 const Chat = () => {
   const navigate = useNavigate();
   const { API, user } = useAuth();
-  // const [activeTab, setActiveTab] = useState("exchange");
-  const [acceptedUsers, setAcceptedUsers] = useState([]);
+  const [activeTab, setActiveTab] = useState("exchange");
+  const [activeUsers, setActiveUsers] = useState([]); // Combined users
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "exchange";
-  const [activeTab, setActiveTab] = useState(initialTab);
+  const [tab, setTab] = useState(initialTab);
 
   useEffect(() => {
-    const fetchAcceptedUsers = async () => {
+    const fetchActiveUsers = async () => {
       const token = localStorage.getItem("token");
       if (!token || !user?._id) return setLoading(false);
 
       try {
-        const res = await fetch(`${API}/api/proposals/user/${user._id}?status=accepted`, {
+        // --- Fetch accepted proposals ---
+        const proposalRes = await fetch(`${API}/api/proposals/user/${user._id}?status=accepted`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (!res.ok) {
-          console.log("Fetch failed", res.status);
-          return setLoading(false);
-        }
+        const proposalData = proposalRes.ok ? await proposalRes.json() : { proposals: [] };
 
-        const data = await res.json();
-
-        // get the other user from each proposal
-        const users = data.proposals.map(p =>
+        const proposalUsers = proposalData.proposals?.map(p =>
           p.senderId._id === user._id ? p.receiverId : p.senderId
-        );
+        ) || [];
 
-        // Remove duplicates by _id
-        const uniqueUsers = Array.from(new Map(users.map(u => [u._id, u])).values());
+        // --- Fetch accepted shares ---
+        const shareRes = await fetch(`${API}/api/shares/user/${user._id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-        // Sort users: active first
+        const shareData = shareRes.ok ? await shareRes.json() : [];
+
+        const shareUsers = shareData
+          .filter(s => s.status === "accepted")
+          .map(s => s.senderId._id === user._id ? s.receiverId : s.senderId);
+
+        // --- Combine users and remove duplicates ---
+        const combined = [...proposalUsers, ...shareUsers];
+        const uniqueUsers = Array.from(new Map(combined.map(u => [u._id, u])).values());
+
+        // --- Sort active users first ---
         const sortedUsers = uniqueUsers.sort((a, b) => (b.isActive ? 1 : 0) - (a.isActive ? 1 : 0));
 
-        setAcceptedUsers(sortedUsers);
+        // --- Limit to 10 users ---
+        setActiveUsers(sortedUsers.slice(0, 10));
         setLoading(false);
 
       } catch (err) {
-        console.log("Failed to fetch accepted proposals", err);
+        console.log("Failed to fetch users", err);
         setLoading(false);
       }
     };
 
-    fetchAcceptedUsers();
+    fetchActiveUsers();
   }, [API, user]);
 
   const handleClick = (id) => {
@@ -66,7 +77,7 @@ const Chat = () => {
   };
 
   return (
-    <div className=''>
+    <div>
       {/* Header */}
       <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white sm:text-text sm:bg-gray-200'>
         <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer sm:hidden">
@@ -76,13 +87,13 @@ const Chat = () => {
       </div>
 
       <div className='mx-[28px] py-1'>
-        
+
         {/* Active Profiles */}
         <div className="flex gap-4 overflow-x-auto py-2 hide-scrollbar">
           {loading && <p className="text-gray-400">Loading users...</p>}
-          {!loading && acceptedUsers.length === 0 && <p className="text-gray-400">No chat users yet</p>}
+          {!loading && activeUsers.length === 0 && <p className="text-gray-400">No active users yet</p>}
 
-          {acceptedUsers.map(u => (
+          {activeUsers.map(u => (
             <div key={u._id} className="flex flex-col items-center cursor-pointer" onClick={() => handleClick(u._id)}>
               <div className="relative w-[50px] h-[50px] flex items-center justify-center">
                 <img
@@ -116,14 +127,14 @@ const Chat = () => {
         {/* Tabs */}
         <div className="flex w-full gap-4 text-center text-[16px] font-medium text-text">
           <button
-            className={`py-[7px] w-1/2 rounded-lg ${activeTab === "exchange" ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"}`}
-            onClick={() => setActiveTab("exchange")}
+            className={`py-[7px] w-1/2 rounded-lg ${tab === "exchange" ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"}`}
+            onClick={() => setTab("exchange")}
           >
             Exchange
           </button>
           <button
-            className={`py-[7px] w-1/2 rounded-lg ${activeTab === "share" ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"}`}
-            onClick={() => setActiveTab("share")}
+            className={`py-[7px] w-1/2 rounded-lg ${tab === "share" ? "bg-primary-light text-text border border-border" : "text-text hover:text-primary border border-border"}`}
+            onClick={() => setTab("share")}
           >
             Share
           </button>
@@ -131,8 +142,8 @@ const Chat = () => {
 
         {/* Chat Box */}
         <div className="py-4 pb-20">
-          {activeTab === "exchange" && <ExchangeChat acceptedUsers={acceptedUsers} />}
-          {activeTab === "share" && <ShareChat />}
+          {tab === "exchange" && <ExchangeChat />}
+          {tab === "share" && <ShareChat />}
         </div>
       </div>
     </div>
