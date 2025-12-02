@@ -10,7 +10,7 @@ const UserLayout = ({ children }) => {
       <Sidebar />
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 p-6 h-full overflow-y-auto">
+      <main className="flex-1 p-6 h-full overflow-y-auto hide-scrollbar">
         {children}
       </main>
 
