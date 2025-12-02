@@ -19,16 +19,16 @@ const Exchange = ({ category, type, searchTerm }) => {
       try {
         let url = `${API}/api/posts?type=${type}`;
         if (category) url += `&category=${category}`;
-  
+
         const res = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.message || "Failed to fetch posts");
         }
-  
+
         const data = await res.json();
         setPosts(data);
       } catch (err) {
@@ -38,102 +38,149 @@ const Exchange = ({ category, type, searchTerm }) => {
         setLoading(false);
       }
     };
-  
-    if (type) fetchPosts(); // fetch even if category is undefined
-  }, [category, type, API, token]);  
+
+    if (type) fetchPosts();
+  }, [category, type, API, token]);
+
+  // SEARCH FILTER
+  const filteredPosts = posts.filter((post) => {
+    const lowerSearch = searchTerm?.toLowerCase() || "";
+
+    const userName = post.userId?.fullName?.toLowerCase() || "";
+    const title = post.title?.toLowerCase() || "";
+    const description = post.description?.toLowerCase() || "";
+
+    const offeredSkills = post.skillsOffered
+      ?.map((s) => s.subcategory?.toLowerCase())
+      .join(" ") || "";
+
+    const wantedSkills = post.skillsInterested
+      ?.map((s) => s.subcategory?.toLowerCase())
+      .join(" ") || "";
+
+    return (
+      userName.includes(lowerSearch) ||
+      title.includes(lowerSearch) ||
+      description.includes(lowerSearch) ||
+      offeredSkills.includes(lowerSearch) ||
+      wantedSkills.includes(lowerSearch)
+    );
+  });
+
+  const visiblePosts = showAll ? filteredPosts : filteredPosts.slice(0, 5);
 
   const timeAgo = (dateString) => {
     const now = new Date();
     const past = new Date(dateString);
-    const diffInMs = now - past;
+    const diff = now - past;
 
-    const seconds = Math.floor(diffInMs / 1000);
-    const minutes = Math.floor(seconds / 60);
+    const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-    return `just now`;
+    return "just now";
   };
-
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm?.toLowerCase() || "") ||
-      post.description.toLowerCase().includes(searchTerm?.toLowerCase() || "")
-  );
-
-  const visiblePosts = showAll ? filteredPosts : filteredPosts.slice(0, 5); 
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
-  if (!filteredPosts.length) return <p>No {type} posts found for "{searchTerm}"</p>;
+  if (!filteredPosts.length)
+    return <p>No {type} posts found for "{searchTerm}"</p>;
 
   return (
     <div className="flex flex-col gap-3">
       {visiblePosts.map((post) => {
         const user = post.userId || {};
-        const offeredSkills = post.skillsOffered?.map((s) => s.subcategory).join(", ");
-        const expertLevels = post.skillsOffered?.map((s) => s.expertLevel).join(", ");
-        const wantedSkills = post.skillsInterested?.map((s) => s.subcategory).join(", ");
+        const offeredSkills = post.skillsOffered
+          ?.map((s) => s.subcategory)
+          .join(", ");
+        const expertLevels = post.skillsOffered
+          ?.map((s) => s.expertLevel)
+          .join(", ");
+        const wantedSkills = post.skillsInterested
+          ?.map((s) => s.subcategory)
+          .join(", ");
 
         return (
-          <div key={post._id} className="border border-border rounded-lg p-3 flex flex-col gap-1.5">
+          <div
+            key={post._id}
+            className="border border-border rounded-lg p-3 flex flex-col gap-1.5"
+          >
             <div className="flex items-center justify-between">
+              {/* USER SECTION */}
               <div className="flex items-center gap-2">
                 <div className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer">
                   <img
-                    src={user.profilePhoto ? `${API}/uploads/${user.profilePhoto}` : `${API}/uploads/Profile.jpeg`}
+                    src={
+                      user.profilePhoto
+                        ? `${API}/uploads/${user.profilePhoto}`
+                        : `${API}/uploads/Profile.jpeg`
+                    }
                     alt={user.fullName || "User"}
                     className="w-[40px] h-[40px] rounded-full object-cover"
                   />
                 </div>
                 <div>
-                  <h3 className="text-[16px]">{user.fullName || "Anonymous"}</h3>
+                  <h3 className="text-[16px]">
+                    {user.fullName || "Anonymous"}
+                  </h3>
                   <p className="text-[13px] text-[#7B7676]">
                     {user.age || "N/A"}, {user.location || "Unknown"}
                   </p>
                 </div>
               </div>
 
+              {/* DATE */}
               <div className="flex flex-col items-end">
                 <div className="flex items-center gap-2">
                   <img src="../../images/Calender.svg" alt="" />
-                  <p className="text-[13px] text-[#7B7676]">{timeAgo(post.createdAt)}</p>
+                  <p className="text-[13px] text-[#7B7676]">
+                    {timeAgo(post.createdAt)}
+                  </p>
                 </div>
               </div>
             </div>
 
             <h2 className="text-text text-[14px] font-[550]">{post.title}</h2>
 
+            {/* OFFERS & WANTS */}
             <div className="flex items-center justify-between bg-primary-light px-3 py-2 my-1 rounded-lg">
               <div>
                 <p className="text-[#737373] text-[14px]">Offers</p>
-                <p className="text-primary text-[14px]">{offeredSkills || "N/A"}</p>
+                <p className="text-primary text-[14px]">
+                  {offeredSkills || "N/A"}
+                </p>
               </div>
+
               <div className="flex flex-col items-center gap-2">
-                <p className="bg-red-200 text-[10px] text-red-500 p-[3px] rounded-xs">{expertLevels || "N/A"}</p>
+                <p className="bg-red-200 text-[10px] text-red-500 p-[3px] rounded-xs">
+                  {expertLevels || "N/A"}
+                </p>
                 <img src="../../images/exchange.svg" alt="" />
               </div>
+
               <div className="flex flex-col items-end">
                 <p className="text-[#737373] text-[14px]">Wants</p>
-                <p className="text-primary text-[14px]">{wantedSkills || "N/A"}</p>
+                <p className="text-primary text-[14px]">
+                  {wantedSkills || "N/A"}
+                </p>
               </div>
             </div>
 
-            <p className="text-[#737373] mb-1 text-[14px] font-[500] text-justify leading-4.5 tracking-normal">
+            <p className="text-[#737373] mb-1 text-[14px] font-[500] text-justify">
               {post.description}
             </p>
 
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => navigate("/dashboard/home/propose-exchange", { state: post })}
-                className="bg-primary text-white text-[14px] font-medium px-2 py-2 rounded-lg w-full"
-              >
-                Propose Exchange
-              </button>
-            </div>
+            <button
+              onClick={() =>
+                navigate("/dashboard/home/propose-exchange", { state: post })
+              }
+              className="bg-primary text-white text-[14px] font-medium px-2 py-2 rounded-lg w-full"
+            >
+              Propose Exchange
+            </button>
           </div>
         );
       })}
