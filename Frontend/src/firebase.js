@@ -1,19 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD8AQA7_fDkyoVtKQo9xWEDLxqF14pIjno",
-  authDomain: "proxchange-a876e.firebaseapp.com",
-  projectId: "proxchange-a876e",
-  storageBucket: "proxchange-a876e.firebasestorage.app",
-  messagingSenderId: "138891190348",
-  appId: "1:138891190348:web:c95ae8a54e0e91566414e9"
+  apiKey: "AIzaSyDbuDunpXAEFDGfwObnljnBBoR0ipUDAxg",
+  authDomain: "proxchange-3b97b.firebaseapp.com",
+  projectId: "proxchange-3b97b",
+  storageBucket: "proxchange-3b97b.firebasestorage.app",
+  messagingSenderId: "87282410638",
+  appId: "1:87282410638:web:a8dfe0a72aa0540a9115df"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);

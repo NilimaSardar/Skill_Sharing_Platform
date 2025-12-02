@@ -17,7 +17,7 @@ const Chat = () => {
   const initialTab = queryParams.get("tab") || "exchange";
   const [tab, setTab] = useState(initialTab);
 
-  const [searchQuery, setSearchQuery] = useState("");   // 🔍 SEARCH STATE
+  const [searchQuery, setSearchQuery] = useState("");  
 
   useEffect(() => {
     const fetchActiveUsers = async () => {
@@ -83,12 +83,6 @@ const Chat = () => {
     <div>
       {/* HEADER */}
       <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white sm:text-text sm:bg-gray-200'>
-        <div
-          onClick={() => navigate(-1)}
-          className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer sm:hidden"
-        >
-          <img src="../../images/BackArrow.svg" alt="back" className='w-[25px] h-[25px]'/>
-        </div>
         <h3 className='font-serif w-full text-center text-xl sm:text-start'>Message</h3>
       </div>
 
@@ -124,15 +118,15 @@ const Chat = () => {
           ))}
         </div>
 
-        {/* 🔍 SEARCH BAR */}
+        {/* SEARCH BAR */}
         <div className="my-3">
           <div className="relative w-full">
             <input
               type="text"
               placeholder="Search"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}   // 👈 SET SEARCH VALUE
-              className="w-full pr-10 pl-4 py-2 text-[16px] text-gray-800 font-medium border border-border bg-search-bg rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-gray-400"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pr-10 pl-4 py-2 text-[16px] text-gray-800 font-medium border border-border bg-search-bg rounded-lg focus:ring-2 focus:ring-primary focus:outline-none placeholder-gray-400"
             />
             <img
               src="../../images/Search_Icon.svg"
