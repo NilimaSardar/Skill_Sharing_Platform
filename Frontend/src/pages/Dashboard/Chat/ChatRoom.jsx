@@ -89,7 +89,7 @@ export default function ChatRoom() {
         <img src="/avatar.jpg" alt="" className="w-10 h-10 rounded-full border" />
         <div className="flex-1">
           <h2 className="text-lg font-semibold">Chat</h2>
-          <p className="text-xs opacity-90">Active Now</p>
+          {/* <p className="text-xs opacity-90">Active Now</p> */}
         </div>
       </div>
     </div>
@@ -101,9 +101,9 @@ export default function ChatRoom() {
           key={msg.id}
           className={`flex items-end gap-2 ${msg.senderId === senderId ? "justify-end" : "justify-start"}`}
         >
-          {msg.senderId !== senderId && (
+          {/* {msg.senderId !== senderId && (
             <img src="/avatar.jpg" alt="" className="w-7 h-7 rounded-full" />
-          )}
+          )} */}
           <div className={`px-4 py-2 max-w-[70%] rounded-2xl text-sm ${
             msg.senderId === senderId
               ? "bg-gray-200 text-black rounded-br-none"
