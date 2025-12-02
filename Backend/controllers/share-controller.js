@@ -3,15 +3,9 @@ import SharePost from "../models/SharePost.model.js";
 // Create a share
 export const createShare = async (req, res) => {
   const { postId, senderId, receiverId, message } = req.body;
-
+  console.log("Creating share with:", req.body);
   try {
-    const newShare = new SharePost({
-      postId,
-      senderId,
-      receiverId,
-      message,
-    });
-
+    const newShare = new SharePost({ postId, senderId, receiverId, message, status: "accepted" });
     await newShare.save();
     res.status(201).json({ message: "Share created successfully", share: newShare });
   } catch (error) {
@@ -40,21 +34,29 @@ export const getSharesByUser = async (req, res) => {
   }
 };
 
-// Update share status
+// Update share status (like proposal)
 export const updateShareStatus = async (req, res) => {
   const { shareId } = req.params;
   const { status } = req.body;
 
+  // Validate status
+  if (!["pending","accepted", "completed", "cancelled"].includes(status)) {
+    return res.status(400).json({ success: false, message: "Invalid status" });
+  }
+
   try {
-    const share = await SharePost.findById(shareId);
-    if (!share) return res.status(404).json({ message: "Share not found" });
+    const share = await SharePost.findByIdAndUpdate(
+      shareId,
+      { status },
+      { new: true }
+    );
 
-    share.status = status;
-    await share.save();
+    if (!share) {
+      return res.status(404).json({ success: false, message: "Share not found" });
+    }
 
-    res.status(200).json({ message: "Share status updated", share });
-  } catch (error) {
-    console.error("Error updating share:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(200).json({ success: true, share });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -4,16 +4,17 @@ import {
   getSharesByUser,
   updateShareStatus,
 } from "../controllers/share-controller.js";
+import authMiddleware from "../middlewares/auth-middleware.js";
 
 const router = express.Router();
 
 // Create a share post
-router.post("/", createShare);
+router.post("/", authMiddleware, createShare);
 
 // Get all shares of a user
-router.get("/user/:userId", getSharesByUser);
+router.get("/user/:userId", authMiddleware, getSharesByUser);
 
-// Update share status
-router.put("/:shareId/status", updateShareStatus);
+// Update share status (like proposal)
+router.patch("/:shareId/status", authMiddleware, updateShareStatus);
 
 export default router;

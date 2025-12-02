@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/auth";
+import { useLocation } from "react-router-dom";
 
 import ExchangeChat from "../../components/chat/ExchangeChat";
 import ShareChat from "../../components/chat/ShareChat";
@@ -8,9 +9,14 @@ import ShareChat from "../../components/chat/ShareChat";
 const Chat = () => {
   const navigate = useNavigate();
   const { API, user } = useAuth();
-  const [activeTab, setActiveTab] = useState("exchange");
+  // const [activeTab, setActiveTab] = useState("exchange");
   const [acceptedUsers, setAcceptedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialTab = queryParams.get("tab") || "exchange";
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   useEffect(() => {
     const fetchAcceptedUsers = async () => {

@@ -27,7 +27,7 @@ const shareSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "completed", "cancelled"],
+      enum: ["pending", "accepted", "completed", "cancelled"],
       default: "pending",
     },
 

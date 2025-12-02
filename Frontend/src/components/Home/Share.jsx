@@ -123,7 +123,19 @@ const Share = ({ category, type, searchTerm }) => {
 
             {/* VIEW DETAILS BUTTON */}
             <button
-              onClick={() => navigate("/dashboard/home/view-share-details", { state: post })}
+              onClick={() => navigate("/dashboard/home/view-share-details", { 
+                state: {
+                  postId: post._id,
+                  receiverId: post.userId._id, // this should be the other user
+                  title: post.title,
+                  description: post.description,
+                  fees: post.fees,
+                  duration: post.duration,
+                  skillsOffered: post.skillsOffered,
+                  addLessons: post.addLessons,
+                  createdAt: post.createdAt
+                } 
+              })}              
               className="bg-primary text-white text-[14px] font-medium px-2 py-2 rounded-lg w-full"
             >
               View Details

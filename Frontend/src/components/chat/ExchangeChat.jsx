@@ -53,9 +53,12 @@ const ExchangeChat = () => {
     fetchAcceptedUsers();
   }, [API]);
 
-  const handleClick = (id) => {
-    navigate(`/dashboard/chat/${id}`);
-  };
+  const handleClick = (otherUserId) => {
+    const token = localStorage.getItem("token");
+    const userId = JSON.parse(atob(token.split(".")[1])).userId;
+  
+    navigate(`/dashboard/chat-room/${userId}/${otherUserId}`);
+  };  
 
   if (loading) return <p className="text-gray-400">Loading chat users...</p>;
   if (chatUsers.length === 0)

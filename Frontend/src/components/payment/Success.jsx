@@ -41,7 +41,7 @@ const Success = () => {
   useEffect(() => {
     if (isSuccess && decoded) {
       const timeout = setTimeout(() => {
-        navigate(`/dashboard/chat-room/${decoded.senderId}/${decoded.receiverId}`);
+        navigate(`/dashboard/chat?tab=share`);
       }, 2000); // 2 seconds delay
       return () => clearTimeout(timeout);
     }

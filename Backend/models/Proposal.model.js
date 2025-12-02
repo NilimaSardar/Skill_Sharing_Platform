@@ -40,7 +40,7 @@ const proposalSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected", "cancelled"],
+      enum: ["pending", "accepted", "rejected", "cancelled","completed"],
       default: "pending",
     },
 
