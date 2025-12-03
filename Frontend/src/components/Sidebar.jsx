@@ -25,6 +25,7 @@ const Sidebar = () => {
       title: "Settings",
       links: [
         { label: "Edit Information", path: "/dashboard/profile/editProfile" },
+        { label: "Change Password", path: "/dashboard/profile/change-password" },
       ],
     },
     {

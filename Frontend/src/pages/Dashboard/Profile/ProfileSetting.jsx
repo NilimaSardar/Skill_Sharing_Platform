@@ -55,7 +55,7 @@ const ProfileSetting = () => {
                         </div>
                         
                         <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
-                            <div className='flex gap-3'>
+                            <div className='flex gap-3' onClick={() => navigate("/dashboard/profile/change-password")}>
                                 <img src="../../profileSettings/ChangePassword.svg" alt="" className='w-[23px] h-[23px]'/>
                                 <p className='text-[#737373] text-[15px]'>Change Password</p>
                             </div>

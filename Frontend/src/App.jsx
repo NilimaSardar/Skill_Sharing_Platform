@@ -44,6 +44,7 @@ import SafetyGuidelines from "./pages/Dashboard/Profile/SafetyGuidelines";
 import PrivacyPolicy from "./pages/Dashboard/Profile/PrivacyPolicy";
 import HelpSupport from "./pages/Dashboard/Profile/HelpSupport";
 import TermsOfService from "./pages/Dashboard/Profile/TermsOfService";
+import ChangePassword from "./pages/Dashboard/Profile/ChangePassword";
 
 function App() {
   return (
@@ -104,6 +105,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="profile/profileSettings" element={<ProfileSetting />} />
           <Route path="profile/editprofile" element={<EditProfile />} />
+          <Route path="profile/change-password" element={<ChangePassword />} />
           <Route path="profile/safety-guidelines" element={<SafetyGuidelines />} />
           <Route path="profile/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="profile/help-support" element={<HelpSupport />} />

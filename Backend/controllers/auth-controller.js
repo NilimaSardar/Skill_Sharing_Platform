@@ -179,3 +179,33 @@ export const logout = async (req, res) => {
 //   }
 // };
 
+export const changePassword = async (req, res) => {
+  try {
+    const loggedInUserId = req.user._id; // from auth middleware
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Both current and new passwords are required" });
+    }
+
+    // Optional: check if user is changing their own password
+    if (req.params.id !== loggedInUserId.toString()) {
+      return res.status(403).json({ message: "Unauthorized to change this password" });
+    }
+
+    const user = await User.findById(loggedInUserId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) return res.status(401).json({ message: "Current password is incorrect" });
+
+    user.password = newPassword; // hashed via pre-save hook
+    await user.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    console.error("Change password error:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+

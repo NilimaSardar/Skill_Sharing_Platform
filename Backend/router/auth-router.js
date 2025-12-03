@@ -8,6 +8,7 @@ import {
   user,
   getUserById,
   updateUser,
+  changePassword,
 } from "../controllers/auth-controller.js";
 import { signupSchema, loginSchema } from "../validators/auth-validator.js";
 import validate from "../middlewares/validate-middleware.js";
@@ -37,5 +38,6 @@ router.get("/user", authMiddleware, user);
 router.get("/user/:id", authMiddleware, getUserById); 
 router.get("/user/:id", authMiddleware, updateUser); 
 router.put("/user/:id", authMiddleware, upload.single("profilePhoto"), updateUser); 
+router.put("/user/:id/change-password", authMiddleware, changePassword);
 
 export default router;
