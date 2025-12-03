@@ -133,7 +133,7 @@ return (
         Change Password
       </h3>
     </div>
-    <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl border border-border border border-border-blue-100">
+    <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl border border-border border-border-blue-100">
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Profile Photo */}

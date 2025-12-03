@@ -179,16 +179,42 @@ export const logout = async (req, res) => {
 //   }
 // };
 
+// Get highly rated users
+export const getHighlyRatedUsers = async (req, res) => {
+  try {
+    const users = await User.find({ role: "user" })
+      .sort({ averageRating: -1 })
+      .limit(50); 
+
+    // Map only required fields
+    const result = users.map(u => ({
+      _id: u._id,
+      fullName: u.fullName,
+      age: u.age,
+      location: u.location,
+      expertInfo: u.skills.length ? u.skills[0].subcategory : "", 
+      interestedInfo: u.skills.length ? u.skills[0].category : "", 
+      rating: u.averageRating,
+      profilePhoto: u.profilePhoto,
+    }));
+
+    res.status(200).json({ users: result });
+  } catch (err) {
+    console.error("Get highly rated users error:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 export const changePassword = async (req, res) => {
   try {
-    const loggedInUserId = req.user._id; // from auth middleware
+    const loggedInUserId = req.user._id; 
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ message: "Both current and new passwords are required" });
     }
 
-    // Optional: check if user is changing their own password
     if (req.params.id !== loggedInUserId.toString()) {
       return res.status(403).json({ message: "Unauthorized to change this password" });
     }
@@ -199,7 +225,7 @@ export const changePassword = async (req, res) => {
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) return res.status(401).json({ message: "Current password is incorrect" });
 
-    user.password = newPassword; // hashed via pre-save hook
+    user.password = newPassword; 
     await user.save();
 
     res.status(200).json({ message: "Password changed successfully" });

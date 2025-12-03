@@ -9,6 +9,7 @@ import {
   getUserById,
   updateUser,
   changePassword,
+  getHighlyRatedUsers,
 } from "../controllers/auth-controller.js";
 import { signupSchema, loginSchema } from "../validators/auth-validator.js";
 import validate from "../middlewares/validate-middleware.js";
@@ -35,6 +36,7 @@ router.post("/logout", authMiddleware, logout);
 
 // Protected routes
 router.get("/user", authMiddleware, user); 
+router.get("/user/highly-rated", authMiddleware, getHighlyRatedUsers);
 router.get("/user/:id", authMiddleware, getUserById); 
 router.get("/user/:id", authMiddleware, updateUser); 
 router.put("/user/:id", authMiddleware, upload.single("profilePhoto"), updateUser); 

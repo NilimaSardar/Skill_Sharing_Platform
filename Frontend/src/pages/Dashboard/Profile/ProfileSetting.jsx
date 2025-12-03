@@ -61,14 +61,14 @@ const ProfileSetting = () => {
                             </div>
                             <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                         </div>
-
+{/* 
                         <div className='flex justify-between items-center w-full py-2'>
                             <div className='flex gap-3'>
                                 <img src="../../profileSettings/email.svg" alt="" className='w-[23px] h-[23px]'/>
                                 <p className='text-[#737373] text-[15px]'>Email & Phone Number</p>
                             </div>
                             <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -122,13 +122,13 @@ const ProfileSetting = () => {
                             <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
                         </div> */}
                         
-                        <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
+                        {/* <div className='flex justify-between items-center w-full border-b border-[rgba(217,217,217,0.4)] py-2'>
                             <div className='flex gap-3'>
                                 <img src="../../profileSettings/block.svg" alt="" className='w-[23px] h-[23px]'/>
                                 <p className='text-[#737373] text-[15px]'>Block/Report Users</p>
                             </div>
                             <img src="../../profileSettings/GoTo.svg" alt="" className='w-[15px] h-[15px]'/>
-                        </div>
+                        </div> */}
 
                         <div 
                             className='flex justify-between items-center w-full py-2 cursor-pointer'
