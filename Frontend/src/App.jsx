@@ -104,6 +104,7 @@ function App() {
 
           {/* Profile */}
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/:userId" element={<Profile />} />
           <Route path="profile/profileSettings" element={<ProfileSetting />} />
           <Route path="profile/editprofile" element={<EditProfile />} />
           <Route path="profile/change-password" element={<ChangePassword />} />

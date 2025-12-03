@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../store/auth"; // Assuming API is in auth store
+import { useAuth } from "../store/auth";
+import { useNavigate } from "react-router-dom";
 
 const RightSidebar = () => {
   const { API } = useAuth();
   const [users, setUsers] = useState([]);
   const [visibleCount, setVisibleCount] = useState(5);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -23,18 +25,25 @@ const RightSidebar = () => {
     fetchUsers();
   }, [API, token]);
 
-  const handleViewMore = () => setVisibleCount(prev => prev + 5);
+  const handleViewMore = () => setVisibleCount((prev) => prev + 5);
 
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i} className={`text-sm ${i <= Math.floor(rating) ? "text-yellow-400" : "text-gray-300"}`}>
+        <span
+          key={i}
+          className={`text-sm ${i <= Math.floor(rating) ? "text-yellow-400" : "text-gray-300"}`}
+        >
           ★
         </span>
       );
     }
     return stars;
+  };
+
+  const handleUserClick = (userId) => {
+    navigate(`/dashboard/profile/${userId}`);
   };
 
   return (
@@ -52,10 +61,11 @@ const RightSidebar = () => {
       </div>
 
       <div className="w-full space-y-4 flex-1 overflow-y-auto">
-        {users.slice(0, visibleCount).map(user => (
+        {users.slice(0, visibleCount).map((user) => (
           <div
             key={user._id}
-            className="flex gap-3 items-center w-full h-28 px-2 rounded-lg border border-border"
+            onClick={() => handleUserClick(user._id)}
+            className="flex gap-3 items-center w-full h-28 px-2 rounded-lg border border-border cursor-pointer hover:bg-gray-50 transition"
           >
             <div className="h-24 w-20 rounded-lg overflow-hidden">
               <img
