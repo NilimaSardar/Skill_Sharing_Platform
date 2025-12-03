@@ -11,6 +11,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState("share");
   const [showAllSm, setShowAllSm] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [hasNotifications, setHasNotifications] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,6 +39,28 @@ const Home = () => {
     };
     fetchCategories();
   }, []);
+
+  // Check if user has any pending notifications
+  useEffect(() => {
+    const checkNotifications = async () => {
+      if (!user?._id) return;
+      try {
+        const res = await fetch(`${API}/api/proposals/user/${user._id}?status=pending`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        });
+        const data = await res.json();
+        const received = (data.proposals || []).filter(
+          p => p.receiverId?._id === user._id
+        );
+        setHasNotifications(received.length > 0);
+      } catch (err) {
+        console.error(err);
+        setHasNotifications(false);
+      }
+    };
+
+    checkNotifications();
+  }, [API, user]);
 
   // Determine visible categories
   const getVisibleCategories = () => {
@@ -69,8 +92,15 @@ const Home = () => {
             <h3 className="font-normal text-xs">Discover your skills today</h3>
           </div>
         </div>
-        <div className="w-9 h-9 bg-icon-bg-hover flex items-center justify-center rounded-lg mb-5 cursor-pointer">
+        <div
+        onClick={() =>
+          navigate("/dashboard/notifications")
+        }
+        className="relative w-9 h-9 bg-icon-bg-hover flex items-center justify-center rounded-lg mb-5 cursor-pointer">
           <img src="../images/notification.svg" alt="notification bell" className='w-6 h-6'/>
+          {hasNotifications && (
+            <span className="absolute top-1 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+          )}
         </div>
       </div>
 
