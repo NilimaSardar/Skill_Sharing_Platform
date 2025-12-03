@@ -52,10 +52,6 @@ export default function TopBar() {
       <div className="flex items-center gap-6">
         <IoNotificationsOutline size={26} className="text-gray-600 cursor-pointer" />
 
-        <NavLink to="/dashboard/chat">
-          <BsChatText size={24} className="text-gray-600" />
-        </NavLink>
-
         <NavLink to="/dashboard/profile">
           <img
             src="../../profile/Nilima.jpeg"

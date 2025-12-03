@@ -124,14 +124,16 @@ const handleSubmit = async (e) => {
 };
 
 return ( 
-  <div>
-    <div className='flex items-center justify-between px-[28px] py-5 bg-primary text-white'>
-      <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer">
-        <img src="../../images/BackArrow.svg" alt="notification bell" className='w-[25px] h-[25px]'/>
+  <div className='mb-20 sm:mb-0'>
+    <div className='flex items-center justify-start pl-[20px] py-5 sm:pl-0 bg-primary text-white sm:text-text sm:bg-gray-200'>
+      <div onClick={() => navigate(-1)} className="w-[35px] h-[35px] flex items-center justify-center cursor-pointer sm:hidden">
+          <img src="../../images/BackArrow.svg" alt="Back" className='w-[25px] h-[25px]'/>
       </div>
-      <h3 className='font-serif w-full text-center text-xl mr-5'>Edit Profile</h3>
+      <h3 className=' w-full text-center text-[18px] sm:text-start pr-40 sm:pl-4 sm:text-xl'>
+        Change Password
+      </h3>
     </div>
-    <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl border border-blue-100">
+    <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl border border-border border border-border-blue-100">
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Profile Photo */}
@@ -140,13 +142,13 @@ return (
             <img
               src={preview}
               alt="profile"
-              className="w-28 h-28 rounded-full object-cover"
+              className="w-20 h-20 rounded-full object-cover"
             />
             {user?.profilePhoto && (
               <button
                 type="button"
                 onClick={handleDeletePhoto}
-                className="absolute top-0 right-0 bg-red-500 hover:bg-red-600 transition text-white rounded-full w-8 h-8 flex items-center justify-center shadow-md"
+                className="absolute top-0 right-1 bg-red-500 hover:bg-red-600 transition text-white rounded-full w-5 h-5 flex items-center justify-center shadow-md"
               >
                 &times;
               </button>
@@ -156,71 +158,71 @@ return (
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="mt-3 border border-blue-200 rounded-lg px-3 py-2 text-sm hover:bg-blue-100 transition"
+            className="mt-3 border border-border rounded-lg px-3 py-2 text-sm hover:bg-blue-100 transition"
           />
         </div>
 
         {/* Form Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block mb-1 font-semibold text-primary">Full Name</label>
+            <label className="block mb-1 font-medium">Full Name</label>
             <input
               type="text"
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              className="border border-blue-200 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition"
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold text-primary">Email</label>
+            <label className="block mb-1 font-medium">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="border border-blue-200 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition"
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold text-primary">Age</label>
+            <label className="block mb-1 font-medium">Age</label>
             <input
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="border border-blue-200 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition"
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold text-primary">Phone</label>
+            <label className="block mb-1 font-medium">Phone</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="border border-blue-200 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition"
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="block mb-1 font-semibold text-primary">Location</label>
+            <label className="block mb-1 font-medium">Location</label>
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="border border-blue-200 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition"
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
             />
           </div>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition"
+          className="w-full bg-primary text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition"
         >
           Save Changes
         </button>

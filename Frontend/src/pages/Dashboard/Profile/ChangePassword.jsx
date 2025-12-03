@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../store/auth";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const { API, user } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
