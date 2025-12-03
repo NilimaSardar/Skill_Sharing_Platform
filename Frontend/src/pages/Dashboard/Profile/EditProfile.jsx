@@ -10,6 +10,7 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({
   fullName: "",
   email: "",
+  about: "",
   phone: "",
   age: "",
   location: "",
@@ -24,6 +25,7 @@ const EditProfile = () => {
   setFormData({
   fullName: user.fullName || "",
   email: user.email || "",
+  about: user.about || "",
   phone: user.phone || "",
   age: user.age || "",
   location: user.location || "",
@@ -92,6 +94,7 @@ const handleSubmit = async (e) => {
   const data = new FormData();
   data.append("fullName", formData.fullName);
   data.append("email", formData.email);
+  data.append("about", formData.about);
   data.append("phone", formData.phone);
   data.append("age", formData.age);
   data.append("location", formData.location);
@@ -130,7 +133,7 @@ return (
           <img src="../../images/BackArrow.svg" alt="Back" className='w-[25px] h-[25px]'/>
       </div>
       <h3 className=' w-full text-center text-[18px] sm:text-start pr-40 sm:pl-4 sm:text-xl'>
-        Change Password
+        Edit Profile
       </h3>
     </div>
     <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl border border-border border-border-blue-100">
@@ -164,6 +167,17 @@ return (
 
         {/* Form Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <div className="md:col-span-2">
+            <label className="block mb-1 font-medium">About</label>
+            <textarea
+              name="about"
+              placeholder='Enter the bio text here...'
+              value={formData.about}
+              onChange={handleChange}
+              className="border border-border p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:border-none focus:ring-primary shadow-sm transition"
+            />
+          </div>
           <div>
             <label className="block mb-1 font-medium">Full Name</label>
             <input
