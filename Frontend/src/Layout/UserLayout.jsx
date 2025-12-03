@@ -4,7 +4,7 @@ import RightSidebar from "../components/RightSidebar";
 
 const UserLayout = ({ children }) => {
   return (
-    <div className="hidden sm:flex w-full h-[90vh] bg-gray-50 overflow-hidden">
+    <div className="hidden sm:flex w-full h-[88vh] bg-gray-50 overflow-hidden">
 
       {/* LEFT SIDEBAR */}
       <Sidebar />
