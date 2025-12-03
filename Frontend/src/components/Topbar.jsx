@@ -50,7 +50,9 @@ export default function TopBar() {
 
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-6">
-        <IoNotificationsOutline size={26} className="text-gray-600 cursor-pointer" />
+        <NavLink to="/dashboard/notifications">
+          <IoNotificationsOutline size={26} className="text-gray-600 cursor-pointer" />
+        </NavLink>
 
         <NavLink to="/dashboard/profile">
           <img

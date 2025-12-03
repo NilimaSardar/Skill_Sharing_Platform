@@ -45,6 +45,7 @@ import PrivacyPolicy from "./pages/Dashboard/Profile/PrivacyPolicy";
 import HelpSupport from "./pages/Dashboard/Profile/HelpSupport";
 import TermsOfService from "./pages/Dashboard/Profile/TermsOfService";
 import ChangePassword from "./pages/Dashboard/Profile/ChangePassword";
+import Notifications from "./pages/Dashboard/Notifications";
 
 function App() {
   return (
@@ -115,6 +116,9 @@ function App() {
           <Route path="payment" element={<PaymentForm />} />
           <Route path="payment/payment-success" element={<Success />} />
           <Route path="payment/payment-failure" element={<Failure />} />
+
+          {/* Notification */}
+          <Route path="notifications" element={<Notifications/>} />
 
           <Route path="logout" element={<Logout />} />
         </Route>
