@@ -1,5 +1,6 @@
 import express from "express";
 import { adminLogin, getAdminDashboard } from "../controllers/admin-controller.js";
+import { getEngagementStats } from "../controllers/dashboard-controller.js";
 import authMiddleware  from "../middlewares/auth-middleware.js";
 import adminMiddleware from "../middlewares/admin-middleware.js";
 
@@ -10,5 +11,6 @@ router.post("/login", adminLogin);
 
 // Admin protected routes
 router.get("/dashboard", authMiddleware, adminMiddleware, getAdminDashboard);
+router.get("/dashboard/stats", authMiddleware, adminMiddleware, getEngagementStats);
 
 export default router;
